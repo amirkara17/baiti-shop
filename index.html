@@ -6,36 +6,34 @@
     <title>Baiti - بيتي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #FDFBF7; color: #4A3F35; margin: 0; padding: 0; }
-        header { background-color: #FFFFFF; padding: 35px 20px 25px; text-align: center; border-bottom: 2px solid #F0E6D9; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        body { font-family: 'Tajawal', sans-serif; background-color: #FDFBF7; color: #4A3F35; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* עיצוב הלוגו במקום הטקסט - מראה פסיכי ויוקרתי */
-        .main-logo { 
-            width: 280px; 
-            max-width: 90%; 
-            height: auto; 
-            margin: 0 auto 15px; 
-            display: block; 
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(193, 154, 91, 0.15); /* צללית זהב עדינה */
-            transition: transform 0.3s ease;
-        }
+        /* אזור עליון - תפריט ועגלה */
+        .top-bar { background-color: #FFFFFF; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #F0E6D9; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .cart-icon-btn { background: none; border: none; font-size: 1.8em; cursor: pointer; position: relative; color: #C19A5B; transition: 0.3s; }
+        .cart-icon-btn:hover { transform: scale(1.1); }
+        .cart-badge { background-color: #dc2743; color: white; font-size: 0.45em; font-weight: bold; padding: 4px 8px; border-radius: 50%; position: absolute; top: -5px; right: -10px; border: 2px solid #fff; }
+        
+        /* פתיח ולוגו */
+        header { background-color: #FFFFFF; padding: 30px 20px; text-align: center; }
+        .main-logo { width: 280px; max-width: 90%; height: auto; margin: 0 auto 15px; display: block; border-radius: 12px; box-shadow: 0 8px 25px rgba(193, 154, 91, 0.15); transition: transform 0.3s ease; }
         .main-logo:hover { transform: scale(1.02); }
+        header p { margin: 15px 0 0 0; color: #8C7B6B; font-size: 1.3em; font-weight: 500; }
         
-        header p { margin: 15px 0 0 0; color: #8C7B6B; font-size: 1.2em; font-weight: 500; }
-        
-        /* עיצוב כפתור האינסטגרם עם הסמל */
-        .ig-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 1.05em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .ig-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
-        .ig-icon { width: 22px; height: 22px; fill: white; }
+        .ig-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 8px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 1.05em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .ig-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .ig-icon { width: 20px; height: 20px; fill: white; }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
-        
-        .products-section { flex: 2; }
-        .category-title { color: #C19A5B; border-bottom: 2px solid #F0E6D9; padding-bottom: 10px; margin-bottom: 20px; font-weight: 800; font-size: 1.8em; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* קטגוריות - כפתורי סינון */
+        .categories-nav { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+        .cat-btn { background: #F5F0E6; color: #8C7B6B; border: 1px solid #E0D5C1; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1em; transition: 0.3s; }
+        .cat-btn.active, .cat-btn:hover { background: #C19A5B; color: #fff; border-color: #C19A5B; }
+
+        /* מוצרים */
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        
-        .product-card { background: #FFFFFF; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #F5F0E6; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card { background: #FFFFFF; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #F5F0E6; transition: 0.3s; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
         .product-card img { width: 100%; height: 250px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; background-color: #fff; }
         .product-card h3 { margin: 0 0 8px 0; font-size: 1.4em; color: #332B23; font-weight: 700; }
@@ -47,99 +45,126 @@
         .qty-wrapper input { width: 60px; padding: 8px; text-align: center; border: 1px solid #E0D5C1; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 1em; color: #4A3F35; background-color: #FDFBF7; }
         .qty-wrapper input:focus { outline: none; border-color: #C19A5B; }
 
-        .btn { background: linear-gradient(135deg, #D6B471, #B88E4B); color: #fff; border: none; padding: 12px 20px; border-radius: 30px; cursor: pointer; width: 100%; font-weight: 700; font-size: 1.1em; font-family: 'Tajawal', sans-serif; transition: opacity 0.3s; }
+        .btn { background: linear-gradient(135deg, #D6B471, #B88E4B); color: #fff; border: none; padding: 12px 20px; border-radius: 30px; cursor: pointer; width: 100%; font-weight: 700; font-size: 1.1em; font-family: 'Tajawal', sans-serif; transition: 0.3s; }
         .btn:hover { opacity: 0.9; }
+
+        /* סל קניות מחליק מהצד (Drawer) */
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; display: none; opacity: 0; transition: 0.3s; }
+        .cart-overlay.active { display: block; opacity: 1; }
         
-        .cart-section { flex: 1; min-width: 320px; background: #FFFFFF; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: sticky; top: 20px; border: 1px solid #F5F0E6; }
-        .cart-section h2 { margin-top: 0; color: #332B23; }
+        .cart-drawer { position: fixed; top: 0; right: -100%; width: 350px; max-width: 90%; height: 100vh; background: #FFFFFF; z-index: 1000; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; }
+        .cart-drawer.active { right: 0; }
+        
+        .close-cart { background: none; border: none; font-size: 2em; color: #8C7B6B; cursor: pointer; position: absolute; top: 15px; left: 20px; }
+        .cart-drawer h2 { margin-top: 10px; color: #332B23; border-bottom: 2px solid #F0E6D9; padding-bottom: 15px; }
+        
+        .cart-items-container { flex-grow: 1; margin-bottom: 20px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed #E0D5C1; padding-bottom: 8px; font-size: 1.05em; font-weight: 500; }
         .remove-btn { background: none; border: none; color: #dc2743; cursor: pointer; font-size: 1.1em; padding: 0; margin-left: 10px; transition: 0.2s; }
         .remove-btn:hover { transform: scale(1.2); }
-        .item-name-group { display: flex; align-items: center; }
-
+        
         .form-group { margin-top: 15px; }
         .form-group input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #E0D5C1; border-radius: 8px; box-sizing: border-box; font-family: 'Tajawal', sans-serif; font-size: 1em; background-color: #FDFBF7; }
         .form-group input:focus { outline: none; border-color: #C19A5B; }
         
-        .checkout-btn { margin-top: 25px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px; }
-
-        @media (max-width: 768px) { .cart-section { min-width: 100%; } }
+        .checkout-btn { margin-top: 25px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; }
     </style>
 </head>
 <body>
+
+    <div class="top-bar">
+        <button class="cart-icon-btn" onclick="toggleCart()">
+            🛒 <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <span style="font-weight: 800; color: #C19A5B; font-size: 1.2em;">Baiti</span>
+    </div>
 
     <header>
         <img src="IMG_8489.jpeg" alt="Baiti Logo" class="main-logo">
         <p>لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
         
         <a href="https://www.instagram.com/baiti.55?igsh=MWo2aHFvOWd3cGF2bg==" target="_blank" class="ig-btn">
-            <svg class="ig-icon" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-            </svg>
+            <svg class="ig-icon" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
             تابعونا على إنستغرام
         </a>
     </header>
 
     <div class="container">
-        <div class="products-section" id="products-container"></div>
-
-        <div class="cart-section">
-            <h2>سلة المشتريات 🛒</h2>
-            <div id="cart-items">
-                <p style="color: #8C7B6B;">السلة فارغة حالياً.</p>
-            </div>
-            <h3 style="margin-top: 20px; color: #C19A5B; font-size: 1.6em;">المجموع: <span id="total-price">0</span> ₪</h3>
-
-            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #E0D5C1;">
-
-            <h3 style="color: #332B23;">تفاصيل التوصيل 📦</h3>
-            <div class="form-group">
-                <input type="text" id="customer-name" placeholder="الاسم الكامل">
-            </div>
-            <div class="form-group">
-                <input type="tel" id="customer-phone" placeholder="رقم الهاتف (05X-XXXXXXX)">
-            </div>
-            <div class="form-group">
-                <input type="text" id="customer-address" placeholder="عنوان التوصيل بالتفصيل (البلد، الشارع)">
+        <div class="categories-nav" id="categories-nav">
             </div>
 
-            <button class="btn checkout-btn" onclick="sendOrder()" id="submit-btn">
-                إتمام الطلب 🛍️
-            </button>
+        <div class="products" id="products-container"></div>
+    </div>
+
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <button class="close-cart" onclick="toggleCart()">×</button>
+        <h2>سلة المشتريات 🛒</h2>
+        
+        <div class="cart-items-container" id="cart-items">
+            <p style="color: #8C7B6B;">السلة فارغة حالياً.</p>
         </div>
+        
+        <h3 style="color: #C19A5B; font-size: 1.6em; text-align: left;">المجموع: <span id="total-price">0</span> ₪</h3>
+
+        <h3 style="color: #332B23; margin-top: 20px;">تفاصيل التوصيل 📦</h3>
+        <div class="form-group">
+            <input type="text" id="customer-name" placeholder="الاسم الكامل">
+        </div>
+        <div class="form-group">
+            <input type="tel" id="customer-phone" placeholder="رقم الهاتف (05X-XXXXXXX)">
+        </div>
+        <div class="form-group">
+            <input type="text" id="customer-address" placeholder="عنوان التوصيل بالتفصيل (البلد، الشارع)">
+        </div>
+
+        <button class="btn checkout-btn" onclick="sendOrder()" id="submit-btn">
+            إتمام الطلب 🛍️
+        </button>
     </div>
 
     <script>
+        // רשימת המוצרים שלך
         const myProducts = [
             {
                 name: "طقم فاخر", 
                 description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
                 price: 170,
                 image: "IMG_8630.jpeg",
-                category: "وصل حديثاً ✨" 
+                category: "أطقم ضيافة" 
             },
             {
                 name: "قطعة ديكور", 
                 description: "قطعة فنية جميلة تناسب كل زاوية في البيت (السعر للقطعة الواحدة).",
                 price: 35,
                 image: "IMG_8631.jpeg",
-                category: "وصل حديثاً ✨"
+                category: "ديكورات"
             }
         ];
 
         let cart = [];
         let total = 0;
 
-        const container = document.getElementById('products-container');
-        const categories = [...new Set(myProducts.map(p => p.category))];
+        // בניית הקטגוריות
+        const categoriesNav = document.getElementById('categories-nav');
+        const categories = ["الكل", ...new Set(myProducts.map(p => p.category))];
         
         categories.forEach(category => {
-            container.innerHTML += `<h2 class="category-title">${category}</h2>`;
-            
-            let productsHTML = '<div class="products">';
+            const btn = document.createElement('button');
+            btn.className = category === "الكل" ? "cat-btn active" : "cat-btn";
+            btn.innerText = category;
+            btn.onclick = () => filterProducts(category, btn);
+            categoriesNav.appendChild(btn);
+        });
+
+        // הצגת המוצרים
+        const container = document.getElementById('products-container');
+        
+        function renderProducts(categoryFilter = "الكل") {
+            container.innerHTML = '';
             myProducts.forEach((product, index) => {
-                if(product.category === category) {
-                    productsHTML += `
+                if(categoryFilter === "الكل" || product.category === categoryFilter) {
+                    container.innerHTML += `
                         <div class="product-card">
                             <img src="${product.image}" alt="${product.name}">
                             <div>
@@ -156,9 +181,22 @@
                     `;
                 }
             });
-            productsHTML += '</div>';
-            container.innerHTML += productsHTML;
-        });
+        }
+        
+        // סינון לפי קטגוריה
+        function filterProducts(category, btnElement) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderProducts(category);
+        }
+
+        renderProducts(); // טעינה ראשונית
+
+        // פתיחה וסגירה של העגלה
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('active');
+            document.getElementById('cart-overlay').classList.toggle('active');
+        }
 
         function addToCart(index) {
             const product = myProducts[index];
@@ -176,6 +214,10 @@
                 total += (product.price * quantity);
                 updateCartUI();
                 qtyInput.value = 1; 
+                
+                // פותח את העגלה אוטומטית כשהלקוח מוסיף משהו
+                document.getElementById('cart-drawer').classList.add('active');
+                document.getElementById('cart-overlay').classList.add('active');
             }
         }
 
@@ -188,12 +230,16 @@
         function updateCartUI() {
             const cartDiv = document.getElementById('cart-items');
             const totalSpan = document.getElementById('total-price');
+            const cartCountSpan = document.getElementById('cart-count');
+            
+            let totalItems = 0;
             
             if (cart.length === 0) {
                 cartDiv.innerHTML = '<p style="color: #8C7B6B;">السلة فارغة حالياً.</p>';
             } else {
                 cartDiv.innerHTML = '';
                 cart.forEach((item, index) => {
+                    totalItems += item.quantity;
                     cartDiv.innerHTML += `
                         <div class="cart-item">
                             <div class="item-name-group">
@@ -206,6 +252,7 @@
                 });
             }
             totalSpan.innerText = total;
+            cartCountSpan.innerText = totalItems;
         }
 
         function sendOrder() {
@@ -260,6 +307,7 @@
                 
                 btn.innerText = "إتمام الطلب 🛍️";
                 btn.disabled = false;
+                toggleCart(); // סוגר את העגלה אחרי תשלום
             })
             .catch(error => {
                 alert("حدث خطأ في الإرسال، يرجى المحاولة مرة أخرى.");
@@ -270,4 +318,3 @@
     </script>
 </body>
 </html>
-
