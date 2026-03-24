@@ -8,30 +8,41 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; background-color: #FDFBF7; color: #4A3F35; margin: 0; padding: 0; }
         header { background-color: #FFFFFF; padding: 30px 20px; text-align: center; border-bottom: 2px solid #F0E6D9; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        header h1 { margin: 0; color: #C19A5B; font-size: 3.5em; font-weight: 800; letter-spacing: 1px; }
+        
+        /* עיצוב הלוגו החדש */
+        .main-logo { width: 220px; max-width: 100%; height: auto; margin: 0 auto 15px; display: block; border-radius: 8px; }
+        
         header p { margin: 10px 0 0 0; color: #8C7B6B; font-size: 1.2em; font-weight: 500; }
         
         .ig-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 1em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .ig-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
-        .products { flex: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+        
+        /* אזור המוצרים */
+        .products-section { flex: 2; }
+        .category-title { color: #C19A5B; border-bottom: 2px solid #F0E6D9; padding-bottom: 10px; margin-bottom: 20px; font-weight: 800; font-size: 1.8em; }
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; margin-bottom: 40px; }
         
         .product-card { background: #FFFFFF; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #F5F0E6; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
         .product-card img { width: 100%; height: 250px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; background-color: #fff; }
         .product-card h3 { margin: 0 0 8px 0; font-size: 1.4em; color: #332B23; font-weight: 700; }
         .product-card .desc { color: #7A6F64; font-size: 0.95em; margin-bottom: 15px; line-height: 1.5; }
-        .product-card .price { font-size: 1.5em; color: #C19A5B; font-weight: 800; margin-bottom: 20px; }
+        .product-card .price { font-size: 1.5em; color: #C19A5B; font-weight: 800; margin-bottom: 15px; }
         
+        /* בחירת כמות */
+        .qty-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .qty-wrapper label { color: #8C7B6B; font-size: 0.95em; font-weight: 500; }
+        .qty-wrapper input { width: 60px; padding: 8px; text-align: center; border: 1px solid #E0D5C1; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 1em; color: #4A3F35; background-color: #FDFBF7; }
+        .qty-wrapper input:focus { outline: none; border-color: #C19A5B; }
+
         .btn { background: linear-gradient(135deg, #D6B471, #B88E4B); color: #fff; border: none; padding: 12px 20px; border-radius: 30px; cursor: pointer; width: 100%; font-weight: 700; font-size: 1.1em; font-family: 'Tajawal', sans-serif; transition: opacity 0.3s; }
         .btn:hover { opacity: 0.9; }
         
         .cart-section { flex: 1; min-width: 320px; background: #FFFFFF; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: sticky; top: 20px; border: 1px solid #F5F0E6; }
         .cart-section h2 { margin-top: 0; color: #332B23; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed #E0D5C1; padding-bottom: 8px; font-size: 1.05em; font-weight: 500; }
-        
-        /* עיצוב כפתור המחיקה */
         .remove-btn { background: none; border: none; color: #dc2743; cursor: pointer; font-size: 1.1em; padding: 0; margin-left: 10px; transition: 0.2s; }
         .remove-btn:hover { transform: scale(1.2); }
         .item-name-group { display: flex; align-items: center; }
@@ -42,13 +53,13 @@
         
         .checkout-btn { margin-top: 25px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        @media (max-width: 768px) { header h1 { font-size: 2.8em; } .cart-section { min-width: 100%; } }
+        @media (max-width: 768px) { .cart-section { min-width: 100%; } }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Baiti</h1>
+        <img src="logo.jpg" alt="Baiti Logo" class="main-logo">
         <p>لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
         <a href="https://www.instagram.com/baiti.55?igsh=MWo2aHFvOWd3cGF2bg==" target="_blank" class="ig-btn">
             تابعونا على إنستغرام 📸
@@ -56,7 +67,7 @@
     </header>
 
     <div class="container">
-        <div class="products" id="products-container"></div>
+        <div class="products-section" id="products-container"></div>
 
         <div class="cart-section">
             <h2>سلة المشتريات 🛒</h2>
@@ -85,50 +96,86 @@
     </div>
 
     <script>
+        // רשימת המוצרים עם ההכנה לקטגוריות
         const myProducts = [
             {
                 name: "طقم فاخر", 
                 description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
                 price: 170,
-                image: "IMG_8630.jpeg"
+                image: "IMG_8630.jpeg",
+                category: "وصل حديثاً ✨" // קטגוריה לדוגמה (הגיעו לאחרונה)
             },
             {
                 name: "قطعة ديكور", 
                 description: "قطعة فنية جميلة تناسب كل زاوية في البيت (السعر للقطعة الواحدة).",
                 price: 35,
-                image: "IMG_8631.jpeg"
+                image: "IMG_8631.jpeg",
+                category: "وصل حديثاً ✨"
             }
         ];
 
         let cart = [];
         let total = 0;
 
+        // ציור המוצרים לפי קטגוריות על המסך
         const container = document.getElementById('products-container');
-        myProducts.forEach((product) => {
-            container.innerHTML += `
-                <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}">
-                    <div>
-                        <h3>${product.name}</h3>
-                        <p class="desc">${product.description}</p>
-                        <p class="price">₪${product.price}</p>
-                    </div>
-                    <button class="btn" onclick="addToCart('${product.name}', ${product.price})">إضافة للسلة</button>
-                </div>
-            `;
+        
+        // מקבץ את המוצרים לפי הקטגוריה שלהם
+        const categories = [...new Set(myProducts.map(p => p.category))];
+        
+        categories.forEach(category => {
+            // כותרת לקטגוריה
+            container.innerHTML += `<h2 class="category-title">${category}</h2>`;
+            
+            let productsHTML = '<div class="products">';
+            myProducts.forEach((product, index) => {
+                if(product.category === category) {
+                    productsHTML += `
+                        <div class="product-card">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div>
+                                <h3>${product.name}</h3>
+                                <p class="desc">${product.description}</p>
+                                <p class="price">₪${product.price}</p>
+                                <div class="qty-wrapper">
+                                    <label>الكمية:</label>
+                                    <input type="number" id="qty-${index}" value="1" min="1">
+                                </div>
+                            </div>
+                            <button class="btn" onclick="addToCart(${index})">إضافة للسلة</button>
+                        </div>
+                    `;
+                }
+            });
+            productsHTML += '</div>';
+            container.innerHTML += productsHTML;
         });
 
-        function addToCart(itemName, itemPrice) {
-            cart.push({name: itemName, price: itemPrice});
-            total += itemPrice;
-            updateCartUI();
+        // פונקציית הוספה לסל שעכשיו יודעת לקחת כמות
+        function addToCart(index) {
+            const product = myProducts[index];
+            const qtyInput = document.getElementById(`qty-${index}`);
+            const quantity = parseInt(qtyInput.value);
+
+            if (quantity > 0) {
+                // בודק אם המוצר כבר קיים בסל
+                const existingItem = cart.find(item => item.name === product.name);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({name: product.name, price: product.price, quantity: quantity});
+                }
+                
+                total += (product.price * quantity);
+                updateCartUI();
+                qtyInput.value = 1; // מאפס את הכמות חזרה ל-1 אחרי ההוספה
+            }
         }
 
-        // פונקציה חדשה למחיקת מוצר מהסל
         function removeFromCart(index) {
-            total -= cart[index].price; // הורדת המחיר מהסך הכל
-            cart.splice(index, 1); // מחיקת המוצר מהמערך
-            updateCartUI(); // רענון התצוגה של הסל
+            total -= (cart[index].price * cart[index].quantity); 
+            cart.splice(index, 1); 
+            updateCartUI(); 
         }
 
         function updateCartUI() {
@@ -144,9 +191,9 @@
                         <div class="cart-item">
                             <div class="item-name-group">
                                 <button class="remove-btn" onclick="removeFromCart(${index})" title="إزالة">🗑️</button>
-                                <span>${item.name}</span>
+                                <span>${item.name} (x${item.quantity})</span>
                             </div>
-                            <span>₪${item.price}</span>
+                            <span>₪${item.price * item.quantity}</span>
                         </div>
                     `;
                 });
@@ -175,7 +222,7 @@
 
             let orderDetails = "";
             cart.forEach(item => {
-                orderDetails += `- ${item.name} (₪${item.price})\n`;
+                orderDetails += `- ${item.name} (الكمية: ${item.quantity}) - ₪${item.price * item.quantity}\n`;
             });
 
             fetch("https://formsubmit.co/ajax/amirkara99@gmail.com", {
