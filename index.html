@@ -16,32 +16,47 @@
         
         body { font-family: 'Tajawal', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* תפריט עליון צף */
+        /* תפריט עליון צף עם 3 כפתורים */
         .top-navbar { 
             position: sticky; top: 0; z-index: 100; 
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 2px 20px rgba(0,0,0,0.05);
         }
-        .nav-logo-text { font-weight: 800; color: var(--dark); font-size: 1.5em; letter-spacing: 1px; cursor: pointer; }
         
-        .cart-icon-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; position: relative; color: var(--dark); transition: transform 0.3s; display: flex; align-items: center; }
-        .cart-icon-btn:hover { transform: translateY(-2px); }
-        .cart-badge { background-color: var(--primary); color: var(--white); font-size: 0.5em; font-weight: 800; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; position: absolute; top: -8px; right: -12px; border: 2px solid var(--white); }
+        .menu-icon-btn, .cart-icon-btn { background: none; border: none; font-size: 1.6em; cursor: pointer; color: var(--dark); transition: 0.3s; position: relative; }
+        .menu-icon-btn:hover, .cart-icon-btn:hover { transform: translateY(-2px); }
+        .nav-logo-text { font-weight: 800; color: var(--dark); font-size: 1.6em; letter-spacing: 1px; cursor: pointer; }
+        .cart-badge { background-color: var(--primary); color: var(--white); font-size: 0.45em; font-weight: 800; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; position: absolute; top: -8px; right: -12px; border: 2px solid var(--white); }
+
+        /* תפריט צד (Menu Drawer) */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 1001; display: none; opacity: 0; transition: 0.3s; }
+        .menu-overlay.active { display: block; opacity: 1; }
+        
+        .menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; max-width: 85%; height: 100vh; background: var(--white); z-index: 1002; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease; padding: 30px 20px; display: flex; flex-direction: column; }
+        .menu-drawer.active { right: 0; }
+        
+        .close-menu { background: none; border: none; font-size: 2.2em; color: var(--gray); cursor: pointer; position: absolute; top: 15px; left: 20px; line-height: 1; transition: 0.2s; }
+        .close-menu:hover { color: var(--dark); transform: scale(1.1); }
+        
+        .menu-list { list-style: none; padding: 0; margin-top: 30px; }
+        .menu-list li { padding: 18px 10px; border-bottom: 1px solid #f0f0f0; font-size: 1.2em; font-weight: 700; color: var(--dark); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .menu-list li:hover { color: var(--primary); padding-right: 15px; background: #fcfbf9; border-radius: 8px; }
+        .menu-list li span { font-size: 1.3em; }
 
         /* מסך בית - אזור הפתיח */
         .hero-section { background-color: var(--white); padding: 40px 20px; text-align: center; border-bottom: 1px solid #EAE3D9; }
         .main-logo { width: 260px; max-width: 80%; height: auto; margin: 0 auto; display: block; border-radius: 4px; }
         .hero-subtitle { margin: 15px 0 0 0; color: var(--gray); font-size: 1.1em; font-weight: 500; }
         
-        /* מסך בית - בחירת קטגוריות (לובי) */
+        /* מסך בית - בחירת קטגוריות */
         .home-categories { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .category-card { background: var(--white); border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; border: 1px solid #EAE3D9; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 150px; }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(193, 154, 91, 0.15); border-color: var(--primary); }
         .category-card h2 { margin: 0; color: var(--dark); font-size: 1.6em; }
         .category-card p { margin: 10px 0 0 0; color: var(--gray); font-size: 1em; }
 
-        /* אזור המוצרים (מוסתר בהתחלה) */
+        /* אזור מוסתר - מוצרים ומועדפים */
         .category-view { display: none; max-width: 1200px; margin: 0 auto; padding: 30px 20px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -49,29 +64,17 @@
         .back-btn:hover { background: var(--primary); color: var(--white); }
         .category-title-header { margin: 0 0 30px 0; color: var(--dark); font-size: 2em; text-align: right; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px; }
 
-        /* כרטיסי מוצר + פתרון התמונות */
+        /* כרטיסי מוצר + לייק */
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .product-card { background: var(--white); border-radius: 12px; text-align: right; transition: 0.4s ease; overflow: hidden; position: relative; border: 1px solid #EAE3D9; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
         
-        /* הריבוע החכם שמונע מהתמונה להיחתך */
-        .img-wrapper { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; /* קובע ריבוע מושלם */
-            background-color: var(--white); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border-bottom: 1px solid #f5f5f5;
-        }
-        .img-wrapper img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; /* מציג את כל התמונה בלי לחתוך! */
-            padding: 10px; /* קצת מרווח מסביב */
-            box-sizing: border-box;
-            transition: transform 0.6s ease; 
-        }
+        /* כפתור הלייק (מועדפים) */
+        .like-btn { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.9); border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; transition: 0.2s; }
+        .like-btn:hover { transform: scale(1.1); }
+
+        .img-wrapper { width: 100%; aspect-ratio: 1 / 1; background-color: var(--white); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f5f5f5; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 10px; box-sizing: border-box; transition: transform 0.6s ease; }
         .product-card:hover .img-wrapper img { transform: scale(1.05); }
         
         .product-info { padding: 20px; }
@@ -85,21 +88,18 @@
         .btn-add { background: var(--dark); color: var(--white); border: none; padding: 12px 20px; cursor: pointer; width: 100%; font-weight: 700; font-size: 1.1em; font-family: inherit; transition: 0.3s; border-radius: 8px; }
         .btn-add:hover { background: var(--primary); }
 
-        /* עגלה והודעות (כמו קודם) */
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--dark); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: 500; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.4s ease; z-index: 1000; display: flex; align-items: center; gap: 10px; }
+        /* הודעות קופצות (Toast) */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--dark); color: var(--white); padding: 12px 25px; border-radius: 30px; font-weight: 500; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.4s ease; z-index: 2000; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 30px; }
 
+        /* עגלה מחליקה (Cart) */
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 999; display: none; opacity: 0; transition: 0.3s; }
         .cart-overlay.active { display: block; opacity: 1; }
-        
         .cart-drawer { position: fixed; top: 0; right: -100%; width: 400px; max-width: 100%; height: 100vh; background: var(--white); z-index: 1000; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
         .cart-drawer.active { right: 0; }
         
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EAE3D9; padding-bottom: 15px; margin-bottom: 20px; }
         .cart-header h2 { margin: 0; color: var(--dark); font-size: 1.5em; }
-        .close-cart { background: none; border: none; font-size: 2em; color: var(--gray); cursor: pointer; padding: 0; line-height: 1; transition: 0.2s; }
-        .close-cart:hover { color: var(--dark); transform: scale(1.1); }
-        
         .cart-items-container { flex-grow: 1; margin-bottom: 20px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 15px; }
         .item-info { display: flex; flex-direction: column; gap: 5px; }
@@ -113,9 +113,7 @@
         .form-group { margin-bottom: 15px; }
         .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: inherit; font-size: 1em; background-color: var(--white); transition: 0.3s; }
         .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(193, 154, 91, 0.1); }
-        
         .btn-checkout { background: var(--primary); color: var(--white); border: none; padding: 16px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 800; font-size: 1.2em; margin-top: 10px; transition: 0.3s; }
-        .btn-checkout:hover { background: #ab8548; }
 
         .ig-link { color: var(--gray); text-decoration: none; display: flex; align-items: center; gap: 5px; font-weight: 500; transition: 0.3s; justify-content: center; margin-top: 20px; }
         .ig-link:hover { color: var(--primary); }
@@ -128,10 +126,22 @@
     <script src="products.js"></script>
 
     <div class="top-navbar">
+        <button class="menu-icon-btn" onclick="toggleMenu()">☰</button>
         <span class="nav-logo-text" onclick="goHome()">Baiti</span>
         <button class="cart-icon-btn" onclick="toggleCart()">
             🛒 <span class="cart-badge" id="cart-count">0</span>
         </button>
+    </div>
+
+    <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
+    <div class="menu-drawer" id="menu-drawer">
+        <button class="close-menu" onclick="toggleMenu()">×</button>
+        <h2 style="color: var(--dark); margin-top: 0; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px;">القائمة</h2>
+        <ul class="menu-list">
+            <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
+            <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة (المنتجات المحفوظة)</li>
+            <li onclick="window.open('https://www.instagram.com/baiti.55?igsh=MWo2aHFvOWd3cGF2bg==', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
+        </ul>
     </div>
 
     <div id="home-view">
@@ -140,19 +150,22 @@
             <p class="hero-subtitle">لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
             <a href="https://www.instagram.com/baiti.55?igsh=MWo2aHFvOWd3cGF2bg==" target="_blank" class="ig-link">
                 <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-                تابعونا على إنستغرام
+                تابعونا على الانستجرام
             </a>
         </div>
-        <div class="home-categories" id="home-categories">
-            </div>
+        <div class="home-categories" id="home-categories"></div>
     </div>
 
     <div id="category-view" class="category-view">
-        <button class="back-btn" onclick="goHome()">
-            <span>➔</span> العودة للقائمة الرئيسية
-        </button>
+        <button class="back-btn" onclick="goHome()"><span>➔</span> العودة للقائمة الرئيسية</button>
         <h2 class="category-title-header" id="current-category-title">اسم القسم</h2>
         <div class="products" id="products-container"></div>
+    </div>
+
+    <div id="wishlist-view" class="category-view">
+        <button class="back-btn" onclick="goHome()"><span>➔</span> العودة للقائمة الرئيسية</button>
+        <h2 class="category-title-header">المفضلة ❤️</h2>
+        <div class="products" id="wishlist-container"></div>
     </div>
 
     <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
@@ -173,32 +186,23 @@
 
         <div class="checkout-form">
             <h3 style="margin: 0 0 15px 0; color: var(--dark); font-size: 1.1em;">تفاصيل التوصيل 📦</h3>
-            <div class="form-group">
-                <input type="text" id="customer-name" placeholder="الاسم الكامل">
-            </div>
-            <div class="form-group">
-                <input type="tel" id="customer-phone" placeholder="رقم الهاتف (05X-XXXXXXX)">
-            </div>
-            <div class="form-group">
-                <input type="email" id="customer-email" placeholder="البريد الإلكتروني (لإرسال تفاصيل الطلب)">
-            </div>
-            <div class="form-group">
-                <input type="text" id="customer-address" placeholder="عنوان التوصيل (البلد، الشارع)">
-            </div>
+            <div class="form-group"><input type="text" id="customer-name" placeholder="الاسم الكامل"></div>
+            <div class="form-group"><input type="tel" id="customer-phone" placeholder="رقم الهاتف (05X-XXXXXXX)"></div>
+            <div class="form-group"><input type="email" id="customer-email" placeholder="البريد الإلكتروني"></div>
+            <div class="form-group"><input type="text" id="customer-address" placeholder="عنوان التوصيل (البلد، الشارع)"></div>
             <button class="btn-checkout" onclick="sendOrder()" id="submit-btn">إتمام الطلب</button>
         </div>
     </div>
 
-    <div class="toast" id="toast">✔️ تمت إضافة المنتج بنجاح</div>
+    <div class="toast" id="toast">✔️ تمت إضافة المنتج</div>
 
     <script>
         let cart = [];
+        let wishlist = []; // מערך ששומר את המוצרים האהובים
         let total = 0;
 
-        // בניית כרטיסי הקטגוריות למסך הבית
         function initHome() {
             const categoriesContainer = document.getElementById('home-categories');
-            // שליפת כל הקטגוריות הקיימות בקובץ products.js ללא כפילויות
             const categories = [...new Set(myProducts.map(p => p.category))];
             
             categories.forEach(category => {
@@ -211,9 +215,16 @@
             });
         }
 
-        // פתיחת קטגוריה ספציפית
+        // פתיחת וסגירת תפריט הצד
+        function toggleMenu() {
+            document.getElementById('menu-drawer').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('active');
+        }
+
+        // פתיחת מסך קטגוריה
         function openCategory(categoryName) {
             document.getElementById('home-view').style.display = 'none';
+            document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'block';
             document.getElementById('current-category-title').innerText = categoryName;
             
@@ -222,8 +233,12 @@
             
             myProducts.forEach((product, index) => {
                 if(product.category === categoryName) {
+                    // בודק אם המוצר קיים במועדפים כדי להציג לב מלא או ריק
+                    const heartIcon = wishlist.includes(index) ? '❤️' : '🤍';
+                    
                     container.innerHTML += `
                         <div class="product-card">
+                            <button class="like-btn" onclick="toggleLike(${index})">${heartIcon}</button>
                             <div class="img-wrapper">
                                 <img src="${product.image}" alt="${product.name}">
                             </div>
@@ -237,18 +252,76 @@
                                         <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
                                     </div>
                                 </div>
-                                <button class="btn-add" onclick="addToCart(${index})">إضافة للسلة 🤍</button>
+                                <button class="btn-add" onclick="addToCart(${index})">إضافة للسلة 🛒</button>
                             </div>
                         </div>
                     `;
                 }
             });
-            window.scrollTo(0, 0); // מעלה את הלקוח לראש הדף
+            window.scrollTo(0, 0); 
         }
 
-        // חזרה למסך הבית
+        // פונקציית הלייק (מועדפים)
+        function toggleLike(index) {
+            const wishIndex = wishlist.indexOf(index);
+            if(wishIndex > -1) {
+                wishlist.splice(wishIndex, 1); // מסיר מהמועדפים
+                showToast("تمت الإزالة من المفضلة 🤍");
+            } else {
+                wishlist.push(index); // מוסיף למועדפים
+                showToast("تم الحفظ في المفضلة ❤️");
+            }
+            
+            // מרענן את המסך כדי להראות את הלב המעודכן
+            if (document.getElementById('category-view').style.display === 'block') {
+                openCategory(document.getElementById('current-category-title').innerText);
+            } else if (document.getElementById('wishlist-view').style.display === 'block') {
+                openWishlist();
+            }
+        }
+
+        // פתיחת מסך מועדפים
+        function openWishlist() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('category-view').style.display = 'none';
+            document.getElementById('wishlist-view').style.display = 'block';
+            
+            const container = document.getElementById('wishlist-container');
+            container.innerHTML = '';
+            
+            if(wishlist.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray); width: 100%; margin-top: 40px; font-size: 1.2em;">المفضلة فارغة حالياً 🤍</p>';
+                return;
+            }
+            
+            wishlist.forEach(index => {
+                const product = myProducts[index];
+                container.innerHTML += `
+                    <div class="product-card">
+                        <button class="like-btn" onclick="toggleLike(${index})">❤️</button>
+                        <div class="img-wrapper">
+                            <img src="${product.image}" alt="${product.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <div class="price-row">
+                                <span class="price">₪${product.price}</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size:0.8em; color:var(--gray)">الكمية:</span>
+                                    <input type="number" id="qty-${index}" class="qty-input" value="1" min="1">
+                                </div>
+                            </div>
+                            <button class="btn-add" onclick="addToCart(${index})">إضافة للسلة 🛒</button>
+                        </div>
+                    </div>
+                `;
+            });
+            window.scrollTo(0, 0);
+        }
+
         function goHome() {
             document.getElementById('category-view').style.display = 'none';
+            document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
             window.scrollTo(0, 0);
         }
@@ -258,8 +331,9 @@
             document.getElementById('cart-overlay').classList.toggle('active');
         }
 
-        function showToast() {
+        function showToast(message = "✔️ تمت الإضافة بنجاح") {
             const toast = document.getElementById('toast');
+            toast.innerText = message;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
@@ -364,14 +438,13 @@
                 document.getElementById('customer-address').value = "";
                 btn.innerText = "إتمام الطلب"; btn.disabled = false;
                 toggleCart();
-                goHome(); // מחזיר את הלקוח למסך הבית אחרי קנייה
+                goHome(); 
             }).catch(error => {
                 alert("حدث خطأ في الإرسال، يرجى المحاولة مرة أخرى.");
                 btn.innerText = "إتمام الطلب"; btn.disabled = false;
             });
         }
 
-        // הפעלת האתר בטעינה
         window.onload = initHome;
     </script>
 </body>
