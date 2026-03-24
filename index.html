@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baiti - بيتي</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fcfbf9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #e8ded1;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            color: #5c4a3d;
+            font-size: 2.5em;
+        }
+        header p {
+            margin: 5px 0 0 0;
+            color: #7a6352;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .products {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-card h3 {
+            margin: 10px 0 5px;
+            font-size: 1.2em;
+        }
+        .product-card p {
+            color: #888;
+            margin-bottom: 15px;
+        }
+        .btn {
+            background-color: #d4af37;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #bfa030;
+        }
+        .cart-section {
+            flex: 1;
+            min-width: 300px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .form-group {
+            margin-top: 15px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .whatsapp-btn {
+            background-color: #25D366;
+            margin-top: 20px;
+        }
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Baiti</h1>
+        <p>توصيل لجميع أنحاء البلاد 🤍 الدفع عند الاستلام 🏠</p>
+    </header>
+
+    <div class="container">
+        <div class="products">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="منتج 1">
+                <h3>طقم فناجين قهوة</h3>
+                <p>₪120</p>
+                <button class="btn" onclick="addToCart('طقم فناجين قهوة', 120)">إضافة للسلة</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="منتج 2">
+                <h3>مبخرة خشبية</h3>
+                <p>₪85</p>
+                <button class="btn" onclick="addToCart('مبخرة خشبية', 85)">إضافة للسلة</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="منتج 3">
+                <h3>صينية تقديم</h3>
+                <p>₪150</p>
+                <button class="btn" onclick="addToCart('صينية تقديم', 150)">إضافة للسلة</button>
+            </div>
+        </div>
+
+        <div class="cart-section">
+            <h2>سلة المشتريات</h2>
+            <div id="cart-items">
+                <p>السلة فارغة حالياً.</p>
+            </div>
+            <h3 style="margin-top: 20px;">المجموع: <span id="total-price">0</span> ₪</h3>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+            <h3>تفاصيل التوصيل</h3>
+            <div class="form-group">
+                <label>الاسم الكامل:</label>
+                <input type="text" id="customer-name" placeholder="أدخل اسمك الكريم">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف:</label>
+                <input type="tel" id="customer-phone" placeholder="05X-XXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>عنوان التوصيل (البلد، الشارع):</label>
+                <input type="text" id="customer-address" placeholder="أدخل العنوان بالتفصيل">
+            </div>
+
+            <button class="btn whatsapp-btn" onclick="sendOrder()">إرسال الطلب عبر الواتساب</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(itemName, itemPrice) {
+            cart.push({name: itemName, price: itemPrice});
+            total += itemPrice;
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartDiv = document.getElementById('cart-items');
+            const totalSpan = document.getElementById('total-price');
+            
+            if (cart.length === 0) {
+                cartDiv.innerHTML = '<p>السلة فارغة حالياً.</p>';
+            } else {
+                cartDiv.innerHTML = '';
+                cart.forEach((item, index) => {
+                    cartDiv.innerHTML += `
+                        <div class="cart-item">
+                            <span>${item.name}</span>
+                            <span>₪${item.price}</span>
+                        </div>
+                    `;
+                });
+            }
+            totalSpan.innerText = total;
+        }
+
+        function sendOrder() {
+            if (cart.length === 0) {
+                alert('الرجاء إضافة منتجات للسلة أولاً.');
+                return;
+            }
+
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const address = document.getElementById('customer-address').value;
+
+            if (!name || !phone || !address) {
+                alert('الرجاء تعبئة جميع تفاصيل التوصيل.');
+                return;
+            }
+
+            let message = `مرحباً Baiti! 🏠🤍\nأود طلب المنتجات التالية:\n\n`;
+            cart.forEach(item => {
+                message += `- ${item.name} (₪${item.price})\n`;
+            });
+            message += `\nالمجموع الكلي: ₪${total}\n\n`;
+            message += `تفاصيل الزبون:\nالاسم: ${name}\nالهاتف: ${phone}\nالعنوان: ${address}\n\n* الدفع عند الاستلام.`;
+
+            // הפנייה ישירה למספר הטלפון שלך
+            const whatsappNumber = "972544263633";
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
