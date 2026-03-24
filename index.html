@@ -6,166 +6,29 @@
     <title>Baiti - بيتي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            background-color: #FDFBF7; /* צבע שמנת עדין רקע */
-            color: #4A3F35; /* חום כהה ורך לטקסט */
-            margin: 0; 
-            padding: 0; 
-        }
-        
-        /* עיצוב החלק העליון - קלין ויוקרתי */
-        header { 
-            background-color: #FFFFFF; 
-            padding: 30px 20px; 
-            text-align: center; 
-            border-bottom: 2px solid #F0E6D9;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        header h1 { 
-            margin: 0; 
-            color: #C19A5B; /* צבע זהב אלגנטי */
-            font-size: 3.5em; 
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        header p { 
-            margin: 10px 0 0 0; 
-            color: #8C7B6B; 
-            font-size: 1.2em; 
-            font-weight: 500;
-        }
-
-        .container { 
-            max-width: 1200px; 
-            margin: 30px auto; 
-            padding: 0 20px; 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 30px; 
-            align-items: flex-start; 
-        }
-
-        /* עיצוב כרטיסיות המוצרים */
-        .products { 
-            flex: 2; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-            gap: 25px; 
-        }
-        .product-card { 
-            background: #FFFFFF; 
-            border-radius: 16px; 
-            padding: 15px; 
-            text-align: center; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #F5F0E6;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-        }
-        .product-card img { 
-            width: 100%; 
-            height: 220px; 
-            object-fit: cover; 
-            border-radius: 12px; 
-            margin-bottom: 15px;
-        }
-        .product-card h3 { 
-            margin: 0 0 8px 0; 
-            font-size: 1.4em; 
-            color: #332B23; 
-            font-weight: 700;
-        }
-        .product-card .desc { 
-            color: #7A6F64; 
-            font-size: 0.95em; 
-            margin-bottom: 15px; 
-            line-height: 1.5;
-        }
-        .product-card .price { 
-            font-size: 1.5em; 
-            color: #C19A5B; 
-            font-weight: 800; 
-            margin-bottom: 20px; 
-        }
-        
-        /* כפתורים */
-        .btn { 
-            background: linear-gradient(135deg, #D6B471, #B88E4B); 
-            color: #fff; 
-            border: none; 
-            padding: 12px 20px; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: 700; 
-            font-size: 1.1em;
-            font-family: 'Tajawal', sans-serif;
-            transition: opacity 0.3s; 
-        }
+        body { font-family: 'Tajawal', sans-serif; background-color: #FDFBF7; color: #4A3F35; margin: 0; padding: 0; }
+        header { background-color: #FFFFFF; padding: 30px 20px; text-align: center; border-bottom: 2px solid #F0E6D9; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        header h1 { margin: 0; color: #C19A5B; font-size: 3.5em; font-weight: 800; letter-spacing: 1px; }
+        header p { margin: 10px 0 0 0; color: #8C7B6B; font-size: 1.2em; font-weight: 500; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
+        .products { flex: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+        .product-card { background: #FFFFFF; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #F5F0E6; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+        .product-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
+        .product-card h3 { margin: 0 0 8px 0; font-size: 1.4em; color: #332B23; font-weight: 700; }
+        .product-card .desc { color: #7A6F64; font-size: 0.95em; margin-bottom: 15px; line-height: 1.5; }
+        .product-card .price { font-size: 1.5em; color: #C19A5B; font-weight: 800; margin-bottom: 20px; }
+        .btn { background: linear-gradient(135deg, #D6B471, #B88E4B); color: #fff; border: none; padding: 12px 20px; border-radius: 30px; cursor: pointer; width: 100%; font-weight: 700; font-size: 1.1em; font-family: 'Tajawal', sans-serif; transition: opacity 0.3s; }
         .btn:hover { opacity: 0.9; }
-
-        /* אזור סל הקניות */
-        .cart-section { 
-            flex: 1; 
-            min-width: 320px; 
-            background: #FFFFFF; 
-            padding: 25px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            position: sticky; 
-            top: 20px; 
-            border: 1px solid #F5F0E6;
-        }
+        .cart-section { flex: 1; min-width: 320px; background: #FFFFFF; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: sticky; top: 20px; border: 1px solid #F5F0E6; }
         .cart-section h2 { margin-top: 0; color: #332B23; }
-        .cart-item { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 12px; 
-            border-bottom: 1px dashed #E0D5C1; 
-            padding-bottom: 8px; 
-            font-size: 1.05em; 
-            font-weight: 500;
-        }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #E0D5C1; padding-bottom: 8px; font-size: 1.05em; font-weight: 500; }
         .form-group { margin-top: 15px; }
-        .form-group input { 
-            width: 100%; 
-            padding: 12px; 
-            margin-top: 5px; 
-            border: 1px solid #E0D5C1; 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1em;
-            background-color: #FDFBF7;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #C19A5B;
-        }
-        
-        /* כפתור וואטסאפ */
-        .whatsapp-btn { 
-            background: linear-gradient(135deg, #25D366, #1DA851); 
-            margin-top: 25px; 
-            font-size: 1.2em; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+        .form-group input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #E0D5C1; border-radius: 8px; box-sizing: border-box; font-family: 'Tajawal', sans-serif; font-size: 1em; background-color: #FDFBF7; }
+        .form-group input:focus { outline: none; border-color: #C19A5B; }
+        .whatsapp-btn { background: linear-gradient(135deg, #25D366, #1DA851); margin-top: 25px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .whatsapp-btn:hover { background: #1DA851; }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.8em; }
-            .cart-section { min-width: 100%; }
-        }
+        @media (max-width: 768px) { header h1 { font-size: 2.8em; } .cart-section { min-width: 100%; } }
     </style>
 </head>
 <body>
@@ -205,36 +68,21 @@
     </div>
 
     <script>
-        // ==========================================
-        // רשימת המוצרים שלך (תוסיף ותשנה כאן בקלות!)
-        // ==========================================
+        // הרשימה המעודכנת עם התמונות שהעלית
         const myProducts = [
             {
-                name: "طقم فناجين قهوة",
-                description: "طقم فاخر لتقديم القهوة العربية، تصميم أنيق ومميز يضيف لمسة دافئة لضيافتك.",
-                price: 120,
-                image: "https://via.placeholder.com/400x300/F5F0E6/C19A5B?text=Baiti"
+                name: "طقم فاخر", // הסט שעולה 170
+                description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
+                price: 170,
+                image: "IMG_8630.jpeg"
             },
             {
-                name: "مبخرة خشبية",
-                description: "مبخرة خشبية بتصميم عصري وكلاسيكي، تناسب كل زاوية في البيت وتعطي رائحة جميلة.",
-                price: 85,
-                image: "https://via.placeholder.com/400x300/F5F0E6/C19A5B?text=Baiti"
-            },
-            {
-                name: "صينية تقديم فاخرة",
-                description: "صينية تقديم ذهبية لامعة مع تفاصيل دقيقة، ممتازة للضيافة والمناسبات الخاصة.",
-                price: 150,
-                image: "https://via.placeholder.com/400x300/F5F0E6/C19A5B?text=Baiti"
-            },
-            {
-                name: "تحفة ديكور منزلية",
-                description: "قطعة فنية مميزة تضفي طابعاً من الرقي والأناقة على صالون منزلك.",
-                price: 95,
-                image: "https://via.placeholder.com/400x300/F5F0E6/C19A5B?text=Baiti"
+                name: "قطعة ديكور", // הפריטים שעולים 35
+                description: "قطعة فنية جميلة تناسب كل زاوية في البيت (السعر للقطعة الواحدة).",
+                price: 35,
+                image: "IMG_8631.jpeg"
             }
         ];
-        // ==========================================
 
         let cart = [];
         let total = 0;
@@ -310,3 +158,4 @@
     </script>
 </body>
 </html>
+
