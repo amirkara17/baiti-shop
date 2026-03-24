@@ -4,7 +4,7 @@ const myProducts = [
         description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
         price: 170,
         image: "IMG_8630.jpeg",
-        category: "أطقم ضيافة ✨" 
+        category: "أطقم فناجين ✨" // תוקן השם
     },
     {
         name: "أكواب بتصاميم مميزة", 
