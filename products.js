@@ -1,7 +1,7 @@
 const myProducts = [
     {
         name: "طقم الفراشات", 
-        description: "طقمطقم فناجين للقهوة مميز وأنيق",
+        description: "طقم فناجين للقهوة مميز وأنيق",
         price: 135,
         image: "IMG_8630.jpeg",
         category: "أطقم فناجين ✨",
