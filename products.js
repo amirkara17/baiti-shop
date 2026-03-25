@@ -11,7 +11,7 @@ const myProducts = [
         name: "طقم أكواب الزهور", 
         description: "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
         price: 140,
-        image: "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg", // התיקון: התמונה הנכונה של הפרחים
+        image: "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg", 
         category: "أطقم فناجين ✨",
         stock: 0 
     },
@@ -19,7 +19,7 @@ const myProducts = [
         name: "طقم القلعة الكلاسيكي", 
         description: "طقم ساحر بتصميم القلعة والعربة الكلاسيكية، يأتيك في علبة هدايا فاخرة.",
         price: 99,
-        image: "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg", // התיקון: התמונה הנכונה של הטירה
+        image: "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg", 
         category: "تشكيلة القلعة 🏰",
         stock: 0 
     },
@@ -52,7 +52,7 @@ const myProducts = [
         description: "كوب أصلي من ديزني بتصميم ميني ماوس.",
         price: 50, 
         image: "d74466ca-a951-439e-b766-5a0f38c69da6.jpeg", 
-        category: "ديزני الأصلي 🪄",
+        category: "ديزني الأصلي 🪄",
         stock: 1
     }
 ];
