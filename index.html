@@ -62,6 +62,9 @@
         .back-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 1em; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
         .category-title-header { margin: 0 0 30px 0; color: var(--dark); font-size: 2em; text-align: right; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px; }
 
+        /* הכפתור הצף שחזר! */
+        .floating-back-btn { position: fixed; bottom: 20px; left: 20px; background-color: var(--dark); color: var(--white); border: none; border-radius: 50px; padding: 12px 25px; font-family: inherit; font-weight: 700; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 90; display: none; align-items: center; gap: 8px; transition: 0.3s; }
+
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .product-card { background: var(--white); border-radius: 12px; text-align: right; transition: 0.4s ease; overflow: hidden; position: relative; border: 1px solid #EAE3D9; display: flex; flex-direction: column; }
         
@@ -103,7 +106,6 @@
 
     <script type="text/javascript">
         (function(){
-            // המפתח שלך הוכנס לכאן במקום "YOUR_PUBLIC_KEY"!
             emailjs.init("QqHFcLgfCh5t0YfEw"); 
         })();
     </script>
@@ -148,6 +150,8 @@
         <h2 class="category-title-header">المفضلة ❤️</h2>
         <div class="products" id="wishlist-container"></div>
     </div>
+
+    <button class="floating-back-btn" id="floating-back" onclick="goHome()"><span>➔</span> رجوع</button>
 
     <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-drawer" id="cart-drawer">
@@ -203,14 +207,30 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         }
 
+        // פונקציית הגלילה שמציגה את הכפתור הצף
+        window.addEventListener('scroll', function() {
+            var fb = document.getElementById('floating-back');
+            if ((document.getElementById('category-view').style.display === 'block' || document.getElementById('wishlist-view').style.display === 'block') && window.scrollY > 300) {
+                fb.style.display = 'flex';
+            } else {
+                fb.style.display = 'none';
+            }
+        });
+
+        // פתרון כפתור ה"חזור" של הטלפון! עובד גם לעגלה, גם לתפריט, וגם לקטגוריות
         window.addEventListener('popstate', function(event) {
             document.getElementById('cart-drawer').classList.remove('active');
             document.getElementById('cart-overlay').classList.remove('active');
             document.getElementById('menu-drawer').classList.remove('active');
             document.getElementById('menu-overlay').classList.remove('active');
-            if (event.state && event.state.view === 'category') openCategory(event.state.name, false, true);
-            else if (event.state && event.state.view === 'wishlist') openWishlist(false, true);
-            else goHome(true);
+            
+            if (event.state) {
+                if (event.state.view === 'category') openCategory(event.state.name, false, true);
+                else if (event.state.view === 'wishlist') openWishlist(false, true);
+                else if (event.state.view === 'home') goHome(true);
+            } else {
+                goHome(true);
+            }
         });
 
         function init() {
@@ -222,8 +242,25 @@
             });
         }
 
-        function toggleMenu() { document.getElementById('menu-drawer').classList.toggle('active'); document.getElementById('menu-overlay').classList.toggle('active'); }
-        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); document.getElementById('cart-overlay').classList.toggle('active'); }
+        function toggleMenu() { 
+            const d = document.getElementById('menu-drawer');
+            if (!d.classList.contains('active')) {
+                history.pushState({ modal: 'menu' }, '', '#menu');
+                d.classList.add('active'); document.getElementById('menu-overlay').classList.add('active');
+            } else {
+                d.classList.remove('active'); document.getElementById('menu-overlay').classList.remove('active');
+            }
+        }
+
+        function toggleCart() { 
+            const d = document.getElementById('cart-drawer');
+            if (!d.classList.contains('active')) {
+                history.pushState({ modal: 'cart' }, '', '#cart');
+                d.classList.add('active'); document.getElementById('cart-overlay').classList.add('active');
+            } else {
+                d.classList.remove('active'); document.getElementById('cart-overlay').classList.remove('active');
+            }
+        }
 
         function renderProductCard(p, i) {
             const heart = wishlist.includes(i) ? '❤️' : '🤍';
@@ -253,6 +290,7 @@
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'block';
+            document.getElementById('floating-back').style.display = 'none';
             document.getElementById('current-category-title').innerText = name === 'all' ? "جميع المنتجات ✨" : name;
             const container = document.getElementById('products-container'); container.innerHTML = '';
             myProducts.forEach((p, i) => { if(name === 'all' || p.category === name) container.innerHTML += renderProductCard(p, i); });
@@ -264,6 +302,7 @@
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'block';
+            document.getElementById('floating-back').style.display = 'none';
             const container = document.getElementById('wishlist-container'); container.innerHTML = '';
             if(wishlist.length === 0) container.innerHTML = '<p style="text-align:center; width:100%;">المفضلة فارغة حالياً 🤍</p>';
             else wishlist.forEach(i => container.innerHTML += renderProductCard(myProducts[i], i));
@@ -332,6 +371,7 @@
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
+            document.getElementById('floating-back').style.display = 'none';
             if (!hist) history.pushState({ view: 'home' }, '', window.location.pathname);
             window.scrollTo(0,0);
         }
