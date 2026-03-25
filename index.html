@@ -53,7 +53,6 @@
         .category-card h2 { margin: 0; color: var(--dark); font-size: 1.3em; line-height: 1.3; }
         .category-card p { margin: 8px 0 0 0; color: var(--gray); font-size: 0.9em; }
 
-        /* עיצוב מיוחד לקטגוריית "כל המוצרים" כדי שתבלוט */
         .all-products-card { grid-column: 1 / -1; border: 2px solid var(--primary); background: #fdfbf7; min-height: 100px; }
         .all-products-card h2 { color: var(--primary); font-size: 1.6em; }
 
@@ -159,7 +158,7 @@
         <button class="close-menu" onclick="toggleMenu()">×</button>
         <h2 style="color: var(--dark); margin-top: 0; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px;">القائمة</h2>
         <ul class="menu-list">
-            <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
+            <li onclick="goHome()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
             <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">✨</span> جميع المنتجات</li>
             <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة (المنتجات المحفوظة)</li>
             <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
@@ -240,10 +239,29 @@
         let wishlist = []; 
         let total = 0;
 
+        // --- הוספת מנגנון כפתור חזור בטלפון (Swipe Back) ---
+        window.addEventListener('popstate', function(event) {
+            // אם העגלה או התפריט פתוחים, פשוט נסגור אותם
+            document.getElementById('cart-drawer').classList.remove('active');
+            document.getElementById('cart-overlay').classList.remove('active');
+            document.getElementById('menu-drawer').classList.remove('active');
+            document.getElementById('menu-overlay').classList.remove('active');
+
+            if (event.state && event.state.view === 'category') {
+                openCategory(event.state.name, false, true);
+            } else if (event.state && event.state.view === 'wishlist') {
+                openWishlist(false, true);
+            } else {
+                goHome(true);
+            }
+        });
+
         function initHome() {
+            // שומרים את עמוד הבית כנקודת ההתחלה של ההיסטוריה בדפדפן
+            history.replaceState({ view: 'home' }, '', window.location.pathname);
+
             const categoriesContainer = document.getElementById('home-categories');
             
-            // מחיקת קטגוריות ישנות למקרה שזה רץ פעמיים (חוץ מכפתור 'כל המוצרים' שהכנסנו הרגע ל-HTML)
             const cards = categoriesContainer.querySelectorAll('.category-card:not(.all-products-card)');
             cards.forEach(card => card.remove());
 
@@ -319,7 +337,7 @@
 
             return `
                 <div class="product-card">
-                    <button class="like-btn" onclick="toggleLike(${index})">${heartIcon}</button>
+                    <button id="like-btn-${index}" class="like-btn" onclick="toggleLike(${index})">${heartIcon}</button>
                     <div class="img-wrapper"><img src="${product.image}" alt="${product.name}"></div>
                     <div class="product-info">
                         <h3>${product.name}</h3>
@@ -337,7 +355,8 @@
             `;
         }
 
-        function openCategory(categoryName) {
+        // הוספתי פה את רישום ההיסטוריה
+        function openCategory(categoryName, preventScroll = false, fromHistory = false) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'block';
@@ -347,13 +366,11 @@
             container.innerHTML = '';
             
             if (categoryName === 'all') {
-                // אם בחר "כל המוצרים" - מראה את כולם אחד אחרי השני
                 document.getElementById('current-category-title').innerText = "جميع المنتجات ✨";
                 myProducts.forEach((product, index) => {
                     container.innerHTML += renderProductCard(product, index);
                 });
             } else {
-                // אחרת - מסנן לפי קטגוריה כמו קודם
                 document.getElementById('current-category-title').innerText = categoryName;
                 myProducts.forEach((product, index) => {
                     if(product.category === categoryName) {
@@ -362,10 +379,15 @@
                 });
             }
             
-            window.scrollTo(0, 0); 
+            if (!fromHistory) {
+                history.pushState({ view: 'category', name: categoryName }, '', '#category');
+            }
+
+            if (!preventScroll) window.scrollTo(0, 0); 
         }
 
-        function openWishlist() {
+        // הוספתי פה את רישום ההיסטוריה
+        function openWishlist(preventScroll = false, fromHistory = false) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'block';
@@ -376,6 +398,7 @@
             
             if(wishlist.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--gray); width: 100%; margin-top: 40px; font-size: 1.2em;">المفضلة فارغة حالياً 🤍</p>';
+                if (!fromHistory) history.pushState({ view: 'wishlist' }, '', '#wishlist');
                 return;
             }
             
@@ -383,30 +406,53 @@
                 const product = myProducts[index];
                 container.innerHTML += renderProductCard(product, index);
             });
-            window.scrollTo(0, 0);
+            
+            if (!fromHistory) {
+                history.pushState({ view: 'wishlist' }, '', '#wishlist');
+            }
+
+            if (!preventScroll) window.scrollTo(0, 0);
         }
 
         function toggleLike(index) {
             const wishIndex = wishlist.indexOf(index);
-            if(wishIndex > -1) { wishlist.splice(wishIndex, 1); showToast("تمت الإزالة من المفضلة 🤍"); } 
-            else { wishlist.push(index); showToast("تم الحفظ في المفضلة ❤️"); }
+            const isLiked = wishIndex === -1; 
+
+            if (!isLiked) {
+                wishlist.splice(wishIndex, 1); 
+                showToast("تمت الإزالة من المفضلة 🤍"); 
+            } else {
+                wishlist.push(index); 
+                showToast("تم الحفظ في المفضلة ❤️"); 
+            }
             
-            // מרענן את העמוד הנוכחי
-            if (document.getElementById('category-view').style.display === 'block') { 
-                const currentCat = document.getElementById('current-category-title').innerText;
-                openCategory(currentCat === "جميع المنتجات ✨" ? "all" : currentCat); 
-            } 
-            else if (document.getElementById('wishlist-view').style.display === 'block') { 
-                openWishlist(); 
+            const btn = document.getElementById(`like-btn-${index}`);
+            if (btn) {
+                btn.innerText = isLiked ? '❤️' : '🤍';
+            }
+
+            if (document.getElementById('wishlist-view').style.display === 'block' && !isLiked) { 
+                let currentScroll = window.scrollY; 
+                openWishlist(true, true); 
+                window.scrollTo(0, currentScroll); 
             }
         }
 
-        function goHome() {
+        // הוספתי פה את רישום ההיסטוריה
+        function goHome(fromHistory = false) {
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
             document.getElementById('floating-back').style.display = 'none'; 
             window.scrollTo(0, 0);
+
+            if (document.getElementById('menu-drawer').classList.contains('active')) {
+                toggleMenu();
+            }
+
+            if (!fromHistory) {
+                history.pushState({ view: 'home' }, '', window.location.pathname);
+            }
         }
 
         function toggleCart() {
