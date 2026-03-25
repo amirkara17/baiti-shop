@@ -47,12 +47,15 @@
         .main-logo { width: 280px; max-width: 85%; height: auto; margin: 0 auto; display: block; mix-blend-mode: multiply; }
         .hero-subtitle { margin: 15px 0 0 0; color: var(--gray); font-size: 1.1em; font-weight: 500; }
         
-        /* העיצוב החדש והקומפקטי של הקטגוריות - 2 בשורה בטלפון */
         .home-categories { max-width: 1000px; margin: 30px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
         .category-card { background: var(--white); border-radius: 12px; padding: 25px 15px; text-align: center; cursor: pointer; border: 1px solid #EAE3D9; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 120px; }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(193, 154, 91, 0.15); border-color: var(--primary); }
         .category-card h2 { margin: 0; color: var(--dark); font-size: 1.3em; line-height: 1.3; }
         .category-card p { margin: 8px 0 0 0; color: var(--gray); font-size: 0.9em; }
+
+        /* עיצוב מיוחד לקטגוריית "כל המוצרים" כדי שתבלוט */
+        .all-products-card { grid-column: 1 / -1; border: 2px solid var(--primary); background: #fdfbf7; min-height: 100px; }
+        .all-products-card h2 { color: var(--primary); font-size: 1.6em; }
 
         .category-view { display: none; max-width: 1200px; margin: 0 auto; padding: 30px 20px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -157,6 +160,7 @@
         <h2 style="color: var(--dark); margin-top: 0; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px;">القائمة</h2>
         <ul class="menu-list">
             <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
+            <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">✨</span> جميع المنتجات</li>
             <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة (المنتجات المحفوظة)</li>
             <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
         </ul>
@@ -171,7 +175,12 @@
                 تابعونا على الانستجرام
             </a>
         </div>
-        <div class="home-categories" id="home-categories"></div>
+        <div class="home-categories" id="home-categories">
+            <div class="category-card all-products-card" onclick="openCategory('all')">
+                <h2>✨ جميع المنتجات ✨</h2>
+                <p>اضغط لعرض كل التشكيلة</p>
+            </div>
+        </div>
     </div>
 
     <div id="category-view" class="category-view">
@@ -233,10 +242,16 @@
 
         function initHome() {
             const categoriesContainer = document.getElementById('home-categories');
+            
+            // מחיקת קטגוריות ישנות למקרה שזה רץ פעמיים (חוץ מכפתור 'כל המוצרים' שהכנסנו הרגע ל-HTML)
+            const cards = categoriesContainer.querySelectorAll('.category-card:not(.all-products-card)');
+            cards.forEach(card => card.remove());
+
             if (typeof myProducts === 'undefined') {
-                categoriesContainer.innerHTML = '<p style="color:red; text-align:center;">שגיאה: קובץ products.js חסר בגיטהאב!</p>';
+                categoriesContainer.innerHTML += '<p style="color:red; text-align:center; grid-column:1/-1;">שגיאה: קובץ products.js חסר בגיטהאב!</p>';
                 return;
             }
+            
             const categories = [...new Set(myProducts.map(p => p.category))];
             
             categories.forEach(category => {
@@ -327,16 +342,26 @@
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'block';
             document.getElementById('floating-back').style.display = 'flex'; 
-            document.getElementById('current-category-title').innerText = categoryName;
             
             const container = document.getElementById('products-container');
             container.innerHTML = '';
             
-            myProducts.forEach((product, index) => {
-                if(product.category === categoryName) {
+            if (categoryName === 'all') {
+                // אם בחר "כל המוצרים" - מראה את כולם אחד אחרי השני
+                document.getElementById('current-category-title').innerText = "جميع المنتجات ✨";
+                myProducts.forEach((product, index) => {
                     container.innerHTML += renderProductCard(product, index);
-                }
-            });
+                });
+            } else {
+                // אחרת - מסנן לפי קטגוריה כמו קודם
+                document.getElementById('current-category-title').innerText = categoryName;
+                myProducts.forEach((product, index) => {
+                    if(product.category === categoryName) {
+                        container.innerHTML += renderProductCard(product, index);
+                    }
+                });
+            }
+            
             window.scrollTo(0, 0); 
         }
 
@@ -365,8 +390,15 @@
             const wishIndex = wishlist.indexOf(index);
             if(wishIndex > -1) { wishlist.splice(wishIndex, 1); showToast("تمت الإزالة من المفضلة 🤍"); } 
             else { wishlist.push(index); showToast("تم الحفظ في المفضلة ❤️"); }
-            if (document.getElementById('category-view').style.display === 'block') { openCategory(document.getElementById('current-category-title').innerText); } 
-            else if (document.getElementById('wishlist-view').style.display === 'block') { openWishlist(); }
+            
+            // מרענן את העמוד הנוכחי
+            if (document.getElementById('category-view').style.display === 'block') { 
+                const currentCat = document.getElementById('current-category-title').innerText;
+                openCategory(currentCat === "جميع المنتجات ✨" ? "all" : currentCat); 
+            } 
+            else if (document.getElementById('wishlist-view').style.display === 'block') { 
+                openWishlist(); 
+            }
         }
 
         function goHome() {
