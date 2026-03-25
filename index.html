@@ -87,7 +87,7 @@
         .checkout-form input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; }
         .cart-total { font-size: 1.4em; color: var(--primary); font-weight: 800; display: flex; justify-content: space-between; border-top: 2px solid #EAE3D9; padding-top: 20px; margin-bottom: 25px; }
 
-        .success-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 3000; display: none; align-items: center; justify-content: center; text-align: center; }
+        .success-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 3000; display: none; align-items: center; justify-content: center; text-align: center; color: white; }
         .success-overlay.active { display: flex; }
         .success-box { background: white; padding: 40px; border-radius: 20px; max-width: 80%; }
         
@@ -101,7 +101,7 @@
 
     <script type="text/javascript">
         (function(){
-            // --- תדביק כאן את ה-Public Key שלך מ-EmailJS ---
+            // *** תדביק כאן את ה-Public Key שלך ***
             emailjs.init("YOUR_PUBLIC_KEY"); 
         })();
     </script>
@@ -159,11 +159,11 @@
             <span id="total-price">0 ₪</span>
         </div>
         <div class="checkout-form">
-            <input type="text" id="cust-name" placeholder="الاسم الكامل">
-            <input type="tel" id="cust-phone" placeholder="رقم الهاتف">
-            <input type="email" id="cust-email" placeholder="البريد الإلكتروني (اختياري)">
-            <input type="text" id="cust-address" placeholder="عنوان التوصيل (البلد، الشارع)">
-            <button class="btn-add" id="submit-btn" onclick="sendOrderSecure()">إتمام الطلب</button>
+            <input type="text" id="c-name" placeholder="الاسم الكامل">
+            <input type="tel" id="c-phone" placeholder="رقم الهاتف">
+            <input type="email" id="c-email" placeholder="البريد الإلكتروني (اختياري)">
+            <input type="text" id="c-addr" placeholder="عنوان التوصيل (البلد، الشارع)">
+            <button class="btn-add" id="submit-btn" onclick="sendOrder()">إتمام الطلب</button>
         </div>
     </div>
 
@@ -193,7 +193,6 @@
     <script>
         let cart = []; let wishlist = []; let total = 0;
 
-        // חסימת קליק ימני ו-Inspect למניעת משחקים בקוד
         document.onkeydown = function(e) {
             if(e.keyCode == 123) return false;
             if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
@@ -333,17 +332,32 @@
             window.scrollTo(0,0);
         }
 
-        function sendOrderSecure() {
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            const email = document.getElementById('cust-email').value || 'لا يوجد';
-            const addr = document.getElementById('cust-address').value;
+        // פונקציית הקונפטי החגיגית (אפקט גשם ארוך)
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 4000 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function sendOrder() {
+            const name = document.getElementById('c-name').value;
+            const phone = document.getElementById('c-phone').value;
+            const email = document.getElementById('c-email').value || 'لا يوجد';
+            const addr = document.getElementById('c-addr').value;
 
             if(!name || !phone || !addr || cart.length === 0) { alert("الرجاء تعبئة جميع البيانات المطلوبة"); return; }
             
             const btn = document.getElementById('submit-btn'); btn.disabled = true; btn.innerText = "جاري الإرسال...";
 
-            // אימות מחירים
+            // אימות מחירים סופי רגע לפני השליחה
             let secureTotal = 0; let details = ""; let isTampered = false;
             cart.forEach(item => {
                 const orig = myProducts.find(p => p.name === item.name);
@@ -374,10 +388,21 @@
                 .then(() => {
                     toggleCart();
                     document.getElementById('success-overlay').classList.add('active');
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    
+                    // הפעלת הקונפטי החגיגי!
+                    fireConfetti();
+                    
                     cart = []; total = 0; updateUI();
-                    document.getElementById('cust-name').value = ""; document.getElementById('cust-phone').value = ""; document.getElementById('cust-addr').value = "";
-                }, () => { alert("حدث خطأ في الإرسال"); btn.disabled = false; btn.innerText = "إتمام الطلب"; });
+                    // שימוש ב-ID הנכונים כדי לאפס את השדות בסיום
+                    document.getElementById('c-name').value = ""; 
+                    document.getElementById('c-phone').value = ""; 
+                    document.getElementById('c-email').value = ""; 
+                    document.getElementById('c-addr').value = "";
+                    btn.disabled = false; btn.innerText = "إتمام الطلب";
+                }, () => { 
+                    alert("حدث خطأ في الإرسال"); 
+                    btn.disabled = false; btn.innerText = "إتمام الطلب"; 
+                });
         }
 
         window.onload = init;
