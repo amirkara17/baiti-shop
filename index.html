@@ -10,7 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        /* חסימת בחירת טקסט כדי למנוע העתקות */
         * { box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        /* מאפשר בחירת טקסט רק בתוך שדות ההקלדה של הלקוח */
         input, textarea { -webkit-user-select: text; user-select: text; }
 
         :root {
@@ -123,7 +125,9 @@
         .btn-close-success { background: var(--dark); color: var(--white); border: none; padding: 14px 30px; border-radius: 50px; font-size: 1.1em; font-weight: 700; cursor: pointer; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <script src="products.js"></script>
+<body oncontextmenu="return false;"> 
+
+    <script src="products.js"></script>
 
     <div class="top-navbar">
         <button class="menu-icon-btn" onclick="toggleMenu()">☰</button>
@@ -141,7 +145,7 @@
             <li onclick="goHome()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
             <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">✨</span> جميع المنتجات</li>
             <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة</li>
-            <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانסטגרם</li>
+            <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
         </ul>
     </div>
 
@@ -150,7 +154,7 @@
             <img src="IMG_8489.jpeg" alt="Baiti Logo" class="main-logo">
             <p class="hero-subtitle">لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
             <a href="https://www.instagram.com/baiti.55/" target="_blank" class="ig-link">
-                تابعونا على الانסטגרם
+                تابعونا على الانستجرام
             </a>
         </div>
         <div class="home-categories" id="home-categories">
@@ -190,7 +194,7 @@
             <div class="form-group"><input type="text" id="customer-name" placeholder="الاسم الكامل"></div>
             <div class="form-group"><input type="tel" id="customer-phone" placeholder="رقم الهاتف"></div>
             <div class="form-group"><input type="text" id="customer-address" placeholder="العنوان"></div>
-            <button class="btn-checkout" onclick="sendOrder()" id="submit-btn">إتمام الطلב</button>
+            <button class="btn-checkout" onclick="sendOrder()" id="submit-btn">إتمام الطلب</button>
         </div>
     </div>
 
@@ -210,7 +214,7 @@
         let wishlist = []; 
         let total = 0;
 
-        // חסימת קיצורי מקלדת של האקרים (F12, Ctrl+U)
+        // חסימת קיצורי מקלדת לפתיחת קוד מקור (F12, Ctrl+U וכו')
         document.onkeydown = function(e) {
             if(e.keyCode == 123) return false;
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
@@ -263,9 +267,9 @@
             const heart = wishlist.includes(index) ? '❤️' : '🤍';
             const stock = product.stock !== undefined ? product.stock : 100;
             if (stock === 0) {
-                return `<div class="product-card"><div class="img-wrapper"><img src="${product.image}"></div><div class="product-info"><h3>${product.name}</h3><div class="stock-status stock-out">נאזל מהמלאי 💔</div><div class="price-row"><span class="price">₪${product.price}</span></div><button class="btn-add" disabled>נאזל מהמלאי</button></div></div>`;
+                return `<div class="product-card"><div class="img-wrapper"><img src="${product.image}"></div><div class="product-info"><h3>${product.name}</h3><div class="stock-status stock-out">نفدت الكمية حالياً 💔</div><div class="price-row"><span class="price">₪${product.price}</span></div><button class="btn-add" disabled>نفدت الكمية</button></div></div>`;
             }
-            const lowStock = stock <= 3 ? `<div class="stock-status stock-low">נשארו רק ${stock}! 🏃‍♂️</div>` : '';
+            const lowStock = stock <= 3 ? `<div class="stock-status stock-low">الكمية محدودة! بقي ${stock} فقط 🏃‍♀️</div>` : '';
             return `<div class="product-card"><button id="like-btn-${index}" class="like-btn" onclick="toggleLike(${index})">${heart}</button><div class="img-wrapper"><img src="${product.image}"></div><div class="product-info"><h3>${product.name}</h3><p class="desc">${product.description}</p>${lowStock}<div class="price-row"><span class="price">₪${product.price}</span><div class="qty-wrapper"><div class="qty-control"><button class="qty-btn" onclick="changeQty(${index},-1)">-</button><input id="qty-${index}" class="qty-input" value="1" readonly><button class="qty-btn" onclick="changeQty(${index},1)">+</button></div></div></div><button class="btn-add" onclick="addToCart(${index})">إضافة للسلة 🛒</button></div></div>`;
         }
 
@@ -315,7 +319,7 @@
             const p = myProducts[i];
             const stock = p.stock || 100;
             const exist = cart.find(item => item.name === p.name);
-            if ((exist ? exist.quantity : 0) + qty > stock) return alert("המלאי מוגבל!");
+            if ((exist ? exist.quantity : 0) + qty > stock) return alert("عذراً! الكمية محدودة.");
             if (exist) exist.quantity += qty; else cart.push({name: p.name, price: p.price, quantity: qty});
             total += (p.price * qty);
             updateCartUI();
@@ -341,55 +345,46 @@
 
         function closeSuccess() { document.getElementById('success-overlay').classList.remove('active'); goHome(); }
 
-        // --- מנגנון אבטחה משופר ---
+        // --- הגישה המאובטחת: שליחה לשרת הסודי שלנו (Backend) ---
         function sendOrder() {
-            if (cart.length === 0) return alert('السلة فارغة!');
-            
-            let isTampered = false;
-            let secureTotal = 0;
-            let secureDetails = "";
-
-            // בדיקת אימות קשיחה מול קובץ המוצרים המקורי
-            cart.forEach(item => {
-                const realP = myProducts.find(p => p.name === item.name);
-                if (!realP || item.price !== realP.price || item.quantity < 1 || item.quantity > (realP.stock || 100)) {
-                    isTampered = true;
-                } else {
-                    secureTotal += (realP.price * item.quantity);
-                    secureDetails += `- ${realP.name} (Qty: ${item.quantity}) - ${realP.price} ₪\n`;
-                }
-            });
-
-            if (isTampered || secureTotal !== total || secureTotal <= 0) {
-                // מחיקת המידע מהדפדפן של ה"האקר" כדי שלא יוכל לנסות שוב בקלות
-                cart = []; total = 0; updateCartUI();
-                alert("عذراً، حدث خطأ غير متوقع في الخادم (Error 500). الموقع معطل حالياً، يرجى المحاولة لاحقاً.");
-                return;
-            }
+            if (cart.length === 0) { alert('السلة فارغة!'); return; }
 
             const name = document.getElementById('customer-name').value;
             const phone = document.getElementById('customer-phone').value;
-            const addr = document.getElementById('customer-address').value;
-            if (!name || !phone || !addr) return alert('الرجاء تعبئة جميع البيانات.');
+            const address = document.getElementById('customer-address').value;
+            
+            if (!name || !phone || !address) { alert('الرجاء تعبئة الاسم، رقم الهاتف، والعنوان.'); return; }
 
             const btn = document.getElementById('submit-btn');
             btn.innerText = "جاري الإرسال...";
             btn.disabled = true;
 
-            fetch("https://formsubmit.co/ajax/amirkara99@gmail.com", {
+            // המייל שלך לא נמצא כאן! המידע נשלח אל חדר הבקרה שלנו ב-Netlify.
+            fetch("/.netlify/functions/submit", {
                 method: "POST",
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    "اسم الزبון": name, "رقم الهاتف": phone, "العنوان": addr,
-                    "تفاصيل الطلב": secureDetails,
-                    "_secure_total_verification": secureTotal + " ₪", // שם שדה מורכב יותר
-                    "_subject": "طلب جديد من متجر Baiti! 🏠"
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    cart: cart
                 })
-            }).then(() => {
-                toggleCart(); document.getElementById('success-overlay').classList.add('active');
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }).then(response => {
+                if (!response.ok) throw new Error("Server rejected the order");
+                return response.json();
+            }).then(data => {
+                toggleCart();
+                document.getElementById('success-overlay').classList.add('active');
+                fireConfetti();
+                
                 cart = []; total = 0; updateCartUI();
-                btn.innerText = "إتمام الطلב"; btn.disabled = false;
+                document.getElementById('customer-name').value = ""; 
+                document.getElementById('customer-phone').value = ""; 
+                document.getElementById('customer-address').value = "";
+                btn.innerText = "إتمام الطلب"; btn.disabled = false;
+            }).catch(error => {
+                alert("تم اكتشاف خطأ. يرجى المحاولة لاحقاً.");
+                btn.innerText = "إتمام الطلب"; btn.disabled = false;
             });
         }
 
