@@ -22,6 +22,7 @@
             --light: #FAF8F5; 
             --white: #ffffff;
             --gray: #8C7B6B;
+            --danger: #dc2743;
         }
         
         body { font-family: 'Tajawal', sans-serif; background-color: var(--light) !important; color: var(--dark) !important; margin: 0; padding: 0; overflow-x: hidden; width: 100%; position: relative; }
@@ -59,8 +60,6 @@
         
         .back-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 1em; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
         .category-title-header { margin: 0 0 30px 0; color: var(--dark); font-size: 2em; text-align: right; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px; }
-
-        .floating-back-btn { position: fixed; bottom: 20px; left: 20px; background-color: var(--dark); color: var(--white); border: none; border-radius: 50px; padding: 12px 25px; font-family: inherit; font-weight: 700; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 90; display: none; align-items: center; gap: 8px; transition: 0.3s; }
 
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .product-card { background: var(--white); border-radius: 12px; text-align: right; transition: 0.4s ease; overflow: hidden; position: relative; border: 1px solid #EAE3D9; display: flex; flex-direction: column; }
@@ -101,8 +100,8 @@
 
     <script type="text/javascript">
         (function(){
-            // *** תדביק כאן את ה-Public Key שלך ***
-            emailjs.init("YOUR_PUBLIC_KEY"); 
+            // המפתח הפומבי שלך (Public Key) הוכנס פה!
+            emailjs.init("QqHFcLgfCh5t0YfEw"); 
         })();
     </script>
 
@@ -163,7 +162,7 @@
             <input type="tel" id="c-phone" placeholder="رقم الهاتف">
             <input type="email" id="c-email" placeholder="البريد الإلكتروني (اختياري)">
             <input type="text" id="c-addr" placeholder="عنوان التوصيل (البلد، الشارع)">
-            <button class="btn-add" id="submit-btn" onclick="sendOrder()">إتمام الطلب</button>
+            <button class="btn-add" id="submit-btn" onclick="sendOrderSecure()">إتمام الطلب</button>
         </div>
     </div>
 
@@ -332,7 +331,6 @@
             window.scrollTo(0,0);
         }
 
-        // פונקציית הקונפטי החגיגית (אפקט גשם ארוך)
         function fireConfetti() {
             var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
@@ -347,7 +345,7 @@
             }, 250);
         }
 
-        function sendOrder() {
+        function sendOrderSecure() {
             const name = document.getElementById('c-name').value;
             const phone = document.getElementById('c-phone').value;
             const email = document.getElementById('c-email').value || 'لا يوجد';
@@ -357,14 +355,14 @@
             
             const btn = document.getElementById('submit-btn'); btn.disabled = true; btn.innerText = "جاري الإرسال...";
 
-            // אימות מחירים סופי רגע לפני השליחה
+            // אימות מחירים
             let secureTotal = 0; let details = ""; let isTampered = false;
             cart.forEach(item => {
                 const orig = myProducts.find(p => p.name === item.name);
                 if(!orig || item.price !== orig.price || item.quantity < 1) isTampered = true;
                 else {
                     secureTotal += (orig.price * item.quantity);
-                    details += `- ${item.name} (الكمية: ${item.quantity}) - ₪${orig.price * item.quantity}\n`;
+                    details += `- ${item.name} (الكمية: ${item.quantity})\n`;
                 }
             });
 
@@ -383,17 +381,14 @@
                 total_amount: secureTotal + " ₪"
             };
 
-            // *** תדביק פה את ה-Template ID שלך ***
-            emailjs.send('service_rx74wyj', 'YOUR_TEMPLATE_ID', params)
+            // השליחה המאובטחת עם ה-Service ID וה-Template ID המדויקים שלך!
+            emailjs.send('service_rx74wyj', 'template_2oma7tb', params)
                 .then(() => {
                     toggleCart();
                     document.getElementById('success-overlay').classList.add('active');
-                    
-                    // הפעלת הקונפטי החגיגי!
                     fireConfetti();
                     
                     cart = []; total = 0; updateUI();
-                    // שימוש ב-ID הנכונים כדי לאפס את השדות בסיום
                     document.getElementById('c-name').value = ""; 
                     document.getElementById('c-phone').value = ""; 
                     document.getElementById('c-email').value = ""; 
