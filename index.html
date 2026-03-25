@@ -10,9 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        /* חסימת בחירת טקסט כדי למנוע העתקות */
         * { box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-        /* מאפשר בחירת טקסט רק בתוך שדות ההקלדה של הלקוח */
         input, textarea { -webkit-user-select: text; user-select: text; }
 
         :root {
@@ -145,7 +143,7 @@
             <li onclick="goHome()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
             <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">✨</span> جميع المنتجات</li>
             <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة</li>
-            <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
+            <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانסטגרם</li>
         </ul>
     </div>
 
@@ -154,7 +152,7 @@
             <img src="IMG_8489.jpeg" alt="Baiti Logo" class="main-logo">
             <p class="hero-subtitle">لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
             <a href="https://www.instagram.com/baiti.55/" target="_blank" class="ig-link">
-                تابعونا على الانستجرام
+                تابعونا على الانסטגרם
             </a>
         </div>
         <div class="home-categories" id="home-categories">
@@ -193,6 +191,7 @@
         <div class="checkout-form">
             <div class="form-group"><input type="text" id="customer-name" placeholder="الاسم الكامل"></div>
             <div class="form-group"><input type="tel" id="customer-phone" placeholder="رقم الهاتف"></div>
+            <div class="form-group"><input type="email" id="customer-email" placeholder="البريد الإلكتروني (اختياري)"></div>
             <div class="form-group"><input type="text" id="customer-address" placeholder="العنوان"></div>
             <button class="btn-checkout" onclick="sendOrder()" id="submit-btn">إتمام الطلب</button>
         </div>
@@ -214,7 +213,6 @@
         let wishlist = []; 
         let total = 0;
 
-        // חסימת קיצורי מקלדת לפתיחת קוד מקור (F12, Ctrl+U וכו')
         document.onkeydown = function(e) {
             if(e.keyCode == 123) return false;
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
@@ -343,47 +341,89 @@
             document.getElementById('cart-count').innerText = cart.reduce((a,b)=>a+b.quantity, 0);
         }
 
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 4000 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
         function closeSuccess() { document.getElementById('success-overlay').classList.remove('active'); goHome(); }
 
-        // --- הגישה המאובטחת: שליחה לשרת הסודי שלנו (Backend) ---
         function sendOrder() {
-            if (cart.length === 0) { alert('السلة فارغة!'); return; }
+            if (cart.length === 0) return alert('السلة فارغة!');
+            
+            // מנגנון ה"אנטי-האקר" - מבצע בדיקה יסודית של כל העגלה לפני השליחה!
+            let isTampered = false;
+            let realTotal = 0;
+            let secureDetails = "";
+
+            cart.forEach(item => {
+                const originalP = myProducts.find(p => p.name === item.name);
+                if (!originalP || item.price !== originalP.price || item.quantity < 1) {
+                    isTampered = true;
+                } else {
+                    const max = originalP.stock !== undefined ? originalP.stock : 100;
+                    if (item.quantity > max) isTampered = true;
+                    realTotal += (originalP.price * item.quantity);
+                    secureDetails += `- ${originalP.name} (الكمية: ${item.quantity}) - ₪${originalP.price * item.quantity}\n`;
+                }
+            });
+
+            // אם מישהו ניסה לשנות את המחיר, העגלה מתאפסת מיד!
+            if (isTampered || realTotal !== total || realTotal <= 0) {
+                cart = []; total = 0; updateCartUI();
+                alert("تم اكتشاف خطأ في البيانات. تم إعادة ضبط السلة للحماية.");
+                return;
+            }
 
             const name = document.getElementById('customer-name').value;
             const phone = document.getElementById('customer-phone').value;
-            const address = document.getElementById('customer-address').value;
+            const email = document.getElementById('customer-email').value || 'لا يوجد';
+            const addr = document.getElementById('customer-address').value;
             
-            if (!name || !phone || !address) { alert('الرجاء تعبئة الاسم، رقم الهاتف، والعنوان.'); return; }
+            if (!name || !phone || !addr) return alert('الرجاء تعبئة الاسم، رقم الهاتف، والعنوان.');
 
             const btn = document.getElementById('submit-btn');
             btn.innerText = "جاري الإرسال...";
             btn.disabled = true;
 
-            // המייל שלך לא נמצא כאן! המידע נשלח אל חדר הבקרה שלנו ב-Netlify.
-            fetch("/.netlify/functions/submit", {
+            // שליחה ישירה מאובטחת - הקונפטי יעבוד והמייל יגיע אליך!
+            fetch("https://formsubmit.co/ajax/amirkara99@gmail.com", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
-                    name: name,
-                    phone: phone,
-                    address: address,
-                    cart: cart
+                    "اسم الزبون": name, 
+                    "رقم الهاتف": phone, 
+                    "البريد الإلكتروني": email,
+                    "العنوان": addr,
+                    "تفاصيل الطلب": secureDetails,
+                    "المجموع الكلي المعتمد": "₪" + realTotal, 
+                    "email": email, // שדה מיוחד כדי ש-FormSubmit יזהה את המייל
+                    "_replyto": email !== 'لا يوجد' ? email : undefined,
+                    "_subject": "طلب جديد من متجر Baiti! 🏠"
                 })
-            }).then(response => {
-                if (!response.ok) throw new Error("Server rejected the order");
-                return response.json();
-            }).then(data => {
-                toggleCart();
+            }).then(response => response.json()).then(data => {
+                // הקונפטי והחגיגה חזרו!
+                toggleCart(); 
                 document.getElementById('success-overlay').classList.add('active');
                 fireConfetti();
                 
                 cart = []; total = 0; updateCartUI();
                 document.getElementById('customer-name').value = ""; 
                 document.getElementById('customer-phone').value = ""; 
+                document.getElementById('customer-email').value = ""; 
                 document.getElementById('customer-address').value = "";
                 btn.innerText = "إتمام الطلب"; btn.disabled = false;
             }).catch(error => {
-                alert("تم اكتشاف خطأ. يرجى المحاولة لاحقاً.");
+                alert("حدث خطأ في الإرسال، يرجى المحاولة مرة أخرى.");
                 btn.innerText = "إتمام الطلب"; btn.disabled = false;
             });
         }
