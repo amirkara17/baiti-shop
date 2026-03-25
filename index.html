@@ -35,7 +35,8 @@
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 1001; display: none; opacity: 0; transition: 0.3s; }
         .menu-overlay.active { display: block; opacity: 1; }
         
-        .menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; max-width: 85vw; height: 100vh; background: var(--white) !important; z-index: 1002; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: right 0.4s ease; padding: 30px 20px; display: flex; flex-direction: column; }
+        /* תיקון הגובה לגלקסי וכרום - 100dvh ו-padding תחתון! */
+        .menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; max-width: 85vw; height: 100%; height: 100dvh; background: var(--white) !important; z-index: 1002; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: right 0.4s ease; padding: 30px 20px; display: flex; flex-direction: column; }
         .menu-drawer.active { right: 0; }
         
         .close-menu { background: none; border: none; font-size: 2.2em; color: var(--gray); cursor: pointer; position: absolute; top: 20px; left: 20px; line-height: 1; transition: 0.2s; padding: 10px; z-index: 10; }
@@ -80,7 +81,9 @@
 
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 999; display: none; }
         .cart-overlay.active { display: block; }
-        .cart-drawer { position: fixed; top: 0; right: -100%; width: 350px; max-width: 90vw; height: 100vh; background: white; z-index: 1000; transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); padding: 20px; display: flex; flex-direction: column; }
+
+        /* תיקון הגובה והגלילה לגלקסי וכרום! */
+        .cart-drawer { position: fixed; top: 0; right: -100%; width: 350px; max-width: 90vw; height: 100%; height: 100dvh; background: white; z-index: 1000; transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); padding: 20px; padding-bottom: calc(30px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; overflow-y: auto; }
         .cart-drawer.active { right: 0; }
         
         .checkout-form input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; }
@@ -100,7 +103,7 @@
 
     <script type="text/javascript">
         (function(){
-            // המפתח הפומבי שלך (Public Key) הוכנס פה!
+            // המפתח שלך הוכנס לכאן במקום "YOUR_PUBLIC_KEY"!
             emailjs.init("QqHFcLgfCh5t0YfEw"); 
         })();
     </script>
@@ -152,17 +155,19 @@
             <h2>السلة 🛒</h2>
             <button onclick="toggleCart()" style="background:none; border:none; font-size:2em; cursor:pointer; color:var(--gray);">×</button>
         </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto; margin-top:20px;"></div>
-        <div class="cart-total">
-            <span>المجموع:</span>
-            <span id="total-price">0 ₪</span>
-        </div>
-        <div class="checkout-form">
-            <input type="text" id="c-name" placeholder="الاسم الكامل">
-            <input type="tel" id="c-phone" placeholder="رقم الهاتف">
-            <input type="email" id="c-email" placeholder="البريد الإلكتروني (اختياري)">
-            <input type="text" id="c-addr" placeholder="عنوان التوصيل (البلد، الشارع)">
-            <button class="btn-add" id="submit-btn" onclick="sendOrderSecure()">إتمام الطلب</button>
+        <div id="cart-items" style="flex-grow:1; overflow-y:auto; margin-top:20px; padding-bottom:15px;"></div>
+        <div style="padding-bottom: 20px;">
+            <div class="cart-total">
+                <span>المجموع:</span>
+                <span id="total-price">0 ₪</span>
+            </div>
+            <div class="checkout-form">
+                <input type="text" id="c-name" placeholder="الاسم الكامل">
+                <input type="tel" id="c-phone" placeholder="رقم الهاتف">
+                <input type="email" id="c-email" placeholder="البريد الإلكتروني (اختياري)">
+                <input type="text" id="c-addr" placeholder="عنوان التوصيل (البلد، الشارع)">
+                <button class="btn-add" id="submit-btn" onclick="sendOrderSecure()">إتمام الطلب</button>
+            </div>
         </div>
     </div>
 
@@ -355,7 +360,6 @@
             
             const btn = document.getElementById('submit-btn'); btn.disabled = true; btn.innerText = "جاري الإرسال...";
 
-            // אימות מחירים
             let secureTotal = 0; let details = ""; let isTampered = false;
             cart.forEach(item => {
                 const orig = myProducts.find(p => p.name === item.name);
@@ -381,7 +385,6 @@
                 total_amount: secureTotal + " ₪"
             };
 
-            // השליחה המאובטחת עם ה-Service ID וה-Template ID המדויקים שלך!
             emailjs.send('service_rx74wyj', 'template_2oma7tb', params)
                 .then(() => {
                     toggleCart();
