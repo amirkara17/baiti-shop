@@ -1,15 +1,15 @@
 const myProducts = [
     {
-        name: "طقم فاخر", 
-        description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
+        name: "طقم الفراشات", 
+        description: "طقم فناجين للقهوة مميز وأنيق.",
         price: 135,
         image: "IMG_8630.jpeg",
         category: "أطقم فناجين ✨",
-        stock: 5 
+        stock: 3 
     },
     {
-        name: "طقم الفراشات", 
-        description: "طقم فناجين للقهوة مميز وأنيق.",
+        name: "طقم أكواب الزهور", 
+        description: "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
         price: 140,
         image: "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg",
         category: "أطقم فناجين ✨",
@@ -29,28 +29,28 @@ const myProducts = [
         price: 35,
         image: "IMG_8631.jpeg",
         category: "أكواب ☕",
-        stock: 10
+        stock: 0
     },
     {
         name: "كوب القطة ماري - ديزني", 
         description: "كوب أصلي من ديزني بتصميم القطة ماري اللطيفة.",
-        price: 50, 
+        price: 35, 
         image: "6851461d-69ed-4f13-b9c2-21de70672611.jpeg", 
         category: "ديزني الأصلي 🪄",
-        stock: 10 
+        stock: 1 
     },
     {
         name: "كوب ستيتش - ديزني", 
         description: "كوب أصلي من ديزني بتصميم ستيتش.",
-        price: 50, 
+        price: 35, 
         image: "52fe9b36-8146-43d3-9bb6-4c627900138d.jpeg", 
         category: "ديزني الأصلي 🪄",
-        stock: 10
+        stock: 1
     },
     {
         name: "كوب ميني ماوس - ديزني", 
         description: "كوب أصلي من ديزني بتصميم ميني ماوس.",
-        price: 50, 
+        price: 35, 
         image: "d74466ca-a951-439e-b766-5a0f38c69da6.jpeg", 
         category: "ديزني الأصلي 🪄",
         stock: 1
