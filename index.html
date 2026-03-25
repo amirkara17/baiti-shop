@@ -239,9 +239,7 @@
         let wishlist = []; 
         let total = 0;
 
-        // --- הוספת מנגנון כפתור חזור בטלפון (Swipe Back) ---
         window.addEventListener('popstate', function(event) {
-            // אם העגלה או התפריט פתוחים, פשוט נסגור אותם
             document.getElementById('cart-drawer').classList.remove('active');
             document.getElementById('cart-overlay').classList.remove('active');
             document.getElementById('menu-drawer').classList.remove('active');
@@ -257,7 +255,6 @@
         });
 
         function initHome() {
-            // שומרים את עמוד הבית כנקודת ההתחלה של ההיסטוריה בדפדפן
             history.replaceState({ view: 'home' }, '', window.location.pathname);
 
             const categoriesContainer = document.getElementById('home-categories');
@@ -355,7 +352,6 @@
             `;
         }
 
-        // הוספתי פה את רישום ההיסטוריה
         function openCategory(categoryName, preventScroll = false, fromHistory = false) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
@@ -386,7 +382,6 @@
             if (!preventScroll) window.scrollTo(0, 0); 
         }
 
-        // הוספתי פה את רישום ההיסטוריה
         function openWishlist(preventScroll = false, fromHistory = false) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'none';
@@ -438,7 +433,6 @@
             }
         }
 
-        // הוספתי פה את רישום ההיסטוריה
         function goHome(fromHistory = false) {
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
@@ -553,7 +547,37 @@
 
         function sendOrder() {
             if (cart.length === 0) { alert('السلة فارغة!'); return; }
-            
+
+            // --- מנגנון אבטחה חכם שחוסם שינויי מחיר או כמות בסל ---
+            let isTampered = false;
+            let realTotal = 0;
+
+            cart.forEach(cartItem => {
+                const originalProduct = myProducts.find(p => p.name === cartItem.name);
+                if (!originalProduct) {
+                    isTampered = true; 
+                } else {
+                    if (cartItem.price !== originalProduct.price) {
+                        isTampered = true; 
+                    }
+                    const maxStock = originalProduct.stock !== undefined ? originalProduct.stock : 100;
+                    if (cartItem.quantity > maxStock || cartItem.quantity < 1) {
+                        isTampered = true; 
+                    }
+                    realTotal += (originalProduct.price * cartItem.quantity);
+                }
+            });
+
+            if (realTotal !== total) {
+                isTampered = true; 
+            }
+
+            if (isTampered) {
+                alert("عذراً، حدث خطأ غير متوقع في الخادم (Error 500). الموقع معطل حالياً، يرجى المحاولة لاحقاً.");
+                return; // הלקוח נחסם, ההזמנה לא נשלחת אליך
+            }
+            // --- סוף מנגנון אבטחה ---
+
             const name = document.getElementById('customer-name').value;
             const phone = document.getElementById('customer-phone').value;
             const address = document.getElementById('customer-address').value;
@@ -575,7 +599,7 @@
                     "رقم الهاتف": phone, 
                     "العنوان": address,
                     "تفاصيل الطلب": orderDetails, 
-                    "المجموع الكلي": "₪" + total, 
+                    "المجموع الكلي": "₪" + realTotal, 
                     "_subject": "طلب جديد من متجر Baiti! 🏠"
                 })
             }).then(response => response.json()).then(data => {
