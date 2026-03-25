@@ -35,8 +35,7 @@
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 1001; display: none; opacity: 0; transition: 0.3s; }
         .menu-overlay.active { display: block; opacity: 1; }
         
-        /* תיקון הגובה לגלקסי וכרום - 100dvh ו-padding תחתון! */
-        .menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; max-width: 85vw; height: 100%; height: 100dvh; background: var(--white) !important; z-index: 1002; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: right 0.4s ease; padding: 30px 20px; display: flex; flex-direction: column; }
+        .menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; max-width: 85vw; height: 100%; height: 100dvh; background: var(--white) !important; z-index: 1002; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: right 0.4s ease; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto; }
         .menu-drawer.active { right: 0; }
         
         .close-menu { background: none; border: none; font-size: 2.2em; color: var(--gray); cursor: pointer; position: absolute; top: 20px; left: 20px; line-height: 1; transition: 0.2s; padding: 10px; z-index: 10; }
@@ -85,7 +84,6 @@
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 999; display: none; }
         .cart-overlay.active { display: block; }
 
-        /* תיקון הגובה והגלילה לגלקסי וכרום! */
         .cart-drawer { position: fixed; top: 0; right: -100%; width: 350px; max-width: 90vw; height: 100%; height: 100dvh; background: white; z-index: 1000; transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); padding: 20px; padding-bottom: calc(30px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; overflow-y: auto; }
         .cart-drawer.active { right: 0; }
         
@@ -179,10 +177,12 @@
     <div class="menu-drawer" id="menu-drawer">
         <button class="close-menu" onclick="toggleMenu()">×</button>
         <h2 style="color: var(--dark); margin-top: 0; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px;">القائمة</h2>
-        <ul class="menu-list">
+        <ul class="menu-list" id="dynamic-menu-list">
             <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
-            <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">✨</span> جميع المنتجات</li>
-            <li onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة</li>
+            <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">🛍️</span> جميع المنتجات</li>
+            </ul>
+        <ul class="menu-list" style="margin-top: 0;">
+            <li style="border-top: 2px solid #f0f0f0; margin-top: 10px; padding-top: 20px;" onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة</li>
             <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
         </ul>
     </div>
@@ -207,9 +207,10 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         }
 
+        // הכפתור הצף קופץ אחרי גלילה קצרה בכל מסך שהוא לא המסך הראשי
         window.addEventListener('scroll', function() {
             var fb = document.getElementById('floating-back');
-            if ((document.getElementById('category-view').style.display === 'block' || document.getElementById('wishlist-view').style.display === 'block') && window.scrollY > 300) {
+            if (document.getElementById('home-view').style.display === 'none' && window.scrollY > 150) {
                 fb.style.display = 'flex';
             } else {
                 fb.style.display = 'none';
@@ -234,9 +235,14 @@
         function init() {
             history.replaceState({ view: 'home' }, '', window.location.pathname);
             const container = document.getElementById('home-categories');
+            const menuContainer = document.getElementById('dynamic-menu-list');
             const cats = [...new Set(myProducts.map(p => p.category))];
+            
             cats.forEach(c => {
+                // הוספת קטגוריות למסך הבית
                 container.innerHTML += `<div class="category-card" onclick="openCategory('${c}')"><h2>${c}</h2><p>اضغط لعرض المنتجات</p></div>`;
+                // הוספת קטגוריות לתפריט הצד אוטומטית!
+                menuContainer.innerHTML += `<li onclick="openCategory('${c}'); toggleMenu()"><span style="color: #C19A5B;">✨</span> ${c}</li>`;
             });
         }
 
@@ -263,8 +269,6 @@
         function renderProductCard(p, i) {
             const heart = wishlist.includes(i) ? '❤️' : '🤍';
             const stock = p.stock !== undefined ? p.stock : 100;
-            
-            // הכפתור נוסף גם למוצרים רגילים וגם למוצרים חסרים במלאי
             const likeBtnHtml = `<button id="like-btn-${i}" class="like-btn" onclick="toggleLike(${i})">${heart}</button>`;
 
             if (stock === 0) {
