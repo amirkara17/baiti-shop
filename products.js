@@ -2,10 +2,10 @@ const myProducts = [
     {
         name: "طقم فاخر", 
         description: "طقم مميز وأنيق يضيف لمسة دافئة لضيافتك ولبيتك.",
-        price: 170,
+        price: 135,
         image: "IMG_8630.jpeg",
         category: "أطقم فناجين ✨",
-        stock: 5 
+        stock: 3
     },
     {
         name: "طقم أكواب الزهور", 
