@@ -11,10 +11,12 @@
         button { background: #C19A5B; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; transition: 0.2s; }
         button:hover { opacity: 0.9; }
         .item { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-bottom: 15px; border-radius: 8px; text-align: right; }
-        .flex-row { display: flex; gap: 10px; }
+        .flex-row { display: flex; gap: 10px; align-items: center; }
         .flex-row input { width: 50%; }
         #status { margin: 15px 0; font-weight: bold; color: #333; }
         .add-box { background: #f0faef; border: 2px dashed #4CAF50; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;}
+        .cat-box { background: #fff5e6; border: 2px dashed #ff9800; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;}
+        .cat-badge { display: inline-block; background: white; border: 1px solid #ddd; padding: 5px 15px; border-radius: 20px; margin: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -28,34 +30,47 @@
 <div id="admin-box" class="box" style="display:none;">
     <button onclick="logout()" style="background:#888; width:auto; float:left; padding:8px 15px;">יציאה</button>
     <div style="clear:both;"></div>
-    <h2>פאנל ניהול מוצרים 📦</h2>
+    <h2>פאנל ניהול 📦</h2>
     <div id="status"></div>
+
+    <div class="cat-box">
+        <h3 style="margin-top:0; color: #e65100;">🏷️ ניהול קטגוריות (ריבועים במסך הראשי)</h3>
+        <div class="flex-row">
+            <input type="text" id="new-cat-name" placeholder="שם הקטגוריה (למשל: أكواب)">
+            <input type="text" id="new-cat-emoji" placeholder="אימוג'י (למשל: ☕)" style="width:30%;">
+            <button onclick="addCategory()" style="background: #ff9800; width:40%;">הוסף ריבוע</button>
+        </div>
+        <div id="cats-visual-list" style="margin-top:15px; text-align:center;"></div>
+    </div>
 
     <datalist id="cats-list"></datalist>
 
     <div class="add-box">
         <h3 style="margin-top:0; color: #2e7d32;">✨ הוספת מוצר חדש</h3>
-        <input type="text" id="new-name" placeholder="שם המוצר (למשל: עוגת גבינה)">
+        <input type="text" id="new-name" placeholder="שם המוצר">
         <div class="flex-row">
             <input type="number" id="new-price" placeholder="מחיר (₪)">
-            <input type="number" id="new-stock" placeholder="מלאי (אופציונלי)">
+            <input type="number" id="new-stock" placeholder="מלאי">
         </div>
-        <input type="text" id="new-cat" list="cats-list" placeholder="בחר קטגוריה מהרשימה או הקלד חדשה 🔽">
-        <input type="text" id="new-img" placeholder="קישור לתמונה (URL) או נתיב">
+        <input type="text" id="new-cat" list="cats-list" placeholder="בחר לאיזה ריבוע/קטגוריה לשייך 🔽">
+        <input type="text" id="new-img" placeholder="קישור לתמונה">
         <textarea id="new-desc" placeholder="פירוט על המוצר..." rows="2"></textarea>
-        <button onclick="addProduct()" style="background: #4CAF50;">➕ הוסף לרשימה</button>
+        <button onclick="addProduct()" style="background: #4CAF50;">➕ הוסף מוצר</button>
     </div>
 
     <hr style="border: 1px solid #eee; margin: 30px 0;">
     
     <div id="list"></div>
-    <button onclick="saveData()" style="background:#222; margin-top:20px; font-size: 1.2em;">שמור ופרסם באתר 🚀</button>
+    <button onclick="saveAllData()" id="save-btn" style="background:#222; margin-top:20px; font-size: 1.2em;">שמור הכל ופרסם באתר 🚀</button>
 </div>
 
 <script>
     const REPO = "amirkara17/baiti-shop";
-    const PATH = "products.js";
+    const PROD_PATH = "products.js";
+    const CAT_PATH = "categories.js"; // קובץ חדש לקטגוריות
+    
     let prods = [];
+    let cats = [];
 
     window.onload = () => {
         if(localStorage.getItem('bt_token')) {
@@ -74,28 +89,62 @@
 
     function logout() { localStorage.removeItem('bt_token'); location.reload(); }
 
-    async function loadData() {
-        document.getElementById('status').innerText = "טוען נתונים מהאתר... ⏳";
+    async function fetchFile(path) {
         try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?t=${Date.now()}`, {
                 headers: { 'Authorization': `token ${localStorage.getItem('bt_token')}` }
             });
-            if (!res.ok) throw new Error('שגיאת חיבור');
+            if (!res.ok) return { data: [], sha: null }; // הקובץ כנראה לא קיים עדיין
             const data = await res.json();
             const text = decodeURIComponent(escape(atob(data.content)));
             const arrMatch = text.match(/\[[\s\S]*\]/);
-            if(arrMatch) prods = eval('(' + arrMatch[0] + ')');
-            
-            updateCategoriesList(); // מעדכן את הרשימה הנפתחת
-            render();
-            document.getElementById('status').innerText = "✅ המוצרים נטענו";
-        } catch(err) { document.getElementById('status').innerText = "❌ שגיאה: " + err.message; }
+            return { data: arrMatch ? eval('(' + arrMatch[0] + ')') : [], sha: data.sha };
+        } catch (e) { return { data: [], sha: null }; }
     }
 
-    // פונקציה חכמה ששולפת את כל הקטגוריות הקיימות
-    function updateCategoriesList() {
-        const uniqueCats = [...new Set(prods.map(p => p.category).filter(c => c))];
-        document.getElementById('cats-list').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
+    async function loadData() {
+        document.getElementById('status').innerText = "טוען נתונים מהאתר... ⏳";
+        
+        // טוען גם מוצרים וגם קטגוריות
+        const pRes = await fetchFile(PROD_PATH);
+        prods = pRes.data;
+        
+        const cRes = await fetchFile(CAT_PATH);
+        cats = cRes.data;
+
+        renderCategories();
+        renderProducts();
+        document.getElementById('status').innerText = "✅ הנתונים נטענו";
+    }
+
+    function addCategory() {
+        const name = document.getElementById('new-cat-name').value;
+        const emoji = document.getElementById('new-cat-emoji').value;
+        if(!name) return alert("חובה להזין שם קטגוריה!");
+        
+        cats.push({ name: name, icon: emoji });
+        document.getElementById('new-cat-name').value = '';
+        document.getElementById('new-cat-emoji').value = '';
+        renderCategories();
+    }
+
+    function removeCategory(index) {
+        if(confirm("למחוק את הקטגוריה הזו? (זה לא ימחק את המוצרים שבתוכה)")) {
+            cats.splice(index, 1);
+            renderCategories();
+        }
+    }
+
+    function renderCategories() {
+        // מעדכן את התפריט הנפתח של המוצרים
+        document.getElementById('cats-list').innerHTML = cats.map(c => `<option value="${c.name}">`).join('');
+        
+        // מעדכן את הריבועים שמוצגים למנהל
+        document.getElementById('cats-visual-list').innerHTML = cats.map((c, i) => `
+            <div class="cat-badge">
+                ${c.icon||''} ${c.name} <span style="color:red; cursor:pointer; margin-right:10px;" onclick="removeCategory(${i})">✖</span>
+            </div>
+        `).join('');
     }
 
     function addProduct() {
@@ -114,20 +163,17 @@
         });
 
         document.querySelectorAll('.add-box input, .add-box textarea').forEach(el => el.value = '');
-        updateCategoriesList(); // מרענן את התפריט אם נוספה קטגוריה חדשה
-        render();
-        window.scrollTo({ top: document.getElementById('list').offsetTop, behavior: 'smooth' });
+        renderProducts();
     }
 
     function removeProduct(index) {
         if(confirm("האם אתה בטוח שברצונך למחוק מוצר זה?")) {
             prods.splice(index, 1);
-            updateCategoriesList();
-            render();
+            renderProducts();
         }
     }
 
-    function render() {
+    function renderProducts() {
         let html = '';
         prods.forEach((p, i) => {
             html += `
@@ -141,7 +187,7 @@
                     <input type="number" placeholder="מלאי" value="${p.stock||0}" onchange="prods[${i}].stock=Number(this.value)">
                 </div>
                 <div class="flex-row">
-                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value; updateCategoriesList();">
+                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value">
                     <input type="text" placeholder="קישור לתמונה" value="${p.image||''}" onchange="prods[${i}].image=this.value">
                 </div>
                 <textarea placeholder="תיאור המוצר" rows="2" onchange="prods[${i}].description=this.value">${p.description||''}</textarea>
@@ -150,27 +196,42 @@
         document.getElementById('list').innerHTML = html;
     }
 
-    async function saveData() {
+    async function saveFile(path, dataArray, varName) {
         const token = localStorage.getItem('bt_token');
-        document.getElementById('status').innerText = "שומר נתונים בשרת... ⏳";
+        const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?t=${Date.now()}`, { headers: { 'Authorization': `token ${token}` } });
+        let freshSha = null;
+        if(resGet.ok) freshSha = (await resGet.json()).sha;
+
+        const newContent = `const ${varName} = ${JSON.stringify(dataArray, null, 4)};`;
+        const encoded = btoa(unescape(encodeURIComponent(newContent)));
+        
+        const body = { message: `Update ${path}`, content: encoded };
+        if(freshSha) body.sha = freshSha;
+
+        const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            method: 'PUT',
+            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if(!resPut.ok) throw new Error(`שגיאה בשמירת ${path}`);
+    }
+
+    async function saveAllData() {
+        const btn = document.getElementById('save-btn');
+        btn.disabled = true; btn.innerText = "שומר... ⏳";
+        document.getElementById('status').innerText = "מעדכן שרת... ⏳";
         try {
-            const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
-                headers: { 'Authorization': `token ${token}` }
-            });
-            const freshSha = (await resGet.json()).sha;
-
-            const newContent = `const myProducts = ${JSON.stringify(prods, null, 4)};`;
-            const encoded = btoa(unescape(encodeURIComponent(newContent)));
-
-            const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Update via Admin - Dynamic Cats", content: encoded, sha: freshSha })
-            });
-
-            if(!resPut.ok) throw new Error('השמירה נכשלה');
-            document.getElementById('status').innerText = "🎉 נשמר! האתר מתעדכן.";
-        } catch(err) { document.getElementById('status').innerText = "❌ שגיאה: " + err.message; }
+            // שומר את הקטגוריות
+            await saveFile(CAT_PATH, cats, 'myCategories');
+            // שומר את המוצרים
+            await saveFile(PROD_PATH, prods, 'myProducts');
+            
+            document.getElementById('status').innerText = "🎉 נשמר בהצלחה! האתר מתעדכן.";
+        } catch(err) { 
+            document.getElementById('status').innerText = "❌ " + err.message; 
+        } finally {
+            btn.disabled = false; btn.innerText = "שמור הכל ופרסם באתר 🚀";
+        }
     }
 </script>
 </body>
