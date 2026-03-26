@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -8,28 +6,56 @@ exports.handler = async (event) => {
   try {
     const token = process.env.GITHUB_TOKEN;
     if (!token) {
-      return { statusCode: 500, body: 'Missing GITHUB_TOKEN in Netlify environment variables' };
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ success: false, message: 'Missing GITHUB_TOKEN' })
+      };
     }
 
     const { products, categories } = JSON.parse(event.body || '{}');
 
     if (!Array.isArray(products) || !Array.isArray(categories)) {
-      return { statusCode: 400, body: 'Invalid payload' };
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ success: false, message: 'Invalid payload' })
+      };
     }
 
     const owner = 'amirkara17';
     const repo = 'baiti-shop';
     const branch = 'main';
 
-    async function getFile(path) {
-      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
-      const res = await axios.get(url, {
+    async function githubRequest(url, options = {}) {
+      const response = await fetch(url, {
+        ...options,
         headers: {
           Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json'
+          Accept: 'application/vnd.github+json',
+          ...(options.headers || {})
         }
       });
-      return res.data;
+
+      const text = await response.text();
+
+      let data;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        data = text;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          (data && data.message) || text || `GitHub request failed: ${response.status}`
+        );
+      }
+
+      return data;
+    }
+
+    async function getFile(path) {
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
+      return await githubRequest(url, { method: 'GET' });
     }
 
     async function updateFile(path, varName, dataArray) {
@@ -39,21 +65,16 @@ exports.handler = async (event) => {
       const encoded = Buffer.from(newContent, 'utf8').toString('base64');
 
       const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      await axios.put(
-        url,
-        {
+      await githubRequest(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           message: `Update ${path}`,
           content: encoded,
           sha: current.sha,
           branch
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json'
-          }
-        }
-      );
+        })
+      });
     }
 
     await updateFile('products.js', 'myProducts', products);
@@ -64,12 +85,12 @@ exports.handler = async (event) => {
       body: JSON.stringify({ success: true, message: 'Saved successfully' })
     };
   } catch (error) {
-    console.error('save-admin error:', error.response?.data || error.message);
+    console.error('save-admin error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.response?.data?.message || error.message || 'Server error'
+        message: error.message || 'Server error'
       })
     };
   }
