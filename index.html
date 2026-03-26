@@ -103,8 +103,11 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <script src="categories.js" onerror="window.myCategories = []"></script>
-    <script src="products.js"></script>
+    <script>
+      const __v = Date.now();
+      document.write(`<script src="categories.js?v=${__v}" onerror="window.myCategories = []"><\/script>`);
+      document.write(`<script src="products.js?v=${__v}"><\/script>`);
+    </script>
 
     <script type="text/javascript">
         (function(){
@@ -127,18 +130,17 @@
     <div id="home-view">
         <div class="hero-section">
             <img src="IMG_8489.jpeg" class="main-logo">
-            <p class="hero-subtitle">لمسة خاصة لبيتك 🤍 الدفع عند الاستلام</p>
+            <p class="hero-subtitle">لمسة خاصة لبيتك 🤍 הדפסה על הכל</p>
             <a href="https://www.instagram.com/baiti.55/" target="_blank" class="ig-link">
-                <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
                 تابعونا على الانستجرام
             </a>
         </div>
         <div class="home-categories" id="home-categories">
             <div class="category-card all-products-card" onclick="openCategory('all')">
                 <h2>✨ جميع المنتجات ✨</h2>
-                <p>اضغط لعرض كل التشكيلة</p>
+                <p>اضغط لعرض כל הקולקציה</p>
             </div>
-            </div>
+        </div>
     </div>
 
     <div id="category-view" class="category-view">
@@ -171,7 +173,7 @@
                 <input type="text" id="c-name" placeholder="الاسم الكامل">
                 <input type="tel" id="c-phone" placeholder="رقم الهاتف">
                 <input type="email" id="c-email" placeholder="البريد الإلكتروني (اختياري)">
-                <input type="text" id="c-addr" placeholder="عنوان التوصيل (البلد، الشارع)">
+                <input type="text" id="c-addr" placeholder="عنوان التوصيل">
                 <button class="btn-add" id="submit-btn" onclick="sendOrderSecure()">إتمام الطلب</button>
             </div>
         </div>
@@ -182,12 +184,8 @@
         <button class="close-menu" onclick="toggleMenu()">×</button>
         <h2 style="color: var(--dark); margin-top: 0; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px;">القائمة</h2>
         <ul class="menu-list" id="dynamic-menu-list">
-            <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية (العودة)</li>
+            <li onclick="goHome(); toggleMenu()"><span style="color: #C19A5B;">🏠</span> الرئيسية</li>
             <li onclick="openCategory('all'); toggleMenu()"><span style="color: #4CAF50;">🛍️</span> جميع المنتجات</li>
-            </ul>
-        <ul class="menu-list" style="margin-top: 0;">
-            <li style="border-top: 2px solid #f0f0f0; margin-top: 10px; padding-top: 20px;" onclick="openWishlist(); toggleMenu()"><span style="color: #dc2743;">❤️</span> المفضلة</li>
-            <li onclick="window.open('https://www.instagram.com/baiti.55/', '_blank')"><span style="color: #bc1888;">📸</span> الانستجرام</li>
         </ul>
     </div>
 
@@ -195,7 +193,7 @@
         <div class="success-box">
             <div style="font-size:4em;">✨</div>
             <h2 style="color:var(--primary); margin:10px 0;">شكراً لك!</h2>
-            <p style="color:var(--dark); margin-bottom:25px;">تم استلام طلبك بنجاح 🤍<br>سنتواصل معك قريباً.</p>
+            <p style="color:var(--dark); margin-bottom:25px;">تم استلام طلبך بنجاح 🤍</p>
             <button onclick="location.reload()" style="background:var(--dark); color:white; border:none; padding:12px 30px; border-radius:50px; cursor:pointer; font-weight:700;">العودة للمتجر</button>
         </div>
     </div>
@@ -203,33 +201,22 @@
     <div class="toast" id="toast">✔️ تمت إضافة المنتج</div>
 
     <script>
-        let cart = []; let wishlist = []; let total = 0;
-
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false;
-            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        }
+        let cart = [];
+        let wishlist = [];
+        let total = 0;
 
         window.addEventListener('scroll', function() {
             var fb = document.getElementById('floating-back');
-            if (document.getElementById('home-view').style.display === 'none' && window.scrollY > 150) {
-                fb.style.display = 'flex';
-            } else {
-                fb.style.display = 'none';
-            }
+            if (document.getElementById('home-view').style.display === 'none' && window.scrollY > 150) fb.style.display = 'flex';
+            else fb.style.display = 'none';
         });
 
         window.addEventListener('popstate', function(event) {
-            document.getElementById('cart-drawer').classList.remove('active');
-            document.getElementById('cart-overlay').classList.remove('active');
-            document.getElementById('menu-drawer').classList.remove('active');
-            document.getElementById('menu-overlay').classList.remove('active');
-            
+            document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
             if (event.state) {
                 if (event.state.view === 'category') openCategory(event.state.name, false, true);
                 else if (event.state.view === 'wishlist') openWishlist(false, true);
-                else if (event.state.view === 'home') goHome(true);
+                else goHome(true);
             } else {
                 goHome(true);
             }
@@ -239,27 +226,11 @@
             history.replaceState({ view: 'home' }, '', window.location.pathname);
             const container = document.getElementById('home-categories');
             const menuContainer = document.getElementById('dynamic-menu-list');
-            
-            // חיבור מנגנון הקטגוריות החדש לפאנל
-            let categoriesToRender = [];
-            if (typeof myCategories !== 'undefined' && myCategories.length > 0) {
-                categoriesToRender = myCategories; // שואב מפאנל הניהול
-            } else {
-                // מקרה גיבוי (אם עדיין לא נשמרו קטגוריות בפאנל)
-                if(typeof myProducts === 'undefined') window.myProducts = [];
-                const uniqueCats = [...new Set(myProducts.map(p => p.category).filter(Boolean))];
-                categoriesToRender = uniqueCats.map(c => ({ name: c, icon: '✨' }));
-            }
-            
+            let categoriesToRender = (typeof myCategories !== 'undefined' && myCategories.length > 0) ? myCategories : [];
+
             categoriesToRender.forEach(c => {
-                container.innerHTML += `
-                <div class="category-card" onclick="openCategory('${c.name}')">
-                    <div style="font-size: 2.2em; margin-bottom: 8px;">${c.icon || ''}</div>
-                    <h2>${c.name}</h2>
-                    <p style="color:var(--gray); font-size:0.9em; margin-top:5px;">اضغط لعرض المنتجات</p>
-                </div>`;
-                
-                menuContainer.innerHTML += `<li onclick="openCategory('${c.name}'); toggleMenu()"><span style="color: #C19A5B;">${c.icon || '✨'}</span> ${c.name}</li>`;
+                container.innerHTML += `<div class="category-card" onclick="openCategory('${c.name}')"><div style="font-size: 2.2em; margin-bottom: 8px;">${c.icon || ''}</div><h2>${c.name}</h2></div>`;
+                menuContainer.innerHTML += `<li onclick="openCategory('${c.name}'); toggleMenu()"><span>${c.icon || '✨'}</span> ${c.name}</li>`;
             });
         }
 
@@ -267,9 +238,11 @@
             const d = document.getElementById('menu-drawer');
             if (!d.classList.contains('active')) {
                 history.pushState({ modal: 'menu' }, '', '#menu');
-                d.classList.add('active'); document.getElementById('menu-overlay').classList.add('active');
+                d.classList.add('active');
+                document.getElementById('menu-overlay').classList.add('active');
             } else {
-                d.classList.remove('active'); document.getElementById('menu-overlay').classList.remove('active');
+                d.classList.remove('active');
+                document.getElementById('menu-overlay').classList.remove('active');
             }
         }
 
@@ -277,216 +250,195 @@
             const d = document.getElementById('cart-drawer');
             if (!d.classList.contains('active')) {
                 history.pushState({ modal: 'cart' }, '', '#cart');
-                d.classList.add('active'); document.getElementById('cart-overlay').classList.add('active');
+                d.classList.add('active');
+                document.getElementById('cart-overlay').classList.add('active');
             } else {
-                d.classList.remove('active'); document.getElementById('cart-overlay').classList.remove('active');
+                d.classList.remove('active');
+                document.getElementById('cart-overlay').classList.remove('active');
             }
-        }
-
-        function renderProductCard(p, i) {
-            const heart = wishlist.includes(i) ? '❤️' : '🤍';
-            const stock = p.stock !== undefined ? p.stock : 100;
-            const likeBtnHtml = `<button id="like-btn-${i}" class="like-btn" onclick="toggleLike(${i})">${heart}</button>`;
-            
-            // הוספת התיאור של המוצר (אם קיים)
-            const descHtml = p.description ? `<div class="product-desc">${p.description}</div>` : '';
-
-            // התראת מלאי כשאזל
-            if (stock === 0) {
-                return `<div class="product-card">
-                    ${likeBtnHtml}
-                    <div class="img-wrapper"><img src="${p.image}"></div>
-                    <div class="product-info">
-                        <h3>${p.name}</h3>
-                        ${descHtml}
-                        <div style="color:var(--danger); font-weight:bold; margin-top:auto; padding-top:10px;">نفدت الكمية حالياً 💔</div>
-                        <div class="price-row"><span class="price">₪${p.price}</span></div>
-                        <button class="btn-add" disabled style="background:#e0e0e0; color:#999;">نفدت الكمية</button>
-                    </div>
-                </div>`;
-            }
-
-            // התראת מלאי נמוך (אם נשאר 1 או 2 פריטים) - "סارعوا! تبقى X فقط"
-            let stockWarningHtml = '';
-            if (stock > 0 && stock <= 2) {
-                stockWarningHtml = `<div class="stock-warning">سارعوا! تبقى ${stock} فقط 🔥</div>`;
-            }
-
-            return `<div class="product-card">
-                ${likeBtnHtml}
-                <div class="img-wrapper"><img src="${p.image}"></div>
-                <div class="product-info">
-                    <h3>${p.name}</h3>
-                    ${descHtml}
-                    ${stockWarningHtml}
-                    <div class="price-row">
-                        <span class="price">₪${p.price}</span>
-                        <div class="qty-control">
-                            <button class="qty-btn" onclick="updateQty(${i},-1)">-</button>
-                            <input id="q-${i}" class="qty-input" value="1" readonly>
-                            <button class="qty-btn" onclick="updateQty(${i},1)">+</button>
-                        </div>
-                    </div>
-                    <button class="btn-add" onclick="add(${i})">إضافة للسلة 🛒</button>
-                </div>
-            </div>`;
-        }
-
-        function openCategory(name, scroll = false, hist = false) {
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('wishlist-view').style.display = 'none';
-            document.getElementById('category-view').style.display = 'block';
-            document.getElementById('floating-back').style.display = 'none';
-            document.getElementById('current-category-title').innerText = name === 'all' ? "جميع المنتجات ✨" : name;
-            const container = document.getElementById('products-container'); container.innerHTML = '';
-            myProducts.forEach((p, i) => { if(name === 'all' || p.category === name) container.innerHTML += renderProductCard(p, i); });
-            if (!hist) history.pushState({ view: 'category', name: name }, '', '#category');
-            if (!scroll) window.scrollTo(0,0);
         }
 
         function openWishlist(scroll = false, hist = false) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'block';
-            document.getElementById('floating-back').style.display = 'none';
-            const container = document.getElementById('wishlist-container'); container.innerHTML = '';
-            if(wishlist.length === 0) container.innerHTML = '<p style="text-align:center; width:100%;">المفضلة فارغة حالياً 🤍</p>';
-            else wishlist.forEach(i => container.innerHTML += renderProductCard(myProducts[i], i));
+
+            const container = document.getElementById('wishlist-container');
+            container.innerHTML = '';
+
+            if (!wishlist.length) {
+                container.innerHTML = `<div style="text-align:center; color:#888;">لا توجد منتجات في المفضلة</div>`;
+            } else {
+                wishlist.forEach(i => {
+                    if (myProducts[i]) container.innerHTML += renderProductCard(myProducts[i], i);
+                });
+            }
+
             if (!hist) history.pushState({ view: 'wishlist' }, '', '#wishlist');
             if (!scroll) window.scrollTo(0, 0);
         }
 
         function toggleLike(i) {
-            const idx = wishlist.indexOf(i);
-            if (idx > -1) { wishlist.splice(idx, 1); showToast("تمت الإزالة 🤍"); }
-            else { wishlist.push(i); showToast("تم الحفظ ❤️"); }
-            
-            const btn = document.getElementById(`like-btn-${i}`);
-            if (btn) btn.innerText = idx > -1 ? '🤍' : '❤️';
-            if (document.getElementById('wishlist-view').style.display === 'block' && idx > -1) { 
-                let currentScroll = window.scrollY; openWishlist(true, true); window.scrollTo(0, currentScroll); 
+            if (wishlist.includes(i)) {
+                wishlist = wishlist.filter(x => x !== i);
+            } else {
+                wishlist.push(i);
             }
+
+            if (document.getElementById('wishlist-view').style.display === 'block') {
+                openWishlist(true, true);
+            } else if (document.getElementById('category-view').style.display === 'block') {
+                const title = document.getElementById('current-category-title').innerText;
+                const catName = title === "جميع المنتجات" ? 'all' : title;
+                openCategory(catName, true, true);
+            }
+        }
+
+        function renderProductCard(p, i) {
+            const heart = wishlist.includes(i) ? '❤️' : '🤍';
+            const stock = p.stock !== undefined ? p.stock : 100;
+            const descHtml = p.description ? `<div class="product-desc">${p.description}</div>` : '';
+
+            if (stock === 0) {
+                return `<div class="product-card"><div class="img-wrapper"><img src="${p.image}"></div><div class="product-info"><h3>${p.name}</h3>${descHtml}<div style="color:var(--danger); font-weight:bold;">نفدت الكمية</div></div></div>`;
+            }
+
+            let stockWarning = (stock > 0 && stock <= 2) ? `<div class="stock-warning">تبقى ${stock} فقط 🔥</div>` : '';
+
+            return `<div class="product-card"><button class="like-btn" onclick="toggleLike(${i})">${heart}</button><div class="img-wrapper"><img src="${p.image}"></div><div class="product-info"><h3>${p.name}</h3>${descHtml}${stockWarning}<div class="price-row"><span class="price">₪${p.price}</span><div class="qty-control"><button class="qty-btn" onclick="updateQty(${i},-1)">-</button><input id="q-${i}" class="qty-input" value="1" readonly><button class="qty-btn" onclick="updateQty(${i},1)">+</button></div></div><button class="btn-add" onclick="add(${i})">إضافة للسلة 🛒</button></div></div>`;
+        }
+
+        function openCategory(name, scroll = false, hist = false) {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('wishlist-view').style.display = 'none';
+            document.getElementById('category-view').style.display = 'block';
+            document.getElementById('current-category-title').innerText = name === 'all' ? "جميع المنتجات" : name;
+
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            myProducts.forEach((p, i) => {
+                if (name === 'all' || p.category === name) {
+                    container.innerHTML += renderProductCard(p, i);
+                }
+            });
+
+            if (!hist) history.pushState({ view: 'category', name: name }, '', '#category');
+            if (!scroll) window.scrollTo(0, 0);
         }
 
         function updateQty(i, d) {
             let el = document.getElementById(`q-${i}`);
             let v = parseInt(el.value) + d;
             const max = myProducts[i].stock !== undefined ? myProducts[i].stock : 100;
-            if(v < 1) v = 1;
-            if(v > max) { alert(`متوفر ${max} فقط.`); v = max; }
-            el.value = v;
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+            if (v >= 1 && v <= max) el.value = v;
         }
 
         function add(i) {
-            const p = myProducts[i]; const q = parseInt(document.getElementById(`q-${i}`).value);
+            const p = myProducts[i];
+            const q = parseInt(document.getElementById(`q-${i}`).value);
             const exist = cart.find(x => x.name === p.name);
-            const max = p.stock !== undefined ? p.stock : 100;
-            if ((exist ? exist.quantity : 0) + q > max) return alert("عذراً، الكمية غير كافية.");
-            if(exist) exist.quantity += q; else cart.push({name:p.name, price:p.price, quantity:q});
-            total += (p.price * q); updateUI();
-            document.getElementById(`q-${i}`).value = 1;
-            showToast("✔️ تمت الإضافة للسلة");
-        }
 
-        function remove(i) {
-            total -= (cart[i].price * cart[i].quantity); cart.splice(i, 1); updateUI();
+            if (exist) exist.quantity += q;
+            else cart.push({ name: p.name, price: p.price, quantity: q });
+
+            total += (p.price * q);
+            updateUI();
+            showToast("✔️ تمت الإضافة");
         }
 
         function updateUI() {
-            const div = document.getElementById('cart-items'); div.innerHTML = cart.length ? '' : '<p style="text-align:center;">السلة فارغة</p>';
-            cart.forEach((item, i) => div.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #f0f0f0; padding-bottom:10px;">
-                <div style="display:flex; flex-direction:column;">
-                    <span style="font-weight:700;">${item.name}</span>
-                    <span style="color:var(--gray); font-size:0.9em;">(الكمية: ${item.quantity})</span>
-                </div>
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <span style="font-weight:800; color:var(--dark);">₪${item.price*item.quantity}</span>
-                    <button onclick="remove(${i})" style="background:none; border:none; color:var(--danger); font-size:1.2em; cursor:pointer;">🗑️</button>
-                </div>
-            </div>`);
+            const div = document.getElementById('cart-items');
+            div.innerHTML = cart.length ? '' : '<p>السلة فارغة</p>';
+
+            cart.forEach((item) => {
+                div.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;"><span>${item.name} (${item.quantity})</span><span>₪${item.price * item.quantity}</span></div>`;
+            });
+
             document.getElementById('total-price').innerText = total + ' ₪';
-            document.getElementById('cart-count').innerText = cart.reduce((a,b)=>a+b.quantity,0);
+            document.getElementById('cart-count').innerText = cart.reduce((a, b) => a + b.quantity, 0);
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
         }
 
         function goHome(hist = false) {
             document.getElementById('category-view').style.display = 'none';
             document.getElementById('wishlist-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
-            document.getElementById('floating-back').style.display = 'none';
             if (!hist) history.pushState({ view: 'home' }, '', window.location.pathname);
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
         }
 
-        function fireConfetti() {
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 4000 };
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) { return clearInterval(interval); }
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
-        }
-
-        function sendOrderSecure() {
-            const name = document.getElementById('c-name').value;
-            const phone = document.getElementById('c-phone').value;
-            const email = document.getElementById('c-email').value || 'لا يوجد';
-            const addr = document.getElementById('c-addr').value;
-
-            if(!name || !phone || !addr || cart.length === 0) { alert("الرجاء تعبئة جميع البيانات المطلوبة"); return; }
-            
-            const btn = document.getElementById('submit-btn'); btn.disabled = true; btn.innerText = "جاري الإرسال...";
-
-            let secureTotal = 0; let details = ""; let isTampered = false;
-            cart.forEach(item => {
-                const orig = myProducts.find(p => p.name === item.name);
-                if(!orig || item.price !== orig.price || item.quantity < 1) isTampered = true;
-                else {
-                    secureTotal += (orig.price * item.quantity);
-                    details += `- ${item.name} (الكمية: ${item.quantity})\n`;
-                }
-            });
-
-            if(isTampered || secureTotal !== total) {
-                cart = []; total = 0; updateUI();
-                alert("تم اكتشاف خطأ، يرجى المحاولة مرة أخرى.");
-                btn.disabled = false; btn.innerText = "إتمام الطلب"; return;
-            }
-
-            const params = {
-                customer_name: name,
-                customer_phone: phone,
-                customer_email: email,
-                customer_address: addr,
-                order_details: details,
-                total_amount: secureTotal + " ₪"
+        async function sendOrderSecure() {
+            const customerDetails = {
+                name: document.getElementById('c-name').value,
+                phone: document.getElementById('c-phone').value,
+                addr: document.getElementById('c-addr').value
             };
 
-            emailjs.send('service_rx74wyj', 'template_2oma7tb', params)
-                .then(() => {
-                    toggleCart();
-                    document.getElementById('success-overlay').classList.add('active');
-                    fireConfetti();
-                    
-                    cart = []; total = 0; updateUI();
-                    document.getElementById('c-name').value = ""; 
-                    document.getElementById('c-phone').value = ""; 
-                    document.getElementById('c-email').value = ""; 
-                    document.getElementById('c-addr').value = "";
-                    btn.disabled = false; btn.innerText = "إتمام الطلب";
-                }, () => { 
-                    alert("حدث خطأ في الإرسال"); 
-                    btn.disabled = false; btn.innerText = "إتمام الطلب"; 
+            if (!customerDetails.name || !customerDetails.phone || !customerDetails.addr || cart.length === 0) {
+                alert("נא למלא את כל הפרטים");
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = "מעבד הזמנה מאובטחת... ⏳";
+
+            try {
+                const response = await fetch('/.netlify/functions/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cart, customerDetails })
                 });
+
+                const text = await response.text();
+                let result = null;
+
+                try {
+                    result = JSON.parse(text);
+                } catch (_) {
+                    result = null;
+                }
+
+                if (!response.ok) {
+                    throw new Error((result && result.message) || text || 'Request failed');
+                }
+
+                const params = {
+                    customer_name: customerDetails.name,
+                    customer_phone: customerDetails.phone,
+                    customer_address: customerDetails.addr,
+                    order_details: result.summary,
+                    total_amount: result.totalPrice + " ₪"
+                };
+
+                await emailjs.send('service_rx74wyj', 'template_2oma7tb', params);
+
+                toggleCart();
+                document.getElementById('success-overlay').classList.add('active');
+                if (typeof confetti === 'function') confetti();
+
+                cart = [];
+                total = 0;
+                updateUI();
+
+                document.getElementById('c-name').value = "";
+                document.getElementById('c-phone').value = "";
+                document.getElementById('c-email').value = "";
+                document.getElementById('c-addr').value = "";
+            } catch (err) {
+                console.error("sendOrderSecure error:", err);
+                alert("שגיאה בעיבוד ההזמנה: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "إتمام الطلب";
+            }
         }
 
         window.onload = init;
