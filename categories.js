@@ -14,9 +14,5 @@ const myCategories = [
     {
         "name": "ديزني الأصلي 🪄",
         "icon": "🪄"
-    },
-    {
-        "name": "ד",
-        "icon": "ד"
     }
 ];
