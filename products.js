@@ -1,5 +1,14 @@
 const myProducts = [
     {
+        "id": "prod_1774529344653",
+        "name": "21",
+        "price": 52,
+        "stock": 1,
+        "category": "היי",
+        "image": "",
+        "description": ""
+    },
+    {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
         "price": 135,
