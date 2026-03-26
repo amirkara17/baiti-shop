@@ -1,22 +1,18 @@
 const myCategories = [
     {
         "name": "أطقم فناجين ✨",
-        "icon": "📁"
+        "icon": "✨"
     },
     {
         "name": "تشكيلة القلعة 🏰",
-        "icon": "📁"
+        "icon": "🏰"
     },
     {
         "name": "أكواب ☕",
-        "icon": "📁"
+        "icon": "☕"
     },
     {
         "name": "ديزني الأصلي 🪄",
-        "icon": "📁"
-    },
-    {
-        "name": "faasd",
-        "icon": "📁"
+        "icon": "🪄"
     }
 ];
