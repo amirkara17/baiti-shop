@@ -1,6 +1,1 @@
-const myCategories = [
-    {
-        "name": "נסיון",
-        "icon": "📁"
-    }
-];
+const myCategories = [];
