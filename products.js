@@ -1,11 +1,11 @@
 const myProducts = [
     {
-        "id": "prod_1774529344653",
-        "name": "21",
-        "price": 52,
+        "id": "prod_1774529457988",
+        "name": "ניסו",
+        "price": 1,
         "stock": 1,
-        "category": "היי",
-        "image": "",
+        "category": "ניסוי",
+        "image": "Screenshot 2024-12-11 185626.png",
         "description": ""
     },
     {
