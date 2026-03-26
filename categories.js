@@ -1,6 +1,1 @@
-const myCategories = [
-    {
-        "name": "ך",
-        "icon": "ל,"
-    }
-];
+const myCategories = [];
