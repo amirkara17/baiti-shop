@@ -22,9 +22,7 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
 
-        h1, h2, h3 {
-            margin-top: 0;
-        }
+        h1, h2, h3 { margin-top: 0; }
 
         input, textarea, select {
             width: 100%;
@@ -37,9 +35,7 @@
             font-size: 14px;
         }
 
-        textarea {
-            resize: vertical;
-        }
+        textarea { resize: vertical; }
 
         button {
             border: none;
@@ -50,29 +46,10 @@
             font-family: inherit;
         }
 
-        .btn-main {
-            background: #C19A5B;
-            color: white;
-        }
-
-        .btn-main:hover {
-            opacity: 0.92;
-        }
-
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-blue {
-            background: #2563eb;
-            color: white;
-        }
-
-        .btn-gray {
-            background: #6b7280;
-            color: white;
-        }
+        .btn-main { background: #C19A5B; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
+        .btn-blue { background: #2563eb; color: white; }
+        .btn-gray { background: #6b7280; color: white; }
 
         .row {
             display: grid;
@@ -136,19 +113,16 @@
         }
 
         @media (max-width: 700px) {
-            .row, .row-3 {
-                grid-template-columns: 1fr;
-            }
+            .row, .row-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
 <div id="login-box" class="box" style="max-width: 500px;">
-    <h2>התחברות למערכת 🔒</h2>
-    <p class="muted">הטוקן נשמר בדפדפן רק לטעינה. השמירה עצמה מתבצעת דרך Netlify Function.</p>
-    <input type="password" id="gh-token" placeholder="הדבק כאן את הטוקן">
-    <button class="btn-main" onclick="login()" style="width:100%;">היכנס</button>
+    <h2>כניסה לפאנל ניהול 🔒</h2>
+    <input type="password" id="admin-password" placeholder="הכנס סיסמת ניהול">
+    <button class="btn-main" onclick="login()" style="width:100%;">כניסה</button>
 </div>
 
 <div id="admin-box" class="box" style="display:none;">
@@ -207,6 +181,7 @@
     let prods = [];
     let cats = [];
     let currentFilter = "";
+    let adminPassword = sessionStorage.getItem("admin_password") || "";
 
     function setStatus(message, isError = false) {
         const el = document.getElementById("status");
@@ -215,17 +190,20 @@
     }
 
     function login() {
-        const token = document.getElementById("gh-token").value.trim();
-        if (!token) {
-            alert("יש להדביק טוקן");
+        const password = document.getElementById("admin-password").value.trim();
+        if (!password) {
+            alert("יש להזין סיסמה");
             return;
         }
-        localStorage.setItem("bt_token", token);
-        location.reload();
+        adminPassword = password;
+        sessionStorage.setItem("admin_password", password);
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("admin-box").style.display = "block";
+        loadData();
     }
 
     function logout() {
-        localStorage.removeItem("bt_token");
+        sessionStorage.removeItem("admin_password");
         location.reload();
     }
 
@@ -247,15 +225,26 @@
 
         cats.forEach(cat => {
             if (!cat || !cat.name || !cat.name.trim()) return;
+
             const name = cat.name.trim();
-            const icon = (cat.icon || "📁").trim() || "📁";
-            if (!map.has(name)) map.set(name, { name, icon });
+            const icon = (cat.icon || "").trim() || "📁";
+
+            if (!map.has(name)) {
+                map.set(name, { name, icon });
+            } else {
+                const existing = map.get(name);
+                if ((existing.icon === "📁" || !existing.icon) && icon !== "📁") {
+                    map.set(name, { name, icon });
+                }
+            }
         });
 
         prods.forEach(p => {
             const name = (p.category || "").trim();
             if (!name) return;
-            if (!map.has(name)) map.set(name, { name, icon: "📁" });
+            if (!map.has(name)) {
+                map.set(name, { name, icon: "📁" });
+            }
         });
 
         cats = Array.from(map.values());
@@ -521,7 +510,8 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     products: prods,
-                    categories: cats
+                    categories: cats,
+                    password: adminPassword
                 })
             });
 
@@ -572,9 +562,14 @@
     }
 
     window.onload = () => {
-        document.getElementById("login-box").style.display = "none";
-        document.getElementById("admin-box").style.display = "block";
-        loadData();
+        if (adminPassword) {
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("admin-box").style.display = "block";
+            loadData();
+        } else {
+            document.getElementById("login-box").style.display = "block";
+            document.getElementById("admin-box").style.display = "none";
+        }
     };
 </script>
 
