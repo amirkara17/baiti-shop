@@ -1,6 +1,6 @@
 const myCategories = [
     {
-        "name": "שכ",
-        "icon": "כ"
+        "name": "ך",
+        "icon": "ל,"
     }
 ];
