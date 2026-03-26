@@ -1,14 +1,5 @@
 const myProducts = [
     {
-        "id": "prod_1774529457988",
-        "name": "ניסו",
-        "price": 1,
-        "stock": 1,
-        "category": "ניסוי",
-        "image": "Screenshot 2024-12-11 185626.png",
-        "description": ""
-    },
-    {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
         "price": 135,
@@ -19,7 +10,7 @@ const myProducts = [
     {
         "name": "طقم أكواب الزهور",
         "description": "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
-        "price": 145,
+        "price": 140,
         "image": "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg",
         "category": "أطقم فناجين ✨",
         "stock": 0
