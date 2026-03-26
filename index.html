@@ -61,7 +61,6 @@
         .back-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 1em; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
         .category-title-header { margin: 0 0 30px 0; color: var(--dark); font-size: 2em; text-align: right; border-bottom: 2px solid #EAE3D9; padding-bottom: 15px; }
 
-        /* הכפתור הצף */
         .floating-back-btn { position: fixed; bottom: 20px; left: 20px; background-color: var(--dark); color: var(--white); border: none; border-radius: 50px; padding: 12px 25px; font-family: inherit; font-weight: 700; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 90; display: none; align-items: center; gap: 8px; transition: 0.3s; }
 
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-bottom: 50px; }
@@ -73,7 +72,11 @@
         .img-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 10px; box-sizing: border-box; }
         
         .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .product-info h3 { margin: 0 0 10px 0; font-size: 1.3em; color: var(--dark); font-weight: 700; }
+        .product-info h3 { margin: 0 0 5px 0; font-size: 1.3em; color: var(--dark); font-weight: 700; }
+        .product-desc { color: var(--gray); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.5; }
+        
+        .stock-warning { background-color: #fff3e0; color: #e65100; padding: 6px 10px; border-radius: 6px; font-size: 0.85em; font-weight: bold; text-align: center; border: 1px dashed #ffb74d; margin-bottom: 12px; }
+        
         .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; }
         .price { color: var(--primary); font-weight: 800; font-size: 1.4em; }
         .qty-control { display: flex; align-items: center; border: 1px solid #EAE3D9; border-radius: 8px; background: #fcfbf9; }
@@ -100,6 +103,7 @@
 </head>
 <body oncontextmenu="return false;">
 
+    <script src="categories.js" onerror="window.myCategories = []"></script>
     <script src="products.js"></script>
 
     <script type="text/javascript">
@@ -134,7 +138,7 @@
                 <h2>✨ جميع المنتجات ✨</h2>
                 <p>اضغط لعرض كل التشكيلة</p>
             </div>
-        </div>
+            </div>
     </div>
 
     <div id="category-view" class="category-view">
@@ -207,7 +211,6 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         }
 
-        // הכפתור הצף קופץ אחרי גלילה קצרה בכל מסך שהוא לא המסך הראשי
         window.addEventListener('scroll', function() {
             var fb = document.getElementById('floating-back');
             if (document.getElementById('home-view').style.display === 'none' && window.scrollY > 150) {
@@ -236,13 +239,27 @@
             history.replaceState({ view: 'home' }, '', window.location.pathname);
             const container = document.getElementById('home-categories');
             const menuContainer = document.getElementById('dynamic-menu-list');
-            const cats = [...new Set(myProducts.map(p => p.category))];
             
-            cats.forEach(c => {
-                // הוספת קטגוריות למסך הבית
-                container.innerHTML += `<div class="category-card" onclick="openCategory('${c}')"><h2>${c}</h2><p>اضغط لعرض المنتجات</p></div>`;
-                // הוספת קטגוריות לתפריט הצד אוטומטית!
-                menuContainer.innerHTML += `<li onclick="openCategory('${c}'); toggleMenu()"><span style="color: #C19A5B;">✨</span> ${c}</li>`;
+            // חיבור מנגנון הקטגוריות החדש לפאנל
+            let categoriesToRender = [];
+            if (typeof myCategories !== 'undefined' && myCategories.length > 0) {
+                categoriesToRender = myCategories; // שואב מפאנל הניהול
+            } else {
+                // מקרה גיבוי (אם עדיין לא נשמרו קטגוריות בפאנל)
+                if(typeof myProducts === 'undefined') window.myProducts = [];
+                const uniqueCats = [...new Set(myProducts.map(p => p.category).filter(Boolean))];
+                categoriesToRender = uniqueCats.map(c => ({ name: c, icon: '✨' }));
+            }
+            
+            categoriesToRender.forEach(c => {
+                container.innerHTML += `
+                <div class="category-card" onclick="openCategory('${c.name}')">
+                    <div style="font-size: 2.2em; margin-bottom: 8px;">${c.icon || ''}</div>
+                    <h2>${c.name}</h2>
+                    <p style="color:var(--gray); font-size:0.9em; margin-top:5px;">اضغط لعرض المنتجات</p>
+                </div>`;
+                
+                menuContainer.innerHTML += `<li onclick="openCategory('${c.name}'); toggleMenu()"><span style="color: #C19A5B;">${c.icon || '✨'}</span> ${c.name}</li>`;
             });
         }
 
@@ -270,24 +287,38 @@
             const heart = wishlist.includes(i) ? '❤️' : '🤍';
             const stock = p.stock !== undefined ? p.stock : 100;
             const likeBtnHtml = `<button id="like-btn-${i}" class="like-btn" onclick="toggleLike(${i})">${heart}</button>`;
+            
+            // הוספת התיאור של המוצר (אם קיים)
+            const descHtml = p.description ? `<div class="product-desc">${p.description}</div>` : '';
 
+            // התראת מלאי כשאזל
             if (stock === 0) {
                 return `<div class="product-card">
                     ${likeBtnHtml}
                     <div class="img-wrapper"><img src="${p.image}"></div>
                     <div class="product-info">
                         <h3>${p.name}</h3>
-                        <div style="color:var(--danger); font-weight:bold; margin-top:10px;">نفدت الكمية حالياً 💔</div>
+                        ${descHtml}
+                        <div style="color:var(--danger); font-weight:bold; margin-top:auto; padding-top:10px;">نفدت الكمية حالياً 💔</div>
                         <div class="price-row"><span class="price">₪${p.price}</span></div>
                         <button class="btn-add" disabled style="background:#e0e0e0; color:#999;">نفدت الكمية</button>
                     </div>
                 </div>`;
             }
+
+            // התראת מלאי נמוך (אם נשאר 1 או 2 פריטים) - "סارعوا! تبقى X فقط"
+            let stockWarningHtml = '';
+            if (stock > 0 && stock <= 2) {
+                stockWarningHtml = `<div class="stock-warning">سارعوا! تبقى ${stock} فقط 🔥</div>`;
+            }
+
             return `<div class="product-card">
                 ${likeBtnHtml}
                 <div class="img-wrapper"><img src="${p.image}"></div>
                 <div class="product-info">
                     <h3>${p.name}</h3>
+                    ${descHtml}
+                    ${stockWarningHtml}
                     <div class="price-row">
                         <span class="price">₪${p.price}</span>
                         <div class="qty-control">
