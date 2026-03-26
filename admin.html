@@ -1,127 +1,28 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baiti Shop - Control Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #C19A5B; --dark: #2c251f; --light: #FAF8F5; --danger: #dc2743; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--light); color: var(--dark); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--primary); margin-bottom: 20px; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
-        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        button:hover { opacity: 0.9; }
-        .product-card { background: #fdfbf7; border: 1px solid #EAE3D9; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .product-name { grid-column: 1 / -1; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        #status-msg { padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; display: none; }
-        .success { background: #e7f3ef; color: #2d6a4f; border: 1px solid #b2d7cb; }
-        .error { background: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
-        .logout-btn { background: #666; width: auto; padding: 5px 15px; font-size: 0.8em; float: left; }
-    </style>
-</head>
-<body>
+<body dir="rtl">
+    <h2>ניהול מהיר ⚡</h2>
+    <input id="tk" type="password" placeholder="הדבק טוקן ghp_ כאן">
+    <button onclick="load()">טען מוצרים</button>
+    <div id="out"></div>
+    <button onclick="save()" id="sv" style="display:none; background:black; color:white;">שמור הכל</button>
 
-<div id="login-screen" class="container">
-    <h1>دخول المدير 🔒</h1>
-    <input type="password" id="gh-token" placeholder="github_pat_...">
-    <button onclick="login()">دخول</button>
-</div>
+    <script>
+        let p = [], s = "";
+        const url = "https://api.github.com/repos/amirkara17/baiti-shop/contents/products.js";
 
-<div id="admin-dashboard" class="container" style="display:none;">
-    <button class="logout-btn" onclick="logout()">خروج</button>
-    <div style="clear:both"></div>
-    <h1>إدارة المنتجات 📦</h1>
-    <div id="status-msg"></div>
-    <div id="products-list"></div>
-    <button id="save-btn" onclick="syncAndSave()" style="background:var(--dark)">حفظ ونشر التغييرات 🚀</button>
-</div>
-
-<script>
-    const REPO = "amirkara17/baiti-shop";
-    const PATH = "products.js";
-    let products = [];
-
-    function login() {
-        const t = document.getElementById('gh-token').value.trim();
-        if(!t) return alert("أدخل الرمز");
-        localStorage.setItem('baiti_token', t);
-        location.reload();
-    }
-
-    function logout() { localStorage.removeItem('baiti_token'); location.reload(); }
-
-    window.onload = async () => {
-        const t = localStorage.getItem('baiti_token');
-        if(t) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('admin-dashboard').style.display = 'block';
-            await loadData();
+        async function load() {
+            const res = await fetch(url, { headers: { Authorization: `token ${document.getElementById('tk').value.trim()}` } });
+            const d = await res.json();
+            s = d.sha;
+            const content = decodeURIComponent(escape(atob(d.content)));
+            p = JSON.parse(content.substring(content.indexOf('['), content.lastIndexOf(']') + 1));
+            document.getElementById('out').innerHTML = p.map((m, i) => `<div>${m.name}: <input type="number" value="${m.price}" onchange="p[${i}].price=Number(this.value)"></div>`).join('');
+            document.getElementById('sv').style.display = 'block';
         }
-    }
 
-    async function loadData() {
-        const t = localStorage.getItem('baiti_token');
-        msg("جاري التحميل...", "success");
-        try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                headers: { 'Authorization': `token ${t}`, 'Cache-Control': 'no-cache' }
-            });
-            const data = await res.json();
-            const content = decodeURIComponent(escape(atob(data.content)));
-            const arrayPart = content.substring(content.indexOf('['), content.lastIndexOf(']') + 1);
-            products = new Function('return ' + arrayPart)();
-            render();
-            msg(`✅ تم تحميل ${products.length} منتجات`, "success");
-        } catch(e) { msg("❌ خطأ בטעינה", "error"); }
-    }
-
-    function render() {
-        const list = document.getElementById('products-list');
-        list.innerHTML = products.map((p, i) => `
-            <div class="product-card">
-                <div class="product-name">${p.name}</div>
-                <div><label>السعر:</label><input type="number" onchange="update(${i}, 'price', this.value)" value="${p.price}"></div>
-                <div><label>المخزون:</label><input type="number" onchange="update(${i}, 'stock', this.value)" value="${p.stock || 0}"></div>
-            </div>
-        `).join('');
-    }
-
-    function update(i, field, val) { products[i][field] = Number(val); }
-
-    function msg(text, type) {
-        const m = document.getElementById('status-msg');
-        m.innerText = text; m.className = type; m.style.display = 'block';
-    }
-
-    async function syncAndSave() {
-        const t = localStorage.getItem('baiti_token');
-        const btn = document.getElementById('save-btn');
-        btn.disabled = true; btn.innerText = "جاري الحفظ...";
-        
-        try {
-            // שלב הסנכרון: מושכים SHA עדכני רגע לפני השמירה
-            const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                headers: { 'Authorization': `token ${t}`, 'Cache-Control': 'no-cache' }
-            });
-            const getData = await getRes.json();
-            const currentSha = getData.sha;
-
-            const newContent = `const myProducts = ${JSON.stringify(products, null, 4)};`;
-            const encoded = btoa(unescape(encodeURIComponent(newContent)));
-
-            const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${t}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Admin Update", content: encoded, sha: currentSha })
-            });
-
-            if(!putRes.ok) throw new Error("فشل الحفظ");
-            msg("🎉 تم الحفظ والنشر بنجاح!", "success");
-        } catch(e) { msg("❌ " + e.message, "error"); }
-        finally { btn.disabled = false; btn.innerText = "حفظ ونشر التغييرات 🚀"; }
-    }
-</script>
+        async function save() {
+            const body = { message: "update", sha: s, content: btoa(unescape(encodeURIComponent(`const myProducts = ${JSON.stringify(p, null, 2)};`))) };
+            const res = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${document.getElementById('tk').value.trim()}` }, body: JSON.stringify(body) });
+            if (res.ok) alert("עודכן!"); else alert("שגיאה: " + res.status);
+        }
+    </script>
 </body>
-</html>
