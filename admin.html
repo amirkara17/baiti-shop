@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,12 +6,15 @@
     <title>ניהול חנות - ביתי</title>
     <style>
         body { font-family: system-ui, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; text-align: center; }
-        .box { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        input[type="text"], input[type="password"] { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 6px; }
-        button { background: #C19A5B; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; }
-        .item { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 8px; text-align: right; }
-        .item input { width: 80px; padding: 8px; margin: 0 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .box { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, textarea, select { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; }
+        button { background: #C19A5B; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; transition: 0.2s; }
+        button:hover { opacity: 0.9; }
+        .item { background: #fafafa; border: 1px solid #eee; padding: 15px; margin-bottom: 15px; border-radius: 8px; text-align: right; }
+        .flex-row { display: flex; gap: 10px; }
+        .flex-row input { width: 50%; }
         #status { margin: 15px 0; font-weight: bold; color: #333; }
+        .add-box { background: #f0faef; border: 2px dashed #4CAF50; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;}
     </style>
 </head>
 <body>
@@ -28,8 +30,24 @@
     <div style="clear:both;"></div>
     <h2>פאנל ניהול מוצרים 📦</h2>
     <div id="status"></div>
+
+    <div class="add-box">
+        <h3 style="margin-top:0; color: #2e7d32;">✨ הוספת מוצר חדש</h3>
+        <input type="text" id="new-name" placeholder="שם המוצר (למשל: עוגת גבינה)">
+        <div class="flex-row">
+            <input type="number" id="new-price" placeholder="מחיר (₪)">
+            <input type="number" id="new-stock" placeholder="מלאי (אופציונלי)">
+        </div>
+        <input type="text" id="new-cat" placeholder="קטגוריה (למשל: מתוקים, מלוחים)">
+        <input type="text" id="new-img" placeholder="קישור לתמונה (URL) או נתיב">
+        <textarea id="new-desc" placeholder="פירוט על המוצר..." rows="2"></textarea>
+        <button onclick="addProduct()" style="background: #4CAF50;">➕ הוסף לרשימה</button>
+    </div>
+
+    <hr style="border: 1px solid #eee; margin: 30px 0;">
+    
     <div id="list"></div>
-    <button onclick="saveData()" style="background:#222; margin-top:20px;">שמור ופרסם עדכונים 🚀</button>
+    <button onclick="saveData()" style="background:#222; margin-top:20px; font-size: 1.2em;">שמור ופרסם באתר 🚀</button>
 </div>
 
 <script>
@@ -47,52 +65,78 @@
 
     function login() {
         const token = document.getElementById('gh-token').value.trim();
-        if (!token.startsWith('ghp_')) {
-            alert('מפתח לא תקין. הוא חייב להתחיל ב-ghp_');
-            return;
-        }
+        if (!token.startsWith('ghp_')) return alert('מפתח לא תקין.');
         localStorage.setItem('bt_token', token);
         location.reload();
     }
 
-    function logout() {
-        localStorage.removeItem('bt_token');
-        location.reload();
-    }
+    function logout() { localStorage.removeItem('bt_token'); location.reload(); }
 
     async function loadData() {
-        const token = localStorage.getItem('bt_token');
         document.getElementById('status').innerText = "טוען נתונים מהאתר... ⏳";
         try {
-            // הוסר ה-Cache-Control שעשה בעיות CORS, במקום זה הוספנו חותמת זמן ל-URL
             const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
-                headers: { 'Authorization': `token ${token}` }
+                headers: { 'Authorization': `token ${localStorage.getItem('bt_token')}` }
             });
-            if (!res.ok) throw new Error('בעיית הרשאות או מפתח לא תקין.');
-            
+            if (!res.ok) throw new Error('שגיאת חיבור');
             const data = await res.json();
             const text = decodeURIComponent(escape(atob(data.content)));
-            
             const arrMatch = text.match(/\[[\s\S]*\]/);
-            if(arrMatch) {
-                prods = eval('(' + arrMatch[0] + ')');
-            }
+            if(arrMatch) prods = eval('(' + arrMatch[0] + ')');
+            render();
+            document.getElementById('status').innerText = "✅ המוצרים נטענו";
+        } catch(err) { document.getElementById('status').innerText = "❌ שגיאה: " + err.message; }
+    }
 
-            let html = '';
-            prods.forEach((p, i) => {
-                html += `
-                <div class="item">
-                    <strong>${p.name}</strong><br><br>
-                    מחיר: <input type="number" value="${p.price}" onchange="prods[${i}].price=Number(this.value)"> ₪
-                    &nbsp;|&nbsp; 
-                    מלאי: <input type="number" value="${p.stock||0}" onchange="prods[${i}].stock=Number(this.value)">
-                </div>`;
-            });
-            document.getElementById('list').innerHTML = html;
-            document.getElementById('status').innerText = "✅ המוצרים נטענו בהצלחה";
-        } catch(err) {
-            document.getElementById('status').innerText = "❌ שגיאה: " + err.message;
+    function addProduct() {
+        const name = document.getElementById('new-name').value;
+        const price = document.getElementById('new-price').value;
+        if(!name || !price) return alert("חובה להזין שם ומחיר!");
+
+        prods.unshift({ // מכניס את המוצר לתחילת הרשימה
+            id: 'prod_' + Date.now(),
+            name: name,
+            price: Number(price),
+            stock: Number(document.getElementById('new-stock').value) || 0,
+            category: document.getElementById('new-cat').value,
+            image: document.getElementById('new-img').value,
+            description: document.getElementById('new-desc').value
+        });
+
+        // איפוס שדות
+        document.querySelectorAll('.add-box input, .add-box textarea').forEach(el => el.value = '');
+        render();
+        window.scrollTo({ top: document.getElementById('list').offsetTop, behavior: 'smooth' });
+    }
+
+    function removeProduct(index) {
+        if(confirm("האם אתה בטוח שברצונך למחוק מוצר זה?")) {
+            prods.splice(index, 1);
+            render();
         }
+    }
+
+    function render() {
+        let html = '';
+        prods.forEach((p, i) => {
+            html += `
+            <div class="item">
+                <div class="flex-row">
+                    <input type="text" value="${p.name}" onchange="prods[${i}].name=this.value" style="font-weight:bold;">
+                    <button onclick="removeProduct(${i})" style="background:#dc2743; width:auto; padding: 10px;">🗑️</button>
+                </div>
+                <div class="flex-row">
+                    <input type="number" placeholder="מחיר" value="${p.price}" onchange="prods[${i}].price=Number(this.value)">
+                    <input type="number" placeholder="מלאי" value="${p.stock||0}" onchange="prods[${i}].stock=Number(this.value)">
+                </div>
+                <div class="flex-row">
+                    <input type="text" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value">
+                    <input type="text" placeholder="קישור לתמונה" value="${p.image||''}" onchange="prods[${i}].image=this.value">
+                </div>
+                <textarea placeholder="תיאור המוצר" rows="2" onchange="prods[${i}].description=this.value">${p.description||''}</textarea>
+            </div>`;
+        });
+        document.getElementById('list').innerHTML = html;
     }
 
     async function saveData() {
@@ -102,30 +146,20 @@
             const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
                 headers: { 'Authorization': `token ${token}` }
             });
-            const dataGet = await resGet.json();
-            const freshSha = dataGet.sha;
+            const freshSha = (await resGet.json()).sha;
 
             const newContent = `const myProducts = ${JSON.stringify(prods, null, 4)};`;
             const encoded = btoa(unescape(encodeURIComponent(newContent)));
 
             const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
                 method: 'PUT',
-                headers: { 
-                    'Authorization': `token ${token}`, 
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({
-                    message: "Update products via Admin",
-                    content: encoded,
-                    sha: freshSha
-                })
+                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: "Update via Admin v2.0", content: encoded, sha: freshSha })
             });
 
             if(!resPut.ok) throw new Error('השמירה נכשלה');
-            document.getElementById('status').innerText = "🎉 נשמר! האתר מתעדכן ברגעים אלו.";
-        } catch(err) {
-            document.getElementById('status').innerText = "❌ שגיאה בשמירה: " + err.message;
-        }
+            document.getElementById('status').innerText = "🎉 נשמר! האתר מתעדכן.";
+        } catch(err) { document.getElementById('status').innerText = "❌ שגיאה: " + err.message; }
     }
 </script>
 </body>
