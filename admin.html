@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -36,7 +37,6 @@
     const PATH = "products.js";
     let prods = [];
 
-    // בדיקה בעליית הדף אם אנחנו כבר מחוברים
     window.onload = () => {
         if(localStorage.getItem('bt_token')) {
             document.getElementById('login-box').style.display = 'none';
@@ -64,16 +64,15 @@
         const token = localStorage.getItem('bt_token');
         document.getElementById('status').innerText = "טוען נתונים מהאתר... ⏳";
         try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                headers: { 'Authorization': `token ${token}`, 'Cache-Control': 'no-cache' }
+            // הוסר ה-Cache-Control שעשה בעיות CORS, במקום זה הוספנו חותמת זמן ל-URL
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
+                headers: { 'Authorization': `token ${token}` }
             });
-            if (!res.ok) throw new Error('בעיית הרשאות. ודא שהמפתח הוגדר עם הרשאת repo.');
+            if (!res.ok) throw new Error('בעיית הרשאות או מפתח לא תקין.');
             
             const data = await res.json();
-            // פענוח שפה (ערבית/עברית) מגיטהאב
             const text = decodeURIComponent(escape(atob(data.content)));
             
-            // שליפת המערך מתוך הטקסט
             const arrMatch = text.match(/\[[\s\S]*\]/);
             if(arrMatch) {
                 prods = eval('(' + arrMatch[0] + ')');
@@ -100,21 +99,21 @@
         const token = localStorage.getItem('bt_token');
         document.getElementById('status').innerText = "שומר נתונים בשרת... ⏳";
         try {
-            // משיכת הגרסה הכי מעודכנת רגע לפני השמירה (פותר את שגיאת Match)
-            const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-                headers: { 'Authorization': `token ${token}`, 'Cache-Control': 'no-cache' }
+            const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?t=${Date.now()}`, {
+                headers: { 'Authorization': `token ${token}` }
             });
             const dataGet = await resGet.json();
             const freshSha = dataGet.sha;
 
-            // הכנת הקובץ החדש
             const newContent = `const myProducts = ${JSON.stringify(prods, null, 4)};`;
             const encoded = btoa(unescape(encodeURIComponent(newContent)));
 
-            // שליחת השמירה
             const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
                 method: 'PUT',
-                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': `token ${token}`, 
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify({
                     message: "Update products via Admin",
                     content: encoded,
