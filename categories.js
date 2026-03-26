@@ -1,6 +1,6 @@
 const myCategories = [
     {
-        "name": "היי",
-        "icon": "21"
+        "name": "ניסוי",
+        "icon": "📁"
     }
 ];
