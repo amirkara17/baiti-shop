@@ -10,7 +10,7 @@ const myProducts = [
     {
         "name": "طقم أكواب الزهور",
         "description": "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
-        "price": 140,
+        "price": 145,
         "image": "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg",
         "category": "أطقم فناجين ✨",
         "stock": 0
