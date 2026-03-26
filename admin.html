@@ -93,7 +93,7 @@
 
     function login() {
         const token = document.getElementById('gh-token').value.trim();
-        if (!token.startsWith('ghp_')) return alert('מפתח לא תקין.');
+        if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) return alert('מפתח לא תקין.');
         localStorage.setItem('bt_token', token);
         location.reload();
     }
@@ -132,7 +132,6 @@
         const emoji = document.getElementById('new-cat-emoji').value.trim();
         if(!name) return alert("חובה להזין שם קטגוריה!");
         
-        // מוודא שהקטגוריה לא קיימת כבר
         if(cats.find(c => c.name === name)) return alert("הקטגוריה כבר קיימת!");
 
         cats.push({ name: name, icon: emoji || '📁' });
@@ -141,9 +140,148 @@
         renderCategories();
     }
 
-    // מחיקה חכמה של קטגוריה מכל המקומות
     function removeCategoryComplete(catName) {
         let count = prods.filter(p => p.category === catName).length;
         let msg = `האם אתה בטוח שברצונך למחוק את הקטגוריה "${catName}"?\n`;
-        if(count > 0) {
-            msg += `⚠️ שימו לב: יש ${count} מוצרים בקטגוריה הז
+        if(count > 0) msg += `⚠️ שימו לב: יש ${count} מוצרים בקטגוריה הזו! המוצרים לא ימחקו, אבל התווית תוסר מהם.`;
+
+        if(confirm(msg)) {
+            cats = cats.filter(c => c.name !== catName);
+            prods.forEach(p => { if(p.category === catName) p.category = ''; });
+            if(currentFilter === catName) currentFilter = ""; 
+            renderCategories();
+            renderProducts();
+        }
+    }
+
+    function filterProducts(catName) {
+        currentFilter = catName;
+        document.getElementById('prod-filter').value = catName;
+        renderProducts();
+        window.scrollTo({ top: document.getElementById('products-header').offsetTop, behavior: 'smooth' });
+    }
+
+    function renderCategories() {
+        let allCatNames = [...new Set([
+            ...cats.map(c => c.name),
+            ...prods.map(p => p.category).filter(Boolean)
+        ])];
+
+        document.getElementById('cats-list').innerHTML = allCatNames.map(name => `<option value="${name}">`).join('');
+        
+        document.getElementById('prod-filter').innerHTML = `<option value="">הצג הכל (כל המוצרים)</option>` + 
+            allCatNames.map(name => `<option value="${name}" ${currentFilter===name ? 'selected':''}>${name}</option>`).join('');
+
+        let html = '';
+        allCatNames.forEach(catName => {
+            let catObj = cats.find(c => c.name === catName) || { icon: '📁', name: catName };
+            let count = prods.filter(p => p.category === catName).length;
+            
+            html += `
+            <div class="cat-row">
+                <div style="text-align:right;">
+                    <strong style="font-size:1.1em;">${catObj.icon} ${catObj.name}</strong><br>
+                    <span style="color:#666; font-size:0.9em;">📦 מכיל ${count} מוצרים</span>
+                </div>
+                <div style="display:flex; gap:5px;">
+                    <button onclick="filterProducts('${catName}')" style="background:#2196F3;">👁️ הצג</button>
+                    <button onclick="removeCategoryComplete('${catName}')" style="background:#dc2743;">🗑️ מחק</button>
+                </div>
+            </div>`;
+        });
+        document.getElementById('cats-visual-list').innerHTML = html || "<span style='color:#888'>אין קטגוריות כרגע</span>";
+    }
+
+    function addProduct() {
+        const name = document.getElementById('new-name').value;
+        const price = document.getElementById('new-price').value;
+        if(!name || !price) return alert("חובה להזין שם ומחיר!");
+
+        prods.unshift({
+            id: 'prod_' + Date.now(),
+            name: name,
+            price: Number(price),
+            stock: Number(document.getElementById('new-stock').value) || 0,
+            category: document.getElementById('new-cat').value,
+            image: document.getElementById('new-img').value,
+            description: document.getElementById('new-desc').value
+        });
+
+        document.querySelectorAll('.add-box input, .add-box textarea').forEach(el => el.value = '');
+        renderCategories(); 
+        renderProducts();
+    }
+
+    function removeProduct(index) {
+        if(confirm("האם למחוק מוצר זה לגמרי?")) {
+            prods.splice(index, 1);
+            renderCategories(); 
+            renderProducts();
+        }
+    }
+
+    function renderProducts() {
+        let html = '';
+        prods.forEach((p, originalIndex) => {
+            if (currentFilter && p.category !== currentFilter) return;
+
+            html += `
+            <div class="item">
+                <div class="flex-row">
+                    <input type="text" value="${p.name}" onchange="prods[${originalIndex}].name=this.value" style="font-weight:bold; font-size:1.1em;">
+                    <button onclick="removeProduct(${originalIndex})" style="background:#dc2743; width:auto;">🗑️</button>
+                </div>
+                <div class="flex-row">
+                    <input type="number" placeholder="מחיר" value="${p.price}" onchange="prods[${originalIndex}].price=Number(this.value)">
+                    <input type="number" placeholder="מלאי" value="${p.stock||0}" onchange="prods[${originalIndex}].stock=Number(this.value)">
+                </div>
+                <div class="flex-row">
+                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${originalIndex}].category=this.value; renderCategories();">
+                    <input type="text" placeholder="קישור לתמונה" value="${p.image||''}" onchange="prods[${originalIndex}].image=this.value">
+                </div>
+                <textarea placeholder="תיאור המוצר" rows="2" onchange="prods[${originalIndex}].description=this.value">${p.description||''}</textarea>
+            </div>`;
+        });
+        
+        if(!html) html = `<div style="text-align:center; padding:20px; color:#888;">אין מוצרים שמתאימים לסינון זה.</div>`;
+        document.getElementById('list').innerHTML = html;
+    }
+
+    async function saveFile(path, dataArray, varName) {
+        const token = localStorage.getItem('bt_token');
+        const resGet = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?t=${Date.now()}`, { headers: { 'Authorization': `token ${token}` } });
+        let freshSha = null;
+        if(resGet.ok) freshSha = (await resGet.json()).sha;
+
+        const newContent = `const ${varName} = ${JSON.stringify(dataArray, null, 4)};`;
+        const encoded = btoa(unescape(encodeURIComponent(newContent)));
+        
+        const body = { message: `Update ${path}`, content: encoded };
+        if(freshSha) body.sha = freshSha;
+
+        const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            method: 'PUT',
+            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if(!resPut.ok) throw new Error(`שגיאה בשמירת ${path}`);
+    }
+
+    async function saveAllData() {
+        const btn = document.getElementById('save-btn');
+        btn.disabled = true; btn.innerText = "שומר... ⏳";
+        document.getElementById('status').innerText = "מעדכן שרת... ⏳ (נא לא לסגור את הדף)";
+        try {
+            await saveFile(CAT_PATH, cats, 'myCategories');
+            await saveFile(PROD_PATH, prods, 'myProducts');
+            
+            document.getElementById('status').innerText = "🎉 נשמר בהצלחה! האתר מתעדכן ברגעים אלו.";
+        } catch(err) { 
+            document.getElementById('status').innerText = "❌ " + err.message; 
+        } finally {
+            btn.disabled = false; btn.innerText = "שמור הכל ופרסם באתר 🚀";
+        }
+    }
+</script>
+</body>
+</html>
