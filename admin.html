@@ -67,7 +67,7 @@
 <script>
     const REPO = "amirkara17/baiti-shop";
     const PROD_PATH = "products.js";
-    const CAT_PATH = "categories.js"; // קובץ חדש לקטגוריות
+    const CAT_PATH = "categories.js"; 
     
     let prods = [];
     let cats = [];
@@ -94,7 +94,7 @@
             const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?t=${Date.now()}`, {
                 headers: { 'Authorization': `token ${localStorage.getItem('bt_token')}` }
             });
-            if (!res.ok) return { data: [], sha: null }; // הקובץ כנראה לא קיים עדיין
+            if (!res.ok) return { data: [], sha: null }; 
             const data = await res.json();
             const text = decodeURIComponent(escape(atob(data.content)));
             const arrMatch = text.match(/\[[\s\S]*\]/);
@@ -105,7 +105,6 @@
     async function loadData() {
         document.getElementById('status').innerText = "טוען נתונים מהאתר... ⏳";
         
-        // טוען גם מוצרים וגם קטגוריות
         const pRes = await fetchFile(PROD_PATH);
         prods = pRes.data;
         
@@ -136,8 +135,17 @@
     }
 
     function renderCategories() {
-        // מעדכן את התפריט הנפתח של המוצרים
-        document.getElementById('cats-list').innerHTML = cats.map(c => `<option value="${c.name}">`).join('');
+        // התיקון שלנו: אוסף את כל הקטגוריות החדשות + הישנות
+        let allCatNames = cats.map(c => c.name);
+        
+        prods.forEach(p => {
+            if (p.category && !allCatNames.includes(p.category)) {
+                allCatNames.push(p.category);
+            }
+        });
+
+        // מעדכן את התפריט הנפתח של המוצרים (הכל יופיע פה עכשיו!)
+        document.getElementById('cats-list').innerHTML = allCatNames.map(name => `<option value="${name}">`).join('');
         
         // מעדכן את הריבועים שמוצגים למנהל
         document.getElementById('cats-visual-list').innerHTML = cats.map((c, i) => `
@@ -163,12 +171,14 @@
         });
 
         document.querySelectorAll('.add-box input, .add-box textarea').forEach(el => el.value = '');
+        renderCategories(); // מרענן את התפריט אם נוספה קטגוריה חדשה ממש עכשיו
         renderProducts();
     }
 
     function removeProduct(index) {
         if(confirm("האם אתה בטוח שברצונך למחוק מוצר זה?")) {
             prods.splice(index, 1);
+            renderCategories(); // מרענן את התפריט למקרה שזו הייתה הקטגוריה היחידה
             renderProducts();
         }
     }
@@ -187,7 +197,7 @@
                     <input type="number" placeholder="מלאי" value="${p.stock||0}" onchange="prods[${i}].stock=Number(this.value)">
                 </div>
                 <div class="flex-row">
-                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value">
+                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value; renderCategories();">
                     <input type="text" placeholder="קישור לתמונה" value="${p.image||''}" onchange="prods[${i}].image=this.value">
                 </div>
                 <textarea placeholder="תיאור המוצר" rows="2" onchange="prods[${i}].description=this.value">${p.description||''}</textarea>
@@ -221,9 +231,7 @@
         btn.disabled = true; btn.innerText = "שומר... ⏳";
         document.getElementById('status').innerText = "מעדכן שרת... ⏳";
         try {
-            // שומר את הקטגוריות
             await saveFile(CAT_PATH, cats, 'myCategories');
-            // שומר את המוצרים
             await saveFile(PROD_PATH, prods, 'myProducts');
             
             document.getElementById('status').innerText = "🎉 נשמר בהצלחה! האתר מתעדכן.";
