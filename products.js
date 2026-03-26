@@ -1,14 +1,5 @@
 const myProducts = [
     {
-        "id": "prod_1774526791144",
-        "name": "נסיון",
-        "price": 10,
-        "stock": 1,
-        "category": "test",
-        "image": "Screenshot 2024-12-11 185626.png",
-        "description": ""
-    },
-    {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
         "price": 135,
