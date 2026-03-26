@@ -1,68 +1,44 @@
-exports.handler = async function(event, context) {
-    // חסימת כל בקשה שהיא לא שליחת נתונים
-    if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
-    }
+const axios = require('axios');
 
-    try {
-        const data = JSON.parse(event.body);
-        const { cart, name, phone, address } = data;
+exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
 
-        // 🛑 המחירון הסודי והמוגן של השרת 🛑
-        // חשוב: אם בעתיד תוסיף מוצר או תשנה מחיר באתר, חובה לעדכן גם פה!
-        const securePrices = {
-            "طقم فاخر": 170,
-            "طقم أكواب الزهور": 140,
-            "طقم القلعة الكلاسيكي": 99,
-            "أكواب بتصاميم مميزة": 35,
-            "كوب القطة ماري - ديزني": 50,
-            "كوب ستيتش - ديزني": 50,
-            "كوب ميني ماوس - ديزني": 50
-        };
+  try {
+    const { items, customerDetails } = JSON.parse(event.body);
 
-        let realTotal = 0;
-        let orderDetails = "";
+    // שואב את נתוני המוצרים האמיתיים מהגיטהאב שלך כדי לאמת מחירים
+    const repoRes = await axios.get('https://raw.githubusercontent.com/amirkara17/baiti-shop/main/products.js');
+    const content = repoRes.data;
+    const productsMatch = content.match(/\[[\s\S]*\]/);
+    const officialProducts = eval(productsMatch[0]);
 
-        // השרת סורק את העגלה שהלקוח שלח, ומחשב את המחיר בעצמו מול המחירון הסודי
-        cart.forEach(item => {
-            const realPrice = securePrices[item.name];
-            if (realPrice && item.quantity > 0) { 
-                realTotal += (realPrice * item.quantity);
-                orderDetails += `- ${item.name} (الكمية: ${item.quantity}) - ₪${realPrice * item.quantity}\n`;
-            }
-        });
+    let totalPrice = 0;
+    let orderSummary = "";
 
-        if (realTotal === 0) {
-            return { statusCode: 400, body: JSON.stringify({ error: "Cart is empty or invalid" }) };
-        }
+    // חישוב מאובטח - לוקח מחיר רק מהקובץ הרשמי
+    items.forEach(item => {
+      const official = officialProducts.find(p => p.name === item.name);
+      if (official) {
+        const price = official.price;
+        totalPrice += price * item.quantity;
+        orderSummary += `- ${item.name} (כמות: ${item.quantity}, מחיר ליחידה: ${price} ₪)\n`;
+      }
+    });
 
-        // השרת מתקשר עם FormSubmit בעצמו, הלקוח לא יכול לראות את זה!
-        const formSubmitUrl = "https://formsubmit.co/ajax/amirkara99@gmail.com";
-        
-        const response = await fetch(formSubmitUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                "اسم الزبون": name,
-                "رقم الهاتف": phone,
-                "العنوان": address,
-                "تفاصيل الطلب": orderDetails,
-                "المجموع الكلي": "₪" + realTotal,
-                "_subject": "طلب جديد من متجر Baiti! 🏠 (מאובטח דרך השרת)"
-            })
-        });
+    // כאן אפשר להוסיף שליחה למייל או לוואטסאפ (כרגע מחזיר אישור)
+    console.log("הזמנה חדשה התקבלה:", { customerDetails, orderSummary, totalPrice });
 
-        if (!response.ok) throw new Error("FormSubmit failed");
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ success: true, message: "Order processed securely" })
-        };
-
-    } catch (error) {
-        return { statusCode: 500, body: JSON.stringify({ error: "Server Error" }) };
-    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ 
+        message: "Order calculated successfully", 
+        totalPrice: totalPrice,
+        summary: orderSummary
+      })
+    };
+  } catch (error) {
+    return { statusCode: 500, body: error.toString() };
+  }
 };
