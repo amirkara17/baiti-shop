@@ -5,6 +5,8 @@ exports.handler = async (event) => {
 
   try {
     const token = process.env.GITHUB_TOKEN;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
     if (!token) {
       return {
         statusCode: 500,
@@ -12,7 +14,14 @@ exports.handler = async (event) => {
       };
     }
 
-    const { products, categories } = JSON.parse(event.body || '{}');
+    const { products, categories, password } = JSON.parse(event.body || '{}');
+
+    if (!adminPassword || password !== adminPassword) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ success: false, message: 'סיסמת ניהול שגויה' })
+      };
+    }
 
     if (!Array.isArray(products) || !Array.isArray(categories)) {
       return {
