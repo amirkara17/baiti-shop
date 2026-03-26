@@ -31,6 +31,8 @@
     <h2>פאנל ניהול מוצרים 📦</h2>
     <div id="status"></div>
 
+    <datalist id="cats-list"></datalist>
+
     <div class="add-box">
         <h3 style="margin-top:0; color: #2e7d32;">✨ הוספת מוצר חדש</h3>
         <input type="text" id="new-name" placeholder="שם המוצר (למשל: עוגת גבינה)">
@@ -38,7 +40,7 @@
             <input type="number" id="new-price" placeholder="מחיר (₪)">
             <input type="number" id="new-stock" placeholder="מלאי (אופציונלי)">
         </div>
-        <input type="text" id="new-cat" placeholder="קטגוריה (למשל: מתוקים, מלוחים)">
+        <input type="text" id="new-cat" list="cats-list" placeholder="בחר קטגוריה מהרשימה או הקלד חדשה 🔽">
         <input type="text" id="new-img" placeholder="קישור לתמונה (URL) או נתיב">
         <textarea id="new-desc" placeholder="פירוט על המוצר..." rows="2"></textarea>
         <button onclick="addProduct()" style="background: #4CAF50;">➕ הוסף לרשימה</button>
@@ -83,9 +85,17 @@
             const text = decodeURIComponent(escape(atob(data.content)));
             const arrMatch = text.match(/\[[\s\S]*\]/);
             if(arrMatch) prods = eval('(' + arrMatch[0] + ')');
+            
+            updateCategoriesList(); // מעדכן את הרשימה הנפתחת
             render();
             document.getElementById('status').innerText = "✅ המוצרים נטענו";
         } catch(err) { document.getElementById('status').innerText = "❌ שגיאה: " + err.message; }
+    }
+
+    // פונקציה חכמה ששולפת את כל הקטגוריות הקיימות
+    function updateCategoriesList() {
+        const uniqueCats = [...new Set(prods.map(p => p.category).filter(c => c))];
+        document.getElementById('cats-list').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
     }
 
     function addProduct() {
@@ -93,7 +103,7 @@
         const price = document.getElementById('new-price').value;
         if(!name || !price) return alert("חובה להזין שם ומחיר!");
 
-        prods.unshift({ // מכניס את המוצר לתחילת הרשימה
+        prods.unshift({
             id: 'prod_' + Date.now(),
             name: name,
             price: Number(price),
@@ -103,8 +113,8 @@
             description: document.getElementById('new-desc').value
         });
 
-        // איפוס שדות
         document.querySelectorAll('.add-box input, .add-box textarea').forEach(el => el.value = '');
+        updateCategoriesList(); // מרענן את התפריט אם נוספה קטגוריה חדשה
         render();
         window.scrollTo({ top: document.getElementById('list').offsetTop, behavior: 'smooth' });
     }
@@ -112,6 +122,7 @@
     function removeProduct(index) {
         if(confirm("האם אתה בטוח שברצונך למחוק מוצר זה?")) {
             prods.splice(index, 1);
+            updateCategoriesList();
             render();
         }
     }
@@ -130,7 +141,7 @@
                     <input type="number" placeholder="מלאי" value="${p.stock||0}" onchange="prods[${i}].stock=Number(this.value)">
                 </div>
                 <div class="flex-row">
-                    <input type="text" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value">
+                    <input type="text" list="cats-list" placeholder="קטגוריה" value="${p.category||''}" onchange="prods[${i}].category=this.value; updateCategoriesList();">
                     <input type="text" placeholder="קישור לתמונה" value="${p.image||''}" onchange="prods[${i}].image=this.value">
                 </div>
                 <textarea placeholder="תיאור המוצר" rows="2" onchange="prods[${i}].description=this.value">${p.description||''}</textarea>
@@ -154,7 +165,7 @@
             const resPut = await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Update via Admin v2.0", content: encoded, sha: freshSha })
+                body: JSON.stringify({ message: "Update via Admin - Dynamic Cats", content: encoded, sha: freshSha })
             });
 
             if(!resPut.ok) throw new Error('השמירה נכשלה');
