@@ -3,150 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baiti Admin Panel</title>
+    <title>Baiti Admin - لوحة التحكم</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #C19A5B; --dark: #2c251f; --light: #FAF8F5; --danger: #dc2743; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--light); color: var(--dark); padding: 20px; margin: 0; }
-        .container { max-width: 800px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--primary); margin-bottom: 25px; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; box-sizing: border-box; }
-        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #a8834a; }
-        .product-item { background: #fdfbf7; border: 1px solid #EAE3D9; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: center; }
-        .full-width { grid-column: 1 / -1; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
-        #status-msg { text-align: center; padding: 12px; margin-bottom: 20px; border-radius: 8px; display: none; font-weight: bold; }
-        .error { background: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--light); color: var(--dark); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
+        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 1.1em; }
+        button:hover { opacity: 0.9; }
+        .product-card { background: #fdfbf7; border: 1px solid #EAE3D9; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .product-name { grid-column: 1 / -1; font-weight: bold; font-size: 1.1em; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        label { font-size: 0.9em; color: #666; }
+        #status-msg { padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; display: none; }
         .success { background: #e7f3ef; color: #2d6a4f; border: 1px solid #b2d7cb; }
-        #login-screen, #dashboard { display: none; }
+        .error { background: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
+        .logout-btn { background: #666; width: auto; padding: 5px 15px; font-size: 0.9em; float: left; }
     </style>
 </head>
 <body>
 
-<div class="container" id="login-screen" style="display: block;">
+<div class="container" id="login-section" style="display: none;">
     <h1>تسجيل الدخول للنظام 🔒</h1>
     <p style="text-align: center; color: #666;">أدخل مفتاح GitHub (Token) للبدء</p>
-    <input type="password" id="gh-token" placeholder="github_pat_...">
-    <button onclick="login()">دخول للمערכת</button>
+    <input type="password" id="gh-token-input" placeholder="github_pat_...">
+    <button onclick="saveTokenAndLogin()">دخول</button>
 </div>
 
-<div class="container" id="dashboard">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h1 style="margin:0;">إدارة المنتجات 📦</h1>
-        <button onclick="logout()" style="width: auto; padding: 8px 15px; background: #666;">خروج</button>
-    </div>
+<div class="container" id="admin-section" style="display: none;">
+    <button class="logout-btn" onclick="logout()">خروج</button>
+    <div style="clear: both;"></div>
+    <h1>إدارة المنتجات 📦</h1>
     <div id="status-msg"></div>
     <div id="products-list"></div>
-    <button onclick="saveChanges()" id="save-btn" style="background: var(--dark); font-size: 1.1em; margin-top: 20px;">حفظ ونشر التغييرات 🚀</button>
+    <button onclick="saveToGitHub()" id="save-btn" style="background: var(--dark); margin-top: 20px;">حفظ ونشر التغييرات 🚀</button>
 </div>
 
 <script>
-    const REPO = "amirkara17/baiti-shop";
-    const FILE_PATH = "products.js";
-    let fileSha = "";
-    let currentProducts = [];
-
-    // פונקציית ניקוי לטוקן - מסירה כל תו שהוא לא אנגלי/מספרי
-    function cleanToken(t) {
-        return t.replace(/[^\x00-\x7F]/g, "").trim();
-    }
-
-    window.onload = () => {
-        if(localStorage.getItem('gh_admin_token')) showDashboard();
+    const CONFIG = {
+        repo: "amirkara17/baiti-shop",
+        path: "products.js"
     };
 
-    function login() {
-        let token = document.getElementById('gh-token').value;
-        token = cleanToken(token); // ניקוי המפתח לפני השמירה
-        if(!token) return alert("الرجاء إدخال المفتاح!");
-        localStorage.setItem('gh_admin_token', token);
-        showDashboard();
+    let state = {
+        products: [],
+        sha: ""
+    };
+
+    // ניקוי טוקן מתווים לא חוקיים (רווחים, עברית וכו')
+    function cleanToken(t) {
+        return t ? t.replace(/[^\x20-\x7E]/g, '').trim() : '';
+    }
+
+    window.onload = function() {
+        const savedToken = localStorage.getItem('baiti_admin_token');
+        if (savedToken) {
+            showAdmin();
+        } else {
+            document.getElementById('login-section').style.display = 'block';
+        }
+    };
+
+    function saveTokenAndLogin() {
+        const rawToken = document.getElementById('gh-token-input').value;
+        const token = cleanToken(rawToken);
+        if (!token) return alert("الرجاء إدخال الرمز!");
+        localStorage.setItem('baiti_admin_token', token);
+        showAdmin();
     }
 
     function logout() {
-        localStorage.removeItem('gh_admin_token');
+        localStorage.removeItem('baiti_admin_token');
         location.reload();
     }
 
-    function showDashboard() {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        fetchData();
+    function showStatus(text, type) {
+        const msg = document.getElementById('status-msg');
+        msg.innerText = text;
+        msg.className = type;
+        msg.style.display = 'block';
     }
 
-    function setStatus(msg, type = 'success') {
-        const s = document.getElementById('status-msg');
-        s.innerText = msg;
-        s.className = type;
-        s.style.display = 'block';
+    async function showAdmin() {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('admin-section').style.display = 'block';
+        await loadData();
     }
 
-    async function fetchData() {
-        const token = cleanToken(localStorage.getItem('gh_admin_token'));
-        setStatus("جاري تحميل البيانات...", 'success');
-        
+    async function loadData() {
+        const token = cleanToken(localStorage.getItem('baiti_admin_token'));
+        showStatus("جاري تحميل البيانات...", "success");
+
         try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+            const url = `https://api.github.com/repos/${CONFIG.repo}/contents/${CONFIG.path}`;
+            const res = await fetch(url, {
                 headers: { 'Authorization': `token ${token}`, 'Cache-Control': 'no-cache' }
             });
-            
-            if(!res.ok) throw new Error("المفتاح غير صالح או שאין הרשאות למאגר.");
-            
+
+            if (!res.ok) throw new Error("المفتاح غير صالح أو لا يملك صلاحيات.");
+
             const data = await res.json();
-            fileSha = data.sha;
+            state.sha = data.sha;
+            
+            // פענוח תוכן הקובץ
             const content = decodeURIComponent(escape(atob(data.content)));
-            
-            // חילוץ המערך
-            const arrayStr = content.substring(content.indexOf('['), content.lastIndexOf(']') + 1);
-            currentProducts = new Function('return ' + arrayStr)();
-            
+            const arrayPart = content.substring(content.indexOf('['), content.lastIndexOf(']') + 1);
+            state.products = new Function('return ' + arrayPart)();
+
             renderProducts();
-            setStatus("✅ تم تحميل " + currentProducts.length + " منتجات بنجاح");
+            showStatus(`✅ تم تحميل ${state.products.length} منتجات`, "success");
         } catch (e) {
-            setStatus("❌ خطأ: " + e.message, 'error');
+            showStatus("❌ خطأ: " + e.message, "error");
         }
     }
 
     function renderProducts() {
         const list = document.getElementById('products-list');
-        list.innerHTML = '';
-        currentProducts.forEach((p, i) => {
+        list.innerHTML = "";
+        state.products.forEach((p, i) => {
             list.innerHTML += `
-                <div class="product-item">
-                    <div class="full-width">${p.name}</div>
-                    <div><label>السعر (₪):</label><input type="number" id="price-${i}" value="${p.price}" step="0.1"></div>
-                    <div><label>المخزون:</label><input type="number" id="stock-${i}" value="${p.stock || 0}"></div>
+                <div class="product-card">
+                    <div class="product-name">${p.name}</div>
+                    <div><label>السعر:</label><input type="number" id="p-price-${i}" value="${p.price}"></div>
+                    <div><label>المخزון:</label><input type="number" id="p-stock-${i}" value="${p.stock || 0}"></div>
                 </div>`;
         });
     }
 
-    async function saveChanges() {
-        const token = cleanToken(localStorage.getItem('gh_admin_token'));
+    async function saveToGitHub() {
+        const token = cleanToken(localStorage.getItem('baiti_admin_token'));
         const btn = document.getElementById('save-btn');
-        btn.disabled = true; btn.innerText = "جاري الحفظ...";
-        
-        currentProducts.forEach((p, i) => {
-            p.price = Number(document.getElementById(`price-${i}`).value);
-            p.stock = Number(document.getElementById(`stock-${i}`).value);
+        btn.disabled = true;
+        btn.innerText = "جاري الحفظ...";
+
+        // עדכון המערך המקומי
+        state.products.forEach((p, i) => {
+            p.price = Number(document.getElementById(`p-price-${i}`).value);
+            p.stock = Number(document.getElementById(`p-stock-${i}`).value);
         });
 
-        const newContent = `const myProducts = ${JSON.stringify(currentProducts, null, 4)};`;
+        const newContent = `const myProducts = ${JSON.stringify(state.products, null, 4)};`;
         const encoded = btoa(unescape(encodeURIComponent(newContent)));
 
         try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+            const url = `https://api.github.com/repos/${CONFIG.repo}/contents/${CONFIG.path}`;
+            const res = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Update via Admin", content: encoded, sha: fileSha })
+                body: JSON.stringify({
+                    message: "Update prices/stock via admin",
+                    content: encoded,
+                    sha: state.sha
+                })
             });
-            if(!res.ok) throw new Error("فشل في الحفظ");
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.message);
+            }
+
             const resData = await res.json();
-            fileSha = resData.content.sha;
-            setStatus("🎉 تم الحفظ والنشر بنجاح!", 'success');
+            state.sha = resData.content.sha;
+            showStatus("🎉 تم الحفظ والنشر بنجاح!", "success");
         } catch (e) {
-            setStatus("❌ خطأ أثناء الحفظ: " + e.message, 'error');
+            showStatus("❌ فشل الحفظ: " + e.message, "error");
         } finally {
-            btn.disabled = false; btn.innerText = "حفظ ونشر التغييرات 🚀";
+            btn.disabled = false;
+            btn.innerText = "حفظ ونשר التغييرات 🚀";
         }
     }
 </script>
