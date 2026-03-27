@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1774615925931",
+        "name": "شمعة الوردة الجمالية",
+        "description": "",
+        "price": 95,
+        "oldPrice": 100,
+        "image": "431f38cd-e714-4020-b8a6-3301f688da50.jpeg",
+        "images": [
+            "431f38cd-e714-4020-b8a6-3301f688da50.jpeg",
+            "4d50f1a0-1acb-468e-a1fa-bcd081afdda0.jpeg",
+            "f2d8238d-6358-4d58-9378-28d98cf72b79.jpeg"
+        ],
+        "category": "شموع عطرية 🕯️",
+        "stock": 5
+    },
+    {
         "id": "prod_1774602254734",
         "name": "مج ستيتش- ديزني",
         "description": "",
