@@ -112,7 +112,6 @@
             color: #6b7280;
         }
 
-        /* עיצוב שורת התמונות החדשה */
         .img-row { display: flex; gap: 5px; width: 100%; align-items: center; }
         .img-row input { margin: 0; flex-grow: 1; }
         .img-row button { margin: 0; padding: 0 15px; font-size: 18px; display: flex; align-items: center; justify-content: center; height: 42px; }
@@ -156,8 +155,13 @@
         <textarea id="new-desc" rows="3" placeholder="תיאור"></textarea>
 
         <div class="row">
-            <input type="number" id="new-price" placeholder="מחיר">
+            <input type="number" id="new-price" placeholder="מחיר סופי ללקוח (₪)">
+            <input type="number" id="new-old-price" placeholder="מחיר מבצע ישן (אופציונלי)">
+        </div>
+
+        <div class="row" style="margin-top: 6px;">
             <input type="number" id="new-stock" placeholder="מלאי">
+            <input type="text" id="new-category" list="cats-list" placeholder="בחר קטגוריה">
         </div>
 
         <div id="new-images-container" style="margin-top: 6px;">
@@ -167,7 +171,6 @@
             </div>
         </div>
 
-        <input type="text" id="new-category" list="cats-list" placeholder="בחר קטגוריה" style="margin-top: 6px;">
         <datalist id="cats-list"></datalist>
        
         <button class="btn-main" onclick="addProduct()" style="margin-top:8px;">הוסף מוצר</button>
@@ -395,7 +398,6 @@
         renderProducts();
     }
 
-    /* פונקציות לתמונות הדינמיות */
     function addNewImageField() {
         const container = document.getElementById('new-images-container');
         const div = document.createElement('div');
@@ -435,9 +437,12 @@
         const name = document.getElementById("new-name").value.trim();
         const description = document.getElementById("new-desc").value.trim();
         const price = Number(document.getElementById("new-price").value);
+        
+        const oldPriceVal = document.getElementById("new-old-price").value;
+        const oldPrice = oldPriceVal ? Number(oldPriceVal) : null;
+
         const stock = Number(document.getElementById("new-stock").value) || 0;
         
-        // קולט את כל שדות התמונות
         const imageInputs = document.querySelectorAll(".new-image-input");
         const images = Array.from(imageInputs).map(input => input.value.trim()).filter(Boolean);
         const image = images[0] || "";
@@ -459,6 +464,7 @@
             name,
             description,
             price,
+            oldPrice,
             image,
             images,
             category,
@@ -472,10 +478,10 @@
         document.getElementById("new-name").value = "";
         document.getElementById("new-desc").value = "";
         document.getElementById("new-price").value = "";
+        document.getElementById("new-old-price").value = "";
         document.getElementById("new-stock").value = "";
         document.getElementById("new-category").value = "";
         
-        // איפוס אזור התמונות לכפתור אחד בלבד
         document.getElementById("new-images-container").innerHTML = `
             <div class="img-row">
                 <input type="text" class="new-image-input" placeholder="קישור לתמונה">
@@ -515,7 +521,6 @@
         wrap.innerHTML = visibleProducts.map(p => {
             const originalIndex = prods.indexOf(p);
             
-            // בניית שורות התמונות למוצר ספציפי
             let imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : [""]);
             const imagesHtml = imgs.map((img, imgIdx) => `
                 <div class="img-row" style="margin-top: ${imgIdx > 0 ? '6px' : '0'};">
@@ -538,10 +543,14 @@
 
                     <textarea rows="3" onchange="prods[${originalIndex}].description=this.value" placeholder="תיאור המוצר">${escapeTextarea(p.description || "")}</textarea>
 
-                    <div class="row-3">
-                        <input type="number" value="${Number(p.price) || 0}" onchange="prods[${originalIndex}].price=Number(this.value)">
-                        <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)">
-                        <input type="text" list="cats-list" value="${escapeAttr(p.category || "")}" onchange="onProductCategoryChange(${originalIndex}, this.value)">
+                    <div class="row">
+                        <input type="number" value="${Number(p.price) || 0}" onchange="prods[${originalIndex}].price=Number(this.value)" placeholder="מחיר סופי ללקוח">
+                        <input type="number" value="${p.oldPrice ? Number(p.oldPrice) : ''}" onchange="this.value ? prods[${originalIndex}].oldPrice=Number(this.value) : delete prods[${originalIndex}].oldPrice" placeholder="מחיר מבצע ישן (עם קו)">
+                    </div>
+
+                    <div class="row" style="margin-top: 6px;">
+                        <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)" placeholder="מלאי">
+                        <input type="text" list="cats-list" value="${escapeAttr(p.category || "")}" onchange="onProductCategoryChange(${originalIndex}, this.value)" placeholder="קטגוריה">
                     </div>
 
                     <div class="actions" style="margin-top:8px;">
@@ -572,7 +581,6 @@
         try {
             dedupeCategoriesKeepIcons();
             
-            // מנקה שדות תמונה ריקים לפני השמירה
             prods.forEach(p => {
                 if (p.images) {
                     p.images = p.images.filter(Boolean);
