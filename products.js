@@ -3,8 +3,8 @@ const myProducts = [
         "id": "prod_1774616945949",
         "name": "شمعة \"نجمة البحر\" الملكية",
         "description": "",
-        "price": 15,
-        "oldPrice": null,
+        "price": 8,
+        "oldPrice": 15,
         "image": "IMG_8749.jpeg",
         "images": [
             "IMG_8749.jpeg",
