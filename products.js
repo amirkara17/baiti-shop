@@ -1,5 +1,14 @@
 const myProducts = [
     {
+        "id": "prod_1774602254734",
+        "name": "مج ستيتش- ديزني",
+        "description": "",
+        "price": 35,
+        "image": "ebfa1560-eba2-4c2b-a8e8-7ce53eb2a620.jpeg",
+        "category": "ديزني الأصلي 🪄",
+        "stock": 0
+    },
+    {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
         "price": 135,
