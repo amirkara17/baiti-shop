@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1774616945949",
+        "name": "شمعة \"نجمة البحر\" الملكية",
+        "description": "",
+        "price": 15,
+        "oldPrice": null,
+        "image": "IMG_8749.jpeg",
+        "images": [
+            "IMG_8749.jpeg",
+            "IMG_8748.jpeg"
+        ],
+        "category": "شموع عطرية 🕯️",
+        "stock": 3
+    },
+    {
         "id": "prod_1774615925931",
         "name": "شمعة الوردة الجمالية",
         "description": "",
