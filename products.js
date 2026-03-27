@@ -14,7 +14,12 @@ const myProducts = [
         "price": 135,
         "image": "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
         "category": "أطقم فناجين ✨",
-        "stock": 3
+        "stock": 3,
+        "images": [
+            "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
+            "12faf146-1698-430d-b395-19578851f832.jpeg",
+            "5f619396-0638-4317-938a-d0f0a6168cc7.jpeg"
+        ]
     },
     {
         "name": "طقم أكواب الزهور",
