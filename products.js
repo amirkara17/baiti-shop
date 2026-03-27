@@ -6,7 +6,8 @@ const myProducts = [
         "price": 35,
         "image": "ebfa1560-eba2-4c2b-a8e8-7ce53eb2a620.jpeg",
         "category": "ديزني الأصلي 🪄",
-        "stock": 0
+        "stock": 0,
+        "oldPrice": 40
     },
     {
         "name": "طقم الفراشات",
