@@ -112,6 +112,11 @@
             color: #6b7280;
         }
 
+        /* עיצוב שורת התמונות החדשה */
+        .img-row { display: flex; gap: 5px; width: 100%; align-items: center; }
+        .img-row input { margin: 0; flex-grow: 1; }
+        .img-row button { margin: 0; padding: 0 15px; font-size: 18px; display: flex; align-items: center; justify-content: center; height: 42px; }
+
         @media (max-width: 700px) {
             .row, .row-3 { grid-template-columns: 1fr; }
         }
@@ -150,15 +155,20 @@
    
         <textarea id="new-desc" rows="3" placeholder="תיאור"></textarea>
 
-        <div class="row-3">
+        <div class="row">
             <input type="number" id="new-price" placeholder="מחיר">
             <input type="number" id="new-stock" placeholder="מלאי">
-            <input type="text" id="new-image" placeholder="קישורי תמונות (מופרדים בפסיק)">
         </div>
 
-        <input type="text" id="new-category" list="cats-list" placeholder="בחר קטגוריה">
-        <datalist id="cats-list"></datalist>
+        <div id="new-images-container" style="margin-top: 6px;">
+            <div class="img-row">
+                <input type="text" class="new-image-input" placeholder="קישור לתמונה">
+                <button class="btn-blue" onclick="addNewImageField()">+</button>
+            </div>
+        </div>
 
+        <input type="text" id="new-category" list="cats-list" placeholder="בחר קטגוריה" style="margin-top: 6px;">
+        <datalist id="cats-list"></datalist>
        
         <button class="btn-main" onclick="addProduct()" style="margin-top:8px;">הוסף מוצר</button>
     </div>
@@ -169,7 +179,6 @@
             <div style="min-width:220px;">
                 <select id="prod-filter" onchange="filterProducts(this.value)">
                     <option value="">הצג הכל</option>
-          
                 </select>
             </div>
         </div>
@@ -242,7 +251,6 @@
                     map.set(name, { name, icon });
                 }
             }
- 
         });
 
         prods.forEach(p => {
@@ -300,7 +308,6 @@
             return `
                 <div class="category-card">
                     <div class="row">
-              
                         <input type="text" value="${escapeAttr(c.name)}" onchange="updateCategoryName(${i}, this.value)">
                         <input type="text" value="${escapeAttr(c.icon || "📁")}" onchange="cats[${i}].icon=this.value; renderCategories();">
                     </div>
@@ -311,7 +318,6 @@
                         <button class="btn-danger" onclick="removeCategory(${i})">מחק קטגוריה</button>
                     </div>
                 </div>
- 
             `;
         }).join("");
     }
@@ -372,8 +378,7 @@
 
         let msg = `למחוק את הקטגוריה "${catName}"?`;
         if (count > 0) {
-            msg += `\nיש ${count} מוצרים בקטגוריה הזאת.
-המוצרים לא יימחקו, אבל הקטגוריה תוסר מהם.`;
+            msg += `\nיש ${count} מוצרים בקטגוריה הזאת.\nהמוצרים לא יימחקו, אבל הקטגוריה תוסר מהם.`;
         }
 
         if (!confirm(msg)) return;
@@ -390,15 +395,51 @@
         renderProducts();
     }
 
+    /* פונקציות לתמונות הדינמיות */
+    function addNewImageField() {
+        const container = document.getElementById('new-images-container');
+        const div = document.createElement('div');
+        div.className = 'img-row';
+        div.style.marginTop = '6px';
+        div.innerHTML = `
+            <input type="text" class="new-image-input" placeholder="קישור לתמונה נוספת">
+            <button class="btn-danger" onclick="this.parentElement.remove()">×</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function updateProductImage(prodIndex, imgIdx, value) {
+        let p = prods[prodIndex];
+        if (!p.images || !p.images.length) p.images = p.image ? [p.image] : [""];
+        p.images[imgIdx] = value.trim();
+        p.image = p.images[0] || ""; 
+    }
+
+    function addProductImage(prodIndex) {
+        let p = prods[prodIndex];
+        if (!p.images || !p.images.length) p.images = p.image ? [p.image] : [""];
+        p.images.push("");
+        renderProducts();
+    }
+
+    function removeProductImage(prodIndex, imgIdx) {
+        let p = prods[prodIndex];
+        if (p.images && p.images.length > 1) {
+            p.images.splice(imgIdx, 1);
+            p.image = p.images[0] || "";
+            renderProducts();
+        }
+    }
+
     function addProduct() {
         const name = document.getElementById("new-name").value.trim();
         const description = document.getElementById("new-desc").value.trim();
         const price = Number(document.getElementById("new-price").value);
         const stock = Number(document.getElementById("new-stock").value) || 0;
         
-        // חותך את הרשימה לתמונות נפרדות
-        const imageInput = document.getElementById("new-image").value;
-        const images = imageInput.split(',').map(s=>s.trim()).filter(Boolean);
+        // קולט את כל שדות התמונות
+        const imageInputs = document.querySelectorAll(".new-image-input");
+        const images = Array.from(imageInputs).map(input => input.value.trim()).filter(Boolean);
         const image = images[0] || "";
         
         const category = document.getElementById("new-category").value.trim();
@@ -422,7 +463,6 @@
             images,
             category,
             stock
-    
         });
 
         if (category && !cats.some(c => c.name === category)) {
@@ -433,8 +473,15 @@
         document.getElementById("new-desc").value = "";
         document.getElementById("new-price").value = "";
         document.getElementById("new-stock").value = "";
-        document.getElementById("new-image").value = "";
         document.getElementById("new-category").value = "";
+        
+        // איפוס אזור התמונות לכפתור אחד בלבד
+        document.getElementById("new-images-container").innerHTML = `
+            <div class="img-row">
+                <input type="text" class="new-image-input" placeholder="קישור לתמונה">
+                <button class="btn-blue" onclick="addNewImageField()">+</button>
+            </div>
+        `;
 
         renderCategories();
         renderProducts();
@@ -459,6 +506,7 @@
             if (!currentFilter) return true;
             return (p.category || "").trim() === currentFilter;
         });
+        
         if (!visibleProducts.length) {
             wrap.innerHTML = `<div class="muted">אין מוצרים להצגה</div>`;
             return;
@@ -467,31 +515,38 @@
         wrap.innerHTML = visibleProducts.map(p => {
             const originalIndex = prods.indexOf(p);
             
-            // שולף גם אם זו תמונה בודדת וגם אם זה מערך כדי שיוצג בפאנל
-            const currentImages = (p.images && p.images.length) ? p.images.join(',') : (p.image || '');
+            // בניית שורות התמונות למוצר ספציפי
+            let imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : [""]);
+            const imagesHtml = imgs.map((img, imgIdx) => `
+                <div class="img-row" style="margin-top: ${imgIdx > 0 ? '6px' : '0'};">
+                    <input type="text" value="${escapeAttr(img)}" onchange="updateProductImage(${originalIndex}, ${imgIdx}, this.value)" placeholder="קישור לתמונה">
+                    ${imgIdx === 0 ? 
+                        `<button class="btn-blue" onclick="addProductImage(${originalIndex})">+</button>` : 
+                        `<button class="btn-danger" onclick="removeProductImage(${originalIndex}, ${imgIdx})">×</button>`
+                    }
+                </div>
+            `).join('');
 
             return `
                 <div class="product-card">
                     <div class="row">
-                     
-                        <input type="text" value="${escapeAttr(p.name || "")}" onchange="prods[${originalIndex}].name=this.value">
-                        <input type="text" value="${escapeAttr(currentImages)}" onchange="const arr = this.value.split(',').map(s=>s.trim()).filter(Boolean); prods[${originalIndex}].images=arr; prods[${originalIndex}].image=arr[0] || '';" placeholder="קישורי תמונות (מופרדים בפסיק)">
+                        <input type="text" value="${escapeAttr(p.name || "")}" onchange="prods[${originalIndex}].name=this.value" placeholder="שם המוצר">
+                        <div style="display:flex; flex-direction:column; justify-content:flex-start;">
+                            ${imagesHtml}
+                        </div>
                     </div>
 
-                    <textarea rows="3" onchange="prods[${originalIndex}].description=this.value">${escapeTextarea(p.description || "")}</textarea>
+                    <textarea rows="3" onchange="prods[${originalIndex}].description=this.value" placeholder="תיאור המוצר">${escapeTextarea(p.description || "")}</textarea>
 
-                   
                     <div class="row-3">
                         <input type="number" value="${Number(p.price) || 0}" onchange="prods[${originalIndex}].price=Number(this.value)">
                         <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)">
-                        <input type="text" list="cats-list" value="${escapeAttr(p.category ||
-"")}" onchange="onProductCategoryChange(${originalIndex}, this.value)">
+                        <input type="text" list="cats-list" value="${escapeAttr(p.category || "")}" onchange="onProductCategoryChange(${originalIndex}, this.value)">
                     </div>
 
                     <div class="actions" style="margin-top:8px;">
                         <button class="btn-danger" onclick="removeProduct(${originalIndex})">מחק מוצר</button>
                     </div>
-         
                 </div>
             `;
         }).join("");
@@ -503,7 +558,6 @@
 
         if (category && !cats.some(c => c.name === category)) {
             cats.push({ name: category, icon: "📁" });
-        
         }
 
         renderCategories();
@@ -517,16 +571,22 @@
 
         try {
             dedupeCategoriesKeepIcons();
+            
+            // מנקה שדות תמונה ריקים לפני השמירה
+            prods.forEach(p => {
+                if (p.images) {
+                    p.images = p.images.filter(Boolean);
+                    p.image = p.images[0] || "";
+                }
+            });
 
             setStatus("מעדכן דרך השרת... ⏳");
 
-     
             const response = await fetch("/.netlify/functions/save-admin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     products: prods,
-             
                     categories: cats,
                     password: adminPassword
                 })
@@ -578,7 +638,6 @@
     }
 
     window.onload = () => {
-  
         if (adminPassword) {
             document.getElementById("login-box").style.display = "none";
             document.getElementById("admin-box").style.display = "block";
