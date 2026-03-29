@@ -41,7 +41,7 @@ const myProducts = [
     {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
-        "price": 120,
+        "price": 125,
         "image": "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
         "category": "أطقم فناجين",
         "stock": 1,
