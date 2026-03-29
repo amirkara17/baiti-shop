@@ -41,7 +41,7 @@ const myProducts = [
     {
         "name": "طقم الفراشات",
         "description": "طقم فناجين للقهوة مميز وأنيق.",
-        "price": 170,
+        "price": 120,
         "image": "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
         "category": "أطقم فناجين",
         "stock": 1,
@@ -49,24 +49,22 @@ const myProducts = [
             "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
             "12faf146-1698-430d-b395-19578851f832.jpeg",
             "5f619396-0638-4317-938a-d0f0a6168cc7.jpeg"
-        ],
-        "oldPrice": 180
+        ]
     },
     {
         "name": "طقم أكواب الزهور",
         "description": "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
-        "price": 170,
+        "price": 120,
         "image": "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg",
         "category": "أطقم فناجين",
-        "stock": 0,
-        "oldPrice": 180
+        "stock": 0
     },
     {
-        "name": "طقم القلعة الكلاسيكي",
+        "name": "أطقم فناجين",
         "description": "طقم ساحر بتصميم القلعة والعربة الكلاسيكية، يأتيك في علبة هدايا فاخرة.",
         "price": 99,
         "image": "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg",
-        "category": "تشكيلة القلعة",
+        "category": "",
         "stock": 0
     },
     {
