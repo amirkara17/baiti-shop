@@ -1,18 +1,24 @@
 const myProducts = [
     {
         "id": "prod_1774824446955",
-        "name": "مج دبل جلاس مع ورد",
+        "name": "مج/ فنجان دبل جلاس مع ورد",
         "description": "",
-        "price": 15,
+        "price": 0,
         "oldPrice": null,
         "image": "",
         "images": [],
         "category": "مجات",
-        "stock": 3,
+        "stock": 0,
         "variants": [
             {
-                "name": "فنجان ذبل جلاس مع ورد",
+                "name": "فنجان دبل جلاس مع ورد",
                 "price": 10,
+                "stock": 3,
+                "image": ""
+            },
+            {
+                "name": "مج دبل جلاس مع ورد",
+                "price": 15,
                 "stock": 3,
                 "image": ""
             }
