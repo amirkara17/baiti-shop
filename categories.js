@@ -26,5 +26,9 @@ const myCategories = [
     {
         "name": "مجات",
         "icon": "📁"
+    },
+    {
+        "name": "صحون للمكسرات",
+        "icon": "📁"
     }
 ];
