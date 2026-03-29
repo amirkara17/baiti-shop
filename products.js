@@ -1,5 +1,41 @@
 const myProducts = [
     {
+        "id": "prod_1774824168430",
+        "name": "مج دبل جلاس مع ورد",
+        "description": "",
+        "price": 15,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "",
+        "stock": 3,
+        "variants": []
+    },
+    {
+        "id": "prod_1774824118971",
+        "name": "طقم 6 صحون للمكسرات (شفاف)",
+        "description": "",
+        "price": 39,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "",
+        "stock": 3,
+        "variants": []
+    },
+    {
+        "id": "prod_1774824029367",
+        "name": "12 كاس عصير شفاف",
+        "description": "",
+        "price": 70,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "كاسات عصير",
+        "stock": 3,
+        "variants": []
+    },
+    {
         "id": "prod_1774823814242",
         "name": "مج كبير بورسلان منقط",
         "description": "",
@@ -8,12 +44,12 @@ const myProducts = [
         "image": "",
         "images": [],
         "category": "مجات",
-        "stock": 0,
+        "stock": 6,
         "variants": []
     },
     {
         "id": "prod_1774823508797",
-        "name": "6 صحون مكسرات نقشة مغربية",
+        "name": "طقم 6 صحون مكسرات نقشة مغربية",
         "description": "",
         "price": 60,
         "oldPrice": null,
