@@ -171,6 +171,8 @@
             </div>
         </div>
 
+        <p class="muted" style="margin-top:8px;">* כדי להוסיף צבעים/מידות שונות, יש להוסיף קודם את המוצר ואז לערוך אותו ברשימה למטה.</p>
+
         <datalist id="cats-list"></datalist>
        
         <button class="btn-main" onclick="addProduct()" style="margin-top:8px;">הוסף מוצר</button>
@@ -241,13 +243,11 @@
         const map = new Map();
         cats.forEach(cat => {
             if (!cat || !cat.name || !cat.name.trim()) return;
-
             const name = cat.name.trim();
             const icon = (cat.icon || "").trim() || "📁";
 
             if (!map.has(name)) {
                 map.set(name, { name, icon });
-            
             } else {
                 const existing = map.get(name);
                 if ((existing.icon === "📁" || !existing.icon) && icon !== "📁") {
@@ -468,7 +468,8 @@
             image,
             images,
             category,
-            stock
+            stock,
+            variants: []
         });
 
         if (category && !cats.some(c => c.name === category)) {
@@ -532,6 +533,23 @@
                 </div>
             `).join('');
 
+            // קטע הוריאציות החדש
+            const variantsHtml = `
+                <div style="background:#f8f9fa; padding:12px; border-radius:10px; margin-top:10px; text-align:right; border:1px dashed #ccc;">
+                    <h4 style="margin:0 0 10px 0; font-size:13px; color:#555;">🎨 וריאציות (צבעים/מידות/סוגים):</h4>
+                    ${(p.variants||[]).map((v, vIdx) => `
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-wrap:wrap; align-items:center; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee;">
+                            <input type="text" placeholder="שם (למשל צבע אדום)" style="width:120px; flex-grow:1; margin:0;" value="${escapeAttr(v.name||'')}" onchange="prods[${originalIndex}].variants[${vIdx}].name=this.value">
+                            <input type="number" placeholder="מחיר סופי" style="width:80px; margin:0;" value="${v.price||0}" onchange="prods[${originalIndex}].variants[${vIdx}].price=Number(this.value)">
+                            <input type="number" placeholder="מלאי" style="width:70px; margin:0;" value="${v.stock!==undefined?v.stock:''}" onchange="prods[${originalIndex}].variants[${vIdx}].stock=Number(this.value)">
+                            <input type="text" placeholder="קישור לתמונה (אופציונלי)" style="width:150px; flex-grow:1; margin:0;" value="${escapeAttr(v.image||'')}" onchange="prods[${originalIndex}].variants[${vIdx}].image=this.value">
+                            <button class="btn-danger" style="margin:0; height:38px; width:38px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="prods[${originalIndex}].variants.splice(${vIdx},1); renderProducts();">✖</button>
+                        </div>
+                    `).join('')}
+                    <button class="btn-blue" style="padding:6px 12px; font-size:12px; margin-top:5px;" onclick="if(!prods[${originalIndex}].variants) prods[${originalIndex}].variants=[]; prods[${originalIndex}].variants.push({name:'', price:prods[${originalIndex}].price, stock:prods[${originalIndex}].stock, image:''}); renderProducts();">+ הוסף צבע/מידה</button>
+                </div>
+            `;
+
             return `
                 <div class="product-card">
                     <div class="row">
@@ -552,6 +570,8 @@
                         <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)" placeholder="מלאי">
                         <input type="text" list="cats-list" value="${escapeAttr(p.category || "")}" onchange="onProductCategoryChange(${originalIndex}, this.value)" placeholder="קטגוריה">
                     </div>
+
+                    ${variantsHtml}
 
                     <div class="actions" style="margin-top:8px;">
                         <button class="btn-danger" onclick="removeProduct(${originalIndex})">מחק מוצר</button>
