@@ -4,10 +4,6 @@ const myCategories = [
         "icon": "✨"
     },
     {
-        "name": "أكواب",
-        "icon": "☕"
-    },
-    {
         "name": "ديزني الأصلي",
         "icon": "🪄"
     },
@@ -25,7 +21,7 @@ const myCategories = [
     },
     {
         "name": "مجات",
-        "icon": "📁"
+        "icon": "☕️"
     },
     {
         "name": "صحون للمكسرات",
