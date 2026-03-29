@@ -1,5 +1,16 @@
 const myProducts = [
     {
+        "id": "prod_1774822770548",
+        "name": "جاط جبصين",
+        "description": "جاط مصنوع من جبصين، ممكن ان يستعمل للفواكة مثلاً",
+        "price": 90,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "جاطات",
+        "stock": 1
+    },
+    {
         "id": "prod_1774616945949",
         "name": "شمعة نجمة البحر",
         "description": "",
