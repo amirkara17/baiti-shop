@@ -1,5 +1,17 @@
 const myProducts = [
     {
+        "id": "prod_1774823393619",
+        "name": "طقم 6 مجات كبار بورسلان",
+        "description": "طفم 6 مجات مع خط اخضر 💚",
+        "price": 60,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1774823234122",
         "name": "شمعة 3 أحجام",
         "description": "",
