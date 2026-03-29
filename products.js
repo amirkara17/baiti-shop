@@ -266,7 +266,7 @@ const myProducts = [
     },
     {
         "name": "طقم الفراشات",
-        "description": "طقم فناجين للقهوة مميز وأنيق.",
+        "description": "طقم فناجين للقهوة مميز وأنيق. يشمل 6 فناجين للقهوة + 6 صحون ",
         "price": 125,
         "image": "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
         "category": "أطقم فناجين",
