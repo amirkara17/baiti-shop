@@ -57,7 +57,20 @@ const myProducts = [
         "images": [],
         "category": "مجات",
         "stock": 6,
-        "variants": []
+        "variants": [
+            {
+                "name": "فنجان دبل جلاس مع ورد",
+                "price": 10,
+                "stock": 3,
+                "image": ""
+            },
+            {
+                "name": "",
+                "price": 14,
+                "stock": 6,
+                "image": ""
+            }
+        ]
     },
     {
         "id": "prod_1774823508797",
