@@ -1,5 +1,16 @@
 const myProducts = [
     {
+        "id": "prod_1774823210164",
+        "name": "مج كبير بورسلان منقط",
+        "description": "",
+        "price": 14,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 0
+    },
+    {
         "id": "prod_1774823118288",
         "name": "6 كاسات شاي شفافة",
         "description": "طقم 6 كاسات شاي مبلطة بسعر 🔥",
@@ -98,14 +109,6 @@ const myProducts = [
         "price": 99,
         "image": "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg",
         "category": "",
-        "stock": 0
-    },
-    {
-        "name": "أكواب بتصاميم مميزة",
-        "description": "أكواب جميلة برسومات لطيفة (السعر للكوب الواحد).",
-        "price": 35,
-        "image": "IMG_8631.jpeg",
-        "category": "أكواب",
         "stock": 0
     },
     {
