@@ -18,5 +18,9 @@ const myCategories = [
     {
         "name": "ديكورات منزلية",
         "icon": "🏡"
+    },
+    {
+        "name": "جاطات",
+        "icon": "📁"
     }
 ];
