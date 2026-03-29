@@ -1,5 +1,30 @@
 const myProducts = [
     {
+        "id": "prod_1774825305085",
+        "name": "مج هاند ميد 🎀",
+        "description": "مج هاند ميد مع ببيونة بشكلين مختلفين.",
+        "price": 0,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 0,
+        "variants": [
+            {
+                "name": "مج 1",
+                "price": 35,
+                "stock": 5,
+                "image": ""
+            },
+            {
+                "name": "مج 2",
+                "price": 35,
+                "stock": 2,
+                "image": ""
+            }
+        ]
+    },
+    {
         "id": "prod_1774825114587",
         "name": "مج هاند ميد مع ببيونه",
         "description": "",
