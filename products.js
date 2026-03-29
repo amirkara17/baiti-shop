@@ -1,5 +1,29 @@
 const myProducts = [
     {
+        "id": "prod_1774826277086",
+        "name": "3 سكملات خشب ومعدن",
+        "description": "",
+        "price": 425,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "ديكورات منزلية",
+        "stock": 2,
+        "variants": []
+    },
+    {
+        "id": "prod_1774826170941",
+        "name": "طقم طاولات خشب",
+        "description": "يشمل 2 طاولات خشب بحجم 50سم و70سم",
+        "price": 380,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "ديكورات منزلية",
+        "stock": 2,
+        "variants": []
+    },
+    {
         "id": "prod_1774825375884",
         "name": "مج هاند ميد ورد",
         "description": "",
@@ -91,7 +115,7 @@ const myProducts = [
                 "image": ""
             },
             {
-                "name": "مج دبل جلاس مع ورد",
+                "name": "مج دبل جلاس مع ورد ",
                 "price": 15,
                 "stock": 3,
                 "image": ""
