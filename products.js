@@ -1,5 +1,17 @@
 const myProducts = [
     {
+        "id": "prod_1774824446955",
+        "name": "مج دبل جلاس مع ورد",
+        "description": "",
+        "price": 15,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 3,
+        "variants": []
+    },
+    {
         "id": "prod_1774824168430",
         "name": "مج دبل جلاس مع ورد",
         "description": "",
