@@ -1,5 +1,17 @@
 const myProducts = [
     {
+        "id": "prod_1774823814242",
+        "name": "مج كبير بورسلان منقط",
+        "description": "",
+        "price": 14,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1774823508797",
         "name": "6 صحون مكسرات نقشة مغربية",
         "description": "",
