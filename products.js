@@ -151,7 +151,7 @@ const myProducts = [
         "description": "أكواب جميلة برسومات لطيفة (السعر للكوب الواحد).",
         "price": 35,
         "image": "IMG_8631.jpeg",
-        "category": "أكواب",
+        "category": "",
         "stock": 0
     },
     {
