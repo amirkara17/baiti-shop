@@ -12,7 +12,7 @@ const myCategories = [
         "icon": "🪄"
     },
     {
-        "name": "شموع عطرية",
+        "name": "شموع معطرة",
         "icon": "🕯️"
     },
     {
