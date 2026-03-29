@@ -9,7 +9,14 @@ const myProducts = [
         "images": [],
         "category": "مجات",
         "stock": 3,
-        "variants": []
+        "variants": [
+            {
+                "name": "فنجان ذبل جلاس مع ورد",
+                "price": 10,
+                "stock": 3,
+                "image": ""
+            }
+        ]
     },
     {
         "id": "prod_1774824168430",
@@ -57,20 +64,7 @@ const myProducts = [
         "images": [],
         "category": "مجات",
         "stock": 6,
-        "variants": [
-            {
-                "name": "فنجان دبل جلاس مع ورد",
-                "price": 10,
-                "stock": 3,
-                "image": ""
-            },
-            {
-                "name": "",
-                "price": 14,
-                "stock": 6,
-                "image": ""
-            }
-        ]
+        "variants": []
     },
     {
         "id": "prod_1774823508797",
