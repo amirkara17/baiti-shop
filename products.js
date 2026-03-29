@@ -1,25 +1,36 @@
 const myProducts = [
     {
-        "id": "prod_1774823210164",
-        "name": "مج كبير بورسلان منقط",
+        "id": "prod_1774823234122",
+        "name": "شمعة 3 أحجام",
         "description": "",
-        "price": 14,
+        "price": 0,
         "oldPrice": null,
-        "image": "",
-        "images": [],
-        "category": "مجات",
-        "stock": 0
-    },
-    {
-        "id": "prod_1774823118288",
-        "name": "6 كاسات شاي شفافة",
-        "description": "طقم 6 كاسات شاي مبلطة بسعر 🔥",
-        "price": 30,
-        "oldPrice": null,
-        "image": "",
-        "images": [],
-        "category": "كاسات شاي",
-        "stock": 0
+        "image": "WhatsApp Image 2026-03-30 at 01.08.45.jpeg",
+        "images": [
+            "WhatsApp Image 2026-03-30 at 01.08.45.jpeg"
+        ],
+        "category": "شموع معطرة",
+        "stock": 0,
+        "variants": [
+            {
+                "name": "كبير",
+                "price": 20,
+                "stock": 4,
+                "image": ""
+            },
+            {
+                "name": "وسط",
+                "price": 15,
+                "stock": 2,
+                "image": ""
+            },
+            {
+                "name": "صغير",
+                "price": 10,
+                "stock": 2,
+                "image": ""
+            }
+        ]
     },
     {
         "id": "prod_1774822928112",
@@ -109,6 +120,14 @@ const myProducts = [
         "price": 99,
         "image": "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg",
         "category": "",
+        "stock": 0
+    },
+    {
+        "name": "أكواب بتصاميم مميزة",
+        "description": "أكواب جميلة برسومات لطيفة (السعر للكوب الواحد).",
+        "price": 35,
+        "image": "IMG_8631.jpeg",
+        "category": "أكواب",
         "stock": 0
     },
     {
