@@ -80,10 +80,11 @@ const myProducts = [
     {
         "name": "كوب القطة ماري - ديزني",
         "description": "كوب أصلي من ديزني بتصميم القطة ماري اللطيفة.",
-        "price": 35,
+        "price": 30,
         "image": "6851461d-69ed-4f13-b9c2-21de70672611.jpeg",
         "category": "ديزني الأصلي 🪄",
-        "stock": 1
+        "stock": 1,
+        "oldPrice": 35
     },
     {
         "name": "كوب ستيتش - ديزني",
