@@ -17,7 +17,7 @@ const myCategories = [
     },
     {
         "name": "جاطات",
-        "icon": "📁"
+        "icon": "🤍"
     },
     {
         "name": "مجات",
@@ -25,7 +25,7 @@ const myCategories = [
     },
     {
         "name": "صحون للمكسرات",
-        "icon": "📁"
+        "icon": "🥣"
     },
     {
         "name": "كاسات عصير",
