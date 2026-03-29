@@ -1,5 +1,17 @@
 const myProducts = [
     {
+        "id": "prod_1774823508797",
+        "name": "6 صحون مكسرات نقشة مغربية",
+        "description": "",
+        "price": 60,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "صحون للمكسرات",
+        "stock": 3,
+        "variants": []
+    },
+    {
         "id": "prod_1774823393619",
         "name": "طقم 6 مجات كبار بورسلان",
         "description": "طفم 6 مجات مع خط اخضر 💚",
@@ -8,7 +20,7 @@ const myProducts = [
         "image": "",
         "images": [],
         "category": "مجات",
-        "stock": 0,
+        "stock": 3,
         "variants": []
     },
     {
@@ -53,7 +65,7 @@ const myProducts = [
         "image": "",
         "images": [],
         "category": "أطقم فناجين",
-        "stock": 0
+        "stock": 1
     },
     {
         "id": "prod_1774822770548",
