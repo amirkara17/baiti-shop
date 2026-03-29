@@ -4,7 +4,7 @@ const myCategories = [
         "icon": "✨"
     },
     {
-        "name": "أكواب",
+        "name": "مجات",
         "icon": "☕"
     },
     {
