@@ -1,5 +1,17 @@
 const myProducts = [
     {
+        "id": "prod_1774825375884",
+        "name": "مج هاند ميد ورد",
+        "description": "",
+        "price": 25,
+        "oldPrice": null,
+        "image": "",
+        "images": [],
+        "category": "مجات",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1774825305085",
         "name": "مج هاند ميد 🎀",
         "description": "مج هاند ميد مع ببيونة بشكلين مختلفين.",
