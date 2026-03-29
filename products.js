@@ -8,7 +8,7 @@ const myProducts = [
         "image": "",
         "images": [],
         "category": "مجات",
-        "stock": 0,
+        "stock": 3,
         "variants": []
     },
     {
