@@ -1,7 +1,7 @@
 const myProducts = [
     {
         "id": "prod_1774616945949",
-        "name": "شمعة \"نجمة البحر\" الملكية",
+        "name": "شمعة نجمة البحر",
         "description": "",
         "price": 8,
         "oldPrice": 15,
@@ -10,12 +10,12 @@ const myProducts = [
             "IMG_8749.jpeg",
             "IMG_8748.jpeg"
         ],
-        "category": "شموع عطرية",
+        "category": "شموع معطرة",
         "stock": 3
     },
     {
         "id": "prod_1774615925931",
-        "name": "شمعة الوردة الجمالية",
+        "name": "بوكيه ورد مصنوع من شمع",
         "description": "",
         "price": 95,
         "oldPrice": 100,
@@ -25,7 +25,7 @@ const myProducts = [
             "4d50f1a0-1acb-468e-a1fa-bcd081afdda0.jpeg",
             "f2d8238d-6358-4d58-9378-28d98cf72b79.jpeg"
         ],
-        "category": "شموع عطرية",
+        "category": "شموع معطرة",
         "stock": 5
     },
     {
