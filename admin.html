@@ -160,7 +160,7 @@
         </div>
 
         <div class="row" style="margin-top: 6px;">
-            <input type="number" id="new-stock" placeholder="מלאי">
+            <input type="number" id="new-stock" placeholder="מלאי כללי (השאר ריק אם יש וריאציות)">
             <input type="text" id="new-category" list="cats-list" placeholder="בחר קטגוריה">
         </div>
 
@@ -171,11 +171,15 @@
             </div>
         </div>
 
-        <p class="muted" style="margin-top:8px;">* כדי להוסיף צבעים/מידות שונות, יש להוסיף קודם את המוצר ואז לערוך אותו ברשימה למטה.</p>
+        <div style="background:#f8f9fa; padding:12px; border-radius:10px; margin-top:10px; text-align:right; border:1px dashed #ccc;">
+            <h4 style="margin:0 0 10px 0; font-size:13px; color:#555;">🎨 וריאציות (צבעים/מידות/סוגים) למוצר החדש:</h4>
+            <div id="new-variants-list"></div>
+            <button class="btn-blue" style="padding:6px 12px; font-size:12px; margin-top:5px;" onclick="addNewVariantField()">+ הוסף צבע/מידה</button>
+        </div>
 
         <datalist id="cats-list"></datalist>
        
-        <button class="btn-main" onclick="addProduct()" style="margin-top:8px;">הוסף מוצר</button>
+        <button class="btn-main" onclick="addProduct()" style="margin-top:12px; width:100%;">הוסף מוצר</button>
     </div>
 
     <div class="section">
@@ -410,6 +414,21 @@
         container.appendChild(div);
     }
 
+    function addNewVariantField() {
+        const container = document.getElementById('new-variants-list');
+        const div = document.createElement('div');
+        div.className = 'new-variant-item';
+        div.style = 'display:flex; gap:5px; margin-bottom:8px; flex-wrap:wrap; align-items:center; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee;';
+        div.innerHTML = `
+            <input type="text" placeholder="שם (למשל כחול)" style="width:120px; flex-grow:1; margin:0;" class="nv-name">
+            <input type="number" placeholder="מחיר סופי" style="width:80px; margin:0;" class="nv-price">
+            <input type="number" placeholder="מלאי" style="width:70px; margin:0;" class="nv-stock">
+            <input type="text" placeholder="תמונה (אופציונלי)" style="width:150px; flex-grow:1; margin:0;" class="nv-image">
+            <button class="btn-danger" style="margin:0; height:38px; width:38px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="this.parentElement.remove()">✖</button>
+        `;
+        container.appendChild(div);
+    }
+
     function updateProductImage(prodIndex, imgIdx, value) {
         let p = prods[prodIndex];
         if (!p.images || !p.images.length) p.images = p.image ? [p.image] : [""];
@@ -454,8 +473,26 @@
             return;
         }
 
-        if (!price && price !== 0) {
-            alert("חובה להזין מחיר");
+        // שאיבת הוריאציות שהוזנו בחלונית יצירת המוצר
+        const variantElements = document.querySelectorAll('.new-variant-item');
+        const newVariants = [];
+        variantElements.forEach(el => {
+            const vName = el.querySelector('.nv-name').value.trim();
+            const vPrice = el.querySelector('.nv-price').value;
+            const vStock = el.querySelector('.nv-stock').value;
+            const vImage = el.querySelector('.nv-image').value.trim();
+            if (vName) {
+                newVariants.push({
+                    name: vName,
+                    price: vPrice !== "" ? Number(vPrice) : price, // אם לא הוזן מחיר לוריאציה, לוקח מהכללי
+                    stock: vStock !== "" ? Number(vStock) : 0,
+                    image: vImage
+                });
+            }
+        });
+
+        if (!price && price !== 0 && newVariants.length === 0) {
+            alert("חובה להזין מחיר כללי או לפחות וריאציה אחת עם מחיר");
             return;
         }
 
@@ -469,13 +506,14 @@
             images,
             category,
             stock,
-            variants: []
+            variants: newVariants
         });
 
         if (category && !cats.some(c => c.name === category)) {
             cats.push({ name: category, icon: "📁" });
         }
 
+        // איפוס טופס יצירת המוצר
         document.getElementById("new-name").value = "";
         document.getElementById("new-desc").value = "";
         document.getElementById("new-price").value = "";
@@ -489,6 +527,7 @@
                 <button class="btn-blue" onclick="addNewImageField()">+</button>
             </div>
         `;
+        document.getElementById("new-variants-list").innerHTML = "";
 
         renderCategories();
         renderProducts();
@@ -533,7 +572,6 @@
                 </div>
             `).join('');
 
-            // קטע הוריאציות החדש
             const variantsHtml = `
                 <div style="background:#f8f9fa; padding:12px; border-radius:10px; margin-top:10px; text-align:right; border:1px dashed #ccc;">
                     <h4 style="margin:0 0 10px 0; font-size:13px; color:#555;">🎨 וריאציות (צבעים/מידות/סוגים):</h4>
@@ -567,7 +605,7 @@
                     </div>
 
                     <div class="row" style="margin-top: 6px;">
-                        <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)" placeholder="מלאי">
+                        <input type="number" value="${Number(p.stock) || 0}" onchange="prods[${originalIndex}].stock=Number(this.value)" placeholder="מלאי כללי">
                         <input type="text" list="cats-list" value="${escapeAttr(p.category || "")}" onchange="onProductCategoryChange(${originalIndex}, this.value)" placeholder="קטגוריה">
                     </div>
 
