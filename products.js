@@ -167,14 +167,16 @@ const myProducts = [
     },
     {
         "id": "prod_1774823814242",
-        "name": "مج كبير بورسلان منقط",
-        "description": "",
-        "price": 14,
-        "oldPrice": null,
-        "image": "",
-        "images": [],
+        "name": "طقم مجات بورسلان منقط",
+        "description": "طقم يشمل 6 مجات بورسلان حجم كبير منقط بلون ازرق",
+        "price": 60,
+        "image": "IMG_6236.jpeg",
+        "images": [
+            "IMG_6236.jpeg",
+            "IMG_6243.jpeg"
+        ],
         "category": "مجات",
-        "stock": 6,
+        "stock": 1,
         "variants": []
     },
     {
