@@ -123,30 +123,6 @@ const myProducts = [
         ]
     },
     {
-        "id": "prod_1774824168430",
-        "name": "مج دبل جلاس مع ورد",
-        "description": "",
-        "price": 15,
-        "oldPrice": null,
-        "image": "",
-        "images": [],
-        "category": "",
-        "stock": 3,
-        "variants": []
-    },
-    {
-        "id": "prod_1774824118971",
-        "name": "طقم 6 صحون للمكسرات (شفاف)",
-        "description": "",
-        "price": 39,
-        "oldPrice": null,
-        "image": "",
-        "images": [],
-        "category": "",
-        "stock": 3,
-        "variants": []
-    },
-    {
         "id": "prod_1774824029367",
         "name": "12 كاس عصير شفاف",
         "description": "",
@@ -336,15 +312,7 @@ const myProducts = [
         "description": "طقم ساحر بتصميم القلعة والعربة الكلاسيكية، يأتيك في علبة هدايا فاخرة.",
         "price": 99,
         "image": "1d443a16-2a6a-4af8-a790-16fca67a85c6.jpeg",
-        "category": "",
-        "stock": 0
-    },
-    {
-        "name": "أكواب بتصاميم مميزة",
-        "description": "أكواب جميلة برسومات لطيفة (السعر للكوب الواحد).",
-        "price": 35,
-        "image": "IMG_8631.jpeg",
-        "category": "",
+        "category": "أطقم فناجين قهوة/ شاي",
         "stock": 0
     },
     {
