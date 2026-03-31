@@ -195,8 +195,13 @@ const myProducts = [
         "description": "طفم 6 مجات مع خط اخضر 💚",
         "price": 60,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6329.jpeg",
+        "images": [
+            "IMG_6329.jpeg",
+            "IMG_6332.jpeg",
+            "IMG_6334.jpeg",
+            "IMG_6333.jpeg"
+        ],
         "category": "مجات",
         "stock": 3,
         "variants": []
