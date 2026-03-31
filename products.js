@@ -152,12 +152,8 @@ const myProducts = [
         "description": "",
         "price": 70,
         "oldPrice": null,
-        "image": "IMG_6355.jpeg",
-        "images": [
-            "IMG_6355.jpeg",
-            "IMG_6357.jpeg",
-            "IMG_6364.jpeg"
-        ],
+        "image": "",
+        "images": [],
         "category": "كاسات عصير",
         "stock": 3,
         "variants": []
@@ -172,7 +168,7 @@ const myProducts = [
             "IMG_6236.jpeg",
             "IMG_6243.jpeg"
         ],
-        "category": "أطقم فناجين قهوة/ شاي",
+        "category": "مجات",
         "stock": 1,
         "variants": []
     },
@@ -182,8 +178,12 @@ const myProducts = [
         "description": "",
         "price": 60,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6221.jpeg",
+        "images": [
+            "IMG_6221.jpeg",
+            "IMG_6221.jpeg",
+            "IMG_6229.jpeg"
+        ],
         "category": "صحون للمكسرات",
         "stock": 3,
         "variants": []
