@@ -81,31 +81,6 @@ const myProducts = [
         ]
     },
     {
-        "id": "prod_1774825114587",
-        "name": "مج هاند ميد مع ببيونه",
-        "description": "",
-        "price": 0,
-        "oldPrice": null,
-        "image": "",
-        "images": [],
-        "category": "",
-        "stock": 0,
-        "variants": [
-            {
-                "name": "مج 1",
-                "price": 35,
-                "stock": 5,
-                "image": ""
-            },
-            {
-                "name": "مج 2",
-                "price": 35,
-                "stock": 2,
-                "image": ""
-            }
-        ]
-    },
-    {
         "id": "prod_1774825008037",
         "name": "طقم 6 صحون للمكسرات (شفافة)",
         "description": "",
