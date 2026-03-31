@@ -44,8 +44,10 @@ const myProducts = [
         "description": "مج هاند ميد مع ببيونة بشكلين مختلفين.",
         "price": 0,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6310.jpeg",
+        "images": [
+            "IMG_6310.jpeg"
+        ],
         "category": "مجات",
         "stock": 0,
         "variants": [
