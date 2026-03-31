@@ -240,8 +240,9 @@ const myProducts = [
         "description": "6 فناجين قهوة مع يد بلون فضي و 6 صحون بورسلان.",
         "price": 99,
         "oldPrice": null,
-        "image": "EE379FA2-0FC7-4576-9802-E0D032279ACC.jpeg",
+        "image": "IMG_6395.jpeg",
         "images": [
+            "IMG_6395.jpeg",
             "EE379FA2-0FC7-4576-9802-E0D032279ACC.jpeg"
         ],
         "category": "أطقم فناجين",
