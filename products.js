@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1774973639230",
+        "name": "طقم 6 كاسات للشاي شفاف",
+        "description": "",
+        "price": 30,
+        "oldPrice": null,
+        "image": "IMG_6268.jpeg",
+        "images": [
+            "IMG_6268.jpeg",
+            "IMG_6269.jpeg"
+        ],
+        "category": "أطقم فناجين قهوة/ شاي",
+        "stock": 4,
+        "variants": []
+    },
+    {
         "id": "prod_1774826277086",
         "name": "3 سكملات خشب ومعدن",
         "description": "",
@@ -252,7 +267,7 @@ const myProducts = [
             "IMG_6395.jpeg",
             "EE379FA2-0FC7-4576-9802-E0D032279ACC.jpeg"
         ],
-        "category": "أطقم فناجين",
+        "category": "أطقم فناجين قهوة/ شاي",
         "stock": 1
     },
     {
@@ -314,7 +329,7 @@ const myProducts = [
         "description": "طقم فناجين للقهوة مميز وأنيق. يشمل 6 فناجين للقهوة + 6 صحون ",
         "price": 125,
         "image": "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
-        "category": "أطقم فناجين",
+        "category": "أطقم فناجين قهوة/ شاي",
         "stock": 1,
         "images": [
             "7c584c2a-b25c-4b35-baaf-dfd31266b9c6.jpeg",
@@ -327,7 +342,7 @@ const myProducts = [
         "description": "طقم رائع بتصميم الزهور البارزة، يضيف لمسة ربيعية لضيافتك.",
         "price": 120,
         "image": "1109cc14-59e1-4bf8-830a-94966e0a6b36.jpeg",
-        "category": "أطقم فناجين",
+        "category": "أطقم فناجين قهوة/ شاي",
         "stock": 0
     },
     {
