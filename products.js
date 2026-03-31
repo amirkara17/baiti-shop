@@ -29,8 +29,11 @@ const myProducts = [
         "description": "",
         "price": 25,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6231.jpeg",
+        "images": [
+            "IMG_6231.jpeg",
+            "IMG_6232.jpeg"
+        ],
         "category": "مجات",
         "stock": 3,
         "variants": []
