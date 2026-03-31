@@ -1,6 +1,6 @@
 const myCategories = [
     {
-        "name": "أطقم فناجين",
+        "name": "أطقم فناجين قهوة/ شاي",
         "icon": "✨"
     },
     {
