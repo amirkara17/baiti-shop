@@ -103,8 +103,10 @@ const myProducts = [
         "description": "",
         "price": 0,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_8870.jpeg",
+        "images": [
+            "IMG_8870.jpeg"
+        ],
         "category": "مجات",
         "stock": 0,
         "variants": [
@@ -112,13 +114,13 @@ const myProducts = [
                 "name": "فنجان دبل جلاس مع ورد",
                 "price": 10,
                 "stock": 3,
-                "image": ""
+                "image": "IMG_8869.jpeg"
             },
             {
                 "name": "مج دبل جلاس مع ورد ",
                 "price": 15,
                 "stock": 3,
-                "image": ""
+                "image": "IMG_8871.jpeg"
             }
         ]
     },
