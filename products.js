@@ -192,7 +192,7 @@ const myProducts = [
     {
         "id": "prod_1774823393619",
         "name": "طقم 6 مجات كبار بورسلان",
-        "description": "طفم 6 مجات مع خط اخضر 💚",
+        "description": "طفم 6 مجات مع خط 💚🤎",
         "price": 60,
         "oldPrice": null,
         "image": "IMG_6329.jpeg",
