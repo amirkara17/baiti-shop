@@ -111,8 +111,11 @@ const myProducts = [
         "description": "",
         "price": 39,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6271.jpeg",
+        "images": [
+            "IMG_6271.jpeg",
+            "IMG_6273.jpeg"
+        ],
         "category": "صحون للمكسرات",
         "stock": 1,
         "variants": []
