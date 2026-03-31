@@ -261,8 +261,12 @@ const myProducts = [
         "description": "حجم: 15*16*21\nجاط مصنوع من جبصين، ممكن ان يستعمل للفواكة مثلاً. ",
         "price": 90,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_6257.jpeg",
+        "images": [
+            "IMG_6257.jpeg",
+            "IMG_6258.jpeg",
+            "IMG_6261.jpeg"
+        ],
         "category": "جاطات",
         "stock": 1
     },
