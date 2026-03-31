@@ -168,7 +168,7 @@ const myProducts = [
             "IMG_6236.jpeg",
             "IMG_6243.jpeg"
         ],
-        "category": "مجات",
+        "category": "أطقم فناجين قهوة/ شاي",
         "stock": 1,
         "variants": []
     },
