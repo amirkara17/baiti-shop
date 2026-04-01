@@ -62,8 +62,10 @@ const myProducts = [
         "description": "",
         "price": 425,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_8946.webp",
+        "images": [
+            "IMG_8946.webp"
+        ],
         "category": "ديكورات منزلية",
         "stock": 2,
         "variants": []
@@ -74,8 +76,10 @@ const myProducts = [
         "description": "يشمل 2 طاولات خشب بحجم 50سم و70سم",
         "price": 380,
         "oldPrice": null,
-        "image": "",
-        "images": [],
+        "image": "IMG_8947.jpeg",
+        "images": [
+            "IMG_8947.jpeg"
+        ],
         "category": "ديكورات منزلية",
         "stock": 2,
         "variants": []
