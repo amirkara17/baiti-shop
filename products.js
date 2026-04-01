@@ -13,13 +13,13 @@ const myProducts = [
         "stock": 0,
         "variants": [
             {
-                "name": "انجل",
+                "name": "ستيتش",
                 "price": 25,
                 "stock": 2,
                 "image": "WhatsApp Image 2026-03-31 at 20.36.37 (2).jpeg"
             },
             {
-                "name": "ستيتش",
+                "name": "انجل",
                 "price": 25,
                 "stock": 2,
                 "image": "WhatsApp Image 2026-03-31 at 20.36.37 (1).jpeg"
