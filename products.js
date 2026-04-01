@@ -60,7 +60,7 @@ const myProducts = [
         "id": "prod_1774826277086",
         "name": "3 سكملات خشب ومعدن",
         "description": "",
-        "price": 425,
+        "price": 400,
         "oldPrice": null,
         "image": "IMG_8946.webp",
         "images": [
@@ -74,7 +74,7 @@ const myProducts = [
         "id": "prod_1774826170941",
         "name": "طقم طاولات خشب",
         "description": "يشمل 2 طاولات خشب بحجم 50سم و70سم",
-        "price": 380,
+        "price": 350,
         "oldPrice": null,
         "image": "IMG_8947.jpeg",
         "images": [
