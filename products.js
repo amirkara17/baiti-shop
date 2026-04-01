@@ -1,5 +1,32 @@
 const myProducts = [
     {
+        "id": "prod_1775037007600",
+        "name": "صحون ديزني ستيتش وانجل",
+        "description": "",
+        "price": 0,
+        "oldPrice": null,
+        "image": "WhatsApp Image 2026-03-31 at 20.36.37 (3).jpeg",
+        "images": [
+            "WhatsApp Image 2026-03-31 at 20.36.37 (3).jpeg"
+        ],
+        "category": "",
+        "stock": 0,
+        "variants": [
+            {
+                "name": "ديزني",
+                "price": 25,
+                "stock": 2,
+                "image": "WhatsApp Image 2026-03-31 at 20.36.37 (2).jpeg"
+            },
+            {
+                "name": "ستيتش",
+                "price": 25,
+                "stock": 2,
+                "image": "WhatsApp Image 2026-03-31 at 20.36.37 (1).jpeg"
+            }
+        ]
+    },
+    {
         "id": "prod_1775036895030",
         "name": "طقم 6 صحون",
         "description": "",
