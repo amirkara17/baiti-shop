@@ -126,7 +126,7 @@
 <div id="login-box" class="box" style="max-width: 500px;">
     <h2>כניסה לפאנל ניהול 🔒</h2>
     <input type="password" id="admin-password" placeholder="הכנס סיסמת ניהול">
-    <button id="login-btn-action" class="btn-main" onclick="login()" style="width:100%;">כניסה</button>
+    <button class="btn-main" onclick="login()" style="width:100%;">כניסה</button>
 </div>
 
 <div id="admin-box" class="box" style="display:none;">
@@ -211,46 +211,18 @@
         el.style.color = isError ? "#dc2626" : "#15803d";
     }
 
-    async function login() {
+    function login() {
         const password = document.getElementById("admin-password").value.trim();
         if (!password) {
             alert("יש להזין סיסמה");
             return;
         }
-
-        const loginBtn = document.getElementById("login-btn-action");
-        loginBtn.disabled = true;
-        loginBtn.innerText = "בודק סיסמה... ⏳";
-
-        try {
-            // ניסיון "ריק" לשמור רק כדי לאמת את הסיסמה מול השרת
-            const response = await fetch("/.netlify/functions/save-admin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    test_auth_only: true, // דגל שמסמן לשרת לא לשמור כלום, רק לבדוק סיסמה
-                    password: password
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error("סיסמה שגויה או בעיה בחיבור");
-            }
-
-            // אם הגענו לפה, הסיסמה נכונה!
-            adminPassword = password;
-            sessionStorage.setItem("admin_password", password);
-            document.getElementById("login-box").style.display = "none";
-            document.getElementById("admin-box").style.display = "block";
-          
-            loadData();
-        } catch (err) {
-            alert("❌ שגיאה בכניסה: " + err.message);
-            document.getElementById("admin-password").value = "";
-        } finally {
-            loginBtn.disabled = false;
-            loginBtn.innerText = "כניסה";
-        }
+        adminPassword = password;
+        sessionStorage.setItem("admin_password", password);
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("admin-box").style.display = "block";
+      
+        loadData();
     }
 
     function logout() {
@@ -733,24 +705,9 @@
 
     window.onload = () => {
         if (adminPassword) {
-            // בדיקת אבטחה שקטה מאחורי הקלעים מיד בטעינת העמוד (אם יש סיסמה בזיכרון)
-            fetch("/.netlify/functions/save-admin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ test_auth_only: true, password: adminPassword })
-            }).then(res => {
-                if(res.ok) {
-                    document.getElementById("login-box").style.display = "none";
-                    document.getElementById("admin-box").style.display = "block";
-                    loadData();
-                } else {
-                    logout(); // זורק אותו החוצה אם הסיסמה שבזיכרון כבר לא טובה
-                }
-            }).catch(() => {
-                // בעיות אינטרנט, אבל ניתן לו להישאר בעמוד הרישום
-                document.getElementById("login-box").style.display = "block";
-                document.getElementById("admin-box").style.display = "none";
-            });
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("admin-box").style.display = "block";
+            loadData();
         } else {
             document.getElementById("login-box").style.display = "block";
             document.getElementById("admin-box").style.display = "none";
@@ -760,3 +717,4 @@
 
 </body>
 </html>
+ 
