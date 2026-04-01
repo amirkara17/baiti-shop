@@ -282,8 +282,8 @@ const myProducts = [
         "id": "prod_1774822770548",
         "name": "جاط جبصين",
         "description": "حجم: 15*16*21\nجاط مصنوع من جبصين، ممكن ان يستعمل للفواكة مثلاً. ",
-        "price": 90,
-        "oldPrice": null,
+        "price": 75,
+        "oldPrice": 90,
         "image": "IMG_6257.jpeg",
         "images": [
             "IMG_6257.jpeg",
