@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1775036895030",
+        "name": "طقم 6 صحون",
+        "description": "",
+        "price": 60,
+        "oldPrice": null,
+        "image": "WhatsApp Image 2026-03-31 at 20.36.36.jpeg",
+        "images": [
+            "WhatsApp Image 2026-03-31 at 20.36.36.jpeg",
+            "WhatsApp Image 2026-03-31 at 20.36.37.jpeg"
+        ],
+        "category": "صحون للمكسرات",
+        "stock": 2,
+        "variants": []
+    },
+    {
         "id": "prod_1774973639230",
         "name": "طقم 6 كاسات للشاي شفاف",
         "description": "",
