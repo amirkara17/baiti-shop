@@ -9,7 +9,7 @@ const myProducts = [
         "images": [
             "WhatsApp Image 2026-03-31 at 20.36.37 (3).jpeg"
         ],
-        "category": "",
+        "category": "ديزني الأصلي",
         "stock": 0,
         "variants": [
             {
