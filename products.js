@@ -60,7 +60,7 @@ const myProducts = [
         "id": "prod_1774826277086",
         "name": "3 سكملات خشب ومعدن",
         "description": "",
-        "price": 400,
+        "price": 399,
         "oldPrice": null,
         "image": "IMG_8946.webp",
         "images": [
