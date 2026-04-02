@@ -247,19 +247,19 @@ const myProducts = [
             {
                 "name": "كبير",
                 "price": 20,
-                "stock": 3,
+                "stock": 0,
                 "image": ""
             },
             {
                 "name": "وسط",
                 "price": 15,
-                "stock": 1,
+                "stock": 0,
                 "image": ""
             },
             {
                 "name": "صغير",
                 "price": 10,
-                "stock": 1,
+                "stock": 0,
                 "image": ""
             }
         ]
@@ -305,7 +305,7 @@ const myProducts = [
             "IMG_8748.jpeg"
         ],
         "category": "شموع معطرة",
-        "stock": 1
+        "stock": 0
     },
     {
         "id": "prod_1774615925931",
