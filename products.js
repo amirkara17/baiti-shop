@@ -67,7 +67,7 @@ const myProducts = [
             "IMG_8946.webp"
         ],
         "category": "ديكورات منزلية",
-        "stock": 2,
+        "stock": 0,
         "variants": []
     },
     {
@@ -81,7 +81,7 @@ const myProducts = [
             "IMG_8947.jpeg"
         ],
         "category": "ديكورات منزلية",
-        "stock": 2,
+        "stock": 0,
         "variants": []
     },
     {
