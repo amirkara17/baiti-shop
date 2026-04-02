@@ -115,13 +115,13 @@ const myProducts = [
             {
                 "name": "مج 1",
                 "price": 35,
-                "stock": 5,
+                "stock": 4,
                 "image": "IMG_6310.jpeg"
             },
             {
                 "name": "مج 2",
                 "price": 35,
-                "stock": 2,
+                "stock": 1,
                 "image": "IMG_6309.jpeg"
             }
         ]
