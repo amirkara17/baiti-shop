@@ -45,7 +45,7 @@ const myProducts = [
         "id": "prod_1774973639230",
         "name": "طقم 6 كاسات للشاي شفاف",
         "description": "",
-        "price": 30,
+        "price": 25,
         "oldPrice": null,
         "image": "IMG_6268.jpeg",
         "images": [
