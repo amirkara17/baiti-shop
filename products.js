@@ -1,5 +1,33 @@
 const myProducts = [
     {
+        "id": "prod_1775501154632",
+        "name": "أكواب ☕️",
+        "description": "",
+        "price": 0,
+        "oldPrice": null,
+        "image": "a8f86234-47f5-406e-9f48-7e5bb3e6027e.jpeg",
+        "images": [
+            "a8f86234-47f5-406e-9f48-7e5bb3e6027e.jpeg",
+            "b8d77672-bf2d-427f-8575-0c2842f1dabd.jpeg"
+        ],
+        "category": "مجات",
+        "stock": 0,
+        "variants": [
+            {
+                "name": "أكواب الغيوم",
+                "price": 30,
+                "stock": 10,
+                "image": "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg"
+            },
+            {
+                "name": "أكواب القلوب",
+                "price": 30,
+                "stock": 5,
+                "image": "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg"
+            }
+        ]
+    },
+    {
         "id": "prod_1775478778655",
         "name": "لوح تقطيع مغربي",
         "description": "",
