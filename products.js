@@ -1,5 +1,32 @@
 const myProducts = [
     {
+        "id": "prod_1775478778655",
+        "name": "لوح تقطيع مغربي",
+        "description": "",
+        "price": 0,
+        "oldPrice": null,
+        "image": "IMG_9056.jpeg",
+        "images": [
+            "IMG_9056.jpeg"
+        ],
+        "category": "",
+        "stock": 0,
+        "variants": [
+            {
+                "name": "1",
+                "price": 20,
+                "stock": 1,
+                "image": "5a8a77da-6343-4b66-bd1e-a64c4044a2b0.jpeg"
+            },
+            {
+                "name": "2",
+                "price": 20,
+                "stock": 1,
+                "image": "5a8a77da-6343-4b66-bd1e-a64c4044a2b0.jpeg"
+            }
+        ]
+    },
+    {
         "id": "prod_1775037007600",
         "name": "صحون ديزني ستيتش وانجل",
         "description": "",
