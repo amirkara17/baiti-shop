@@ -3,7 +3,7 @@ const myProducts = [
         "id": "prod_1775502833005",
         "name": "غلاية قهوة لون اسود",
         "description": "",
-        "price": 40,
+        "price": 38,
         "oldPrice": null,
         "image": "58550877-525d-40d5-b745-e5371c62ef09.jpeg",
         "images": [
