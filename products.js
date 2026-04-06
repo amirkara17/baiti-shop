@@ -9,7 +9,7 @@ const myProducts = [
         "images": [
             "IMG_9056.jpeg"
         ],
-        "category": "",
+        "category": "جاطات",
         "stock": 0,
         "variants": [
             {
