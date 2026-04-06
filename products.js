@@ -211,7 +211,7 @@ const myProducts = [
             "IMG_6229.jpeg"
         ],
         "category": "صحون للمكسرات",
-        "stock": 0,
+        "stock": 6,
         "variants": []
     },
     {
