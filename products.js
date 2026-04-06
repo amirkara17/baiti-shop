@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1775503513662",
+        "name": "سلة غسيل مع رفوف",
+        "description": "",
+        "price": 199,
+        "oldPrice": null,
+        "image": "7d1769b0-e8d6-45b5-b7d7-f337e8953b4e.jpeg",
+        "images": [
+            "7d1769b0-e8d6-45b5-b7d7-f337e8953b4e.jpeg",
+            "23e72588-9112-4cdc-a734-a5a9b86be749.jpeg"
+        ],
+        "category": "ديكورات منزلية",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1775502833005",
         "name": "غلاية قهوة لون اسود",
         "description": "",
