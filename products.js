@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1775502833005",
+        "name": "غلاية قهوة لون اسود",
+        "description": "",
+        "price": 40,
+        "oldPrice": null,
+        "image": "58550877-525d-40d5-b745-e5371c62ef09.jpeg",
+        "images": [
+            "58550877-525d-40d5-b745-e5371c62ef09.jpeg",
+            "0aad0cc2-ba93-4927-a603-f6e963837a10.jpeg"
+        ],
+        "category": "أطقم فناجين قهوة/ شاي",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1775501154632",
         "name": "أكواب ☕️",
         "description": "",
