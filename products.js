@@ -107,7 +107,7 @@ const myProducts = [
             {
                 "name": "2",
                 "price": 25,
-                "stock": 1,
+                "stock": 0,
                 "image": "6edca46d-db95-4f56-8b8f-dafdbed89c1a.jpeg"
             }
         ]
