@@ -39,7 +39,7 @@ const myProducts = [
             "23e72588-9112-4cdc-a734-a5a9b86be749.jpeg"
         ],
         "category": "ديكورات منزلية",
-        "stock": 0,
+        "stock": 1,
         "variants": []
     },
     {
