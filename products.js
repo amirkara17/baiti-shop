@@ -1,7 +1,7 @@
 const myProducts = [
     {
         "id": "prod_1775596694748",
-        "name": "مج ورد",
+        "name": "مج ورد بتصميم مميز ",
         "description": "",
         "price": 29,
         "oldPrice": null,
