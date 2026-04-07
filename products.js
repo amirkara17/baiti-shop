@@ -101,7 +101,7 @@ const myProducts = [
             {
                 "name": "1",
                 "price": 25,
-                "stock": 1,
+                "stock": 0,
                 "image": "5a8a77da-6343-4b66-bd1e-a64c4044a2b0.jpeg"
             },
             {
@@ -251,7 +251,7 @@ const myProducts = [
             "IMG_6273.jpeg"
         ],
         "category": "صحون",
-        "stock": 1,
+        "stock": 0,
         "variants": []
     },
     {
