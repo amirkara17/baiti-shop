@@ -9,7 +9,7 @@ const myProducts = [
         "images": [
             "5aac7f8d-5909-47f1-b281-c207773f1c81.jpeg"
         ],
-        "category": "صحون للمكسرات",
+        "category": "صحون",
         "stock": 1,
         "variants": []
     },
@@ -150,7 +150,7 @@ const myProducts = [
             "WhatsApp Image 2026-03-31 at 20.36.36.jpeg",
             "WhatsApp Image 2026-03-31 at 20.36.37.jpeg"
         ],
-        "category": "صحون للمكسرات",
+        "category": "صحون",
         "stock": 2,
         "variants": []
     },
@@ -250,7 +250,7 @@ const myProducts = [
             "IMG_6271.jpeg",
             "IMG_6273.jpeg"
         ],
-        "category": "صحون للمكسرات",
+        "category": "صحون",
         "stock": 1,
         "variants": []
     },
@@ -323,7 +323,7 @@ const myProducts = [
             "IMG_6220.jpeg",
             "IMG_6229.jpeg"
         ],
-        "category": "صحون للمكسرات",
+        "category": "صحون",
         "stock": 6,
         "variants": []
     },
