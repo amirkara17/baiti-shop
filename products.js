@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1775563113194",
+        "name": "طقم 6 صحون بنقشة مميزة",
+        "description": "",
+        "price": 70,
+        "oldPrice": null,
+        "image": "5aac7f8d-5909-47f1-b281-c207773f1c81.jpeg",
+        "images": [
+            "5aac7f8d-5909-47f1-b281-c207773f1c81.jpeg"
+        ],
+        "category": "صحون للمكسرات",
+        "stock": 1,
+        "variants": []
+    },
+    {
         "id": "prod_1775559726861",
         "name": "مج + صحن قلوب",
         "description": "",
