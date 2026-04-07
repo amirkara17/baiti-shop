@@ -67,7 +67,7 @@ const myProducts = [
         "images": [
             "IMG_9056.jpeg"
         ],
-        "category": "جاطات",
+        "category": "صواني",
         "stock": 0,
         "variants": [
             {
