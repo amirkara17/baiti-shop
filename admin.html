@@ -322,11 +322,29 @@
              
                     <div class="actions" style="margin-top:8px;">
                         <button class="btn-blue" onclick="filterProducts('${jsString(c.name)}')">הצג מוצרים</button>
+                        <button class="btn-gray" style="padding: 6px 12px; font-size: 16px;" onclick="moveCatUp(${i})" title="הזז למעלה">⬆️</button>
+                        <button class="btn-gray" style="padding: 6px 12px; font-size: 16px;" onclick="moveCatDown(${i})" title="הזז למטה">⬇️</button>
                         <button class="btn-danger" onclick="removeCategory(${i})">מחק קטגוריה</button>
                     </div>
                 </div>
             `;
         }).join("");
+    }
+
+    function moveCatUp(index) {
+        if (index === 0) return; // אי אפשר להעלות את הראשון
+        const temp = cats[index - 1];
+        cats[index - 1] = cats[index];
+        cats[index] = temp;
+        renderCategories();
+    }
+
+    function moveCatDown(index) {
+        if (index === cats.length - 1) return; // אי אפשר להוריד את האחרון
+        const temp = cats[index + 1];
+        cats[index + 1] = cats[index];
+        cats[index] = temp;
+        renderCategories();
     }
 
     function updateCategoryName(index, newValue) {
@@ -717,4 +735,3 @@
 
 </body>
 </html>
- 
