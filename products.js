@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1775596694748",
+        "name": "مج ورد",
+        "description": "",
+        "price": 29,
+        "oldPrice": null,
+        "image": "IMG_9108.jpeg",
+        "images": [
+            "IMG_9108.jpeg"
+        ],
+        "category": "مجات",
+        "stock": 5,
+        "variants": []
+    },
+    {
         "id": "prod_1775563113194",
         "name": "طقم 6 صحون بنقشة مميزة",
         "description": "",
@@ -101,7 +115,7 @@ const myProducts = [
             {
                 "name": "1",
                 "price": 25,
-                "stock": 0,
+                "stock": 1,
                 "image": "5a8a77da-6343-4b66-bd1e-a64c4044a2b0.jpeg"
             },
             {
@@ -251,7 +265,7 @@ const myProducts = [
             "IMG_6273.jpeg"
         ],
         "category": "صحون",
-        "stock": 0,
+        "stock": 1,
         "variants": []
     },
     {
