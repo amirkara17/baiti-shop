@@ -30,5 +30,9 @@ const myCategories = [
     {
         "name": "كاسات عصير",
         "icon": "🍹"
+    },
+    {
+        "name": "صواني",
+        "icon": "❤️"
     }
 ];
