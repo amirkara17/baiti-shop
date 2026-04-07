@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1775559259869",
+        "name": "طقم صواني خشب مع يد ذهبية",
+        "description": "",
+        "price": 55,
+        "oldPrice": null,
+        "image": "ba552fa1-4fea-4e66-a225-d4a1af2ae5d1.jpeg",
+        "images": [
+            "ba552fa1-4fea-4e66-a225-d4a1af2ae5d1.jpeg"
+        ],
+        "category": "صواني",
+        "stock": 3,
+        "variants": []
+    },
+    {
         "id": "prod_1775503513662",
         "name": "سلة غسيل مع رفوف",
         "description": "",
