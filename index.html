@@ -306,7 +306,7 @@ function _uQ(i, d) {
     const hasV = p.variants && p.variants.length > 0;
     let max = 100;
     if(hasV) {
-        const vSel = document.getElementById(`_v_${i}`);
+        const vSel = document.getElementById(`_m_v_${i}`);
         if(vSel) max = p.variants[vSel.value].stock !== undefined ? p.variants[vSel.value].stock : 100;
     } else {
         max = p.stock !== undefined ? p.stock : 100;
@@ -329,7 +329,7 @@ function _sT(m) {
 function _aD(i, e) {
     const p = myProducts[i];
     let v = null;
-    const vSel = document.getElementById(`_v_${i}`);
+    const vSel = document.getElementById(`_m_v_${i}`);
     if(vSel) v = p.variants[vSel.value];
     const q = parseInt(document.getElementById(`q-${i}`).value);
     const pName = v ? `${p.name} - ${v.name}` : p.name;
@@ -467,7 +467,7 @@ function _fSnd() {
 }
 
 function _flyE(e,ic){if(!e)return;let d=document.createElement('div');d.innerHTML=ic;d.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;font-size:24px;pointer-events:none;z-index:9999;transition:all 0.8s ease-out;`;document.body.appendChild(d);setTimeout(()=>{d.style.top=(e.clientY-100)+'px';d.style.opacity='0';d.style.transform='scale(1.5)'},10);setTimeout(()=>d.remove(),800)}
-setInterval(()=>{let h=document.createElement('div');h.className='falling-heart';h.innerHTML=['🤍','✨','🤍'][Math.floor(Math.random()*3)];h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*5+7)+'s';h.style.fontSize=(Math.random()*8+10)+'px';h.style.opacity=(Math.random()*0.3+0.2);document.body.appendChild(h);setTimeout(()=>h.remove(),12000)},1500);
+setInterval(()=>{let h=document.createElement('div');h.className='falling-heart';h.innerHTML=['🤎','✨','🤎'][Math.floor(Math.random()*3)];h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*5+7)+'s';h.style.fontSize=(Math.random()*8+10)+'px';h.style.opacity=(Math.random()*0.4+0.2);document.body.appendChild(h);setTimeout(()=>h.remove(),12000)},1500);
 
 window.onload = init;
 
