@@ -65,12 +65,9 @@ function _tC() {
     }
 }
 
-function _gStk(p) {
-    if(p.variants && p.variants.length > 0) {
-        return p.variants.reduce((a, v) => a + (v.stock !== undefined ? v.stock : 100), 0);
-    }
-    return p.stock !== undefined ? p.stock : 100;
-}
+function _S(p,v){return(v&&v.stock!==undefined&&v.stock!=='')?parseInt(v.stock):(p&&p.stock!==undefined&&p.stock!=='')?parseInt(p.stock):100}
+
+function _gStk(p){if(p.variants&&p.variants.length>0){return p.variants.reduce((a,v)=>a+_S(p,v),0)}return _S(p)}
 
 function _chV(i, vI) {
     const p = myProducts[i];
@@ -95,7 +92,7 @@ function _chV(i, vI) {
     if(img) {
         img.src = v.image ? v.image : (p.image || '');
     }
-    const s = v.stock !== undefined ? v.stock : 100;
+    const s = _S(p, v);
     const sw = document.getElementById(`_sw_${i}`);
     if(sw) {
         if(s > 0 && s <= 2) {
@@ -110,7 +107,7 @@ function _chV(i, vI) {
 function _rPC(p, i) {
     const h = _arr2.includes(i) ? '❤️' : '🤍';
     const hasV = p.variants && p.variants.length > 0;
-    const s = hasV ? (p.variants[0].stock !== undefined ? p.variants[0].stock : 100) : (p.stock !== undefined ? p.stock : 100);
+    const s = hasV ? _S(p, p.variants[0]) : _S(p);
     const lb = `<button id="like-btn-${i}" class="like-btn" onclick="_tL(${i}, event)">${h}</button>`;
     const dh = p.description ? `<div class="product-desc">${p.description}</div>` : '';
     const imgs = (p.images && p.images.length > 0) ? p.images : (p.image ? [p.image] : []);
@@ -183,7 +180,7 @@ function _oIM(pi, ii) {
         });
         sH += `</div>`;
     }
-    let stk = hasV ? (p.variants[selV].stock !== undefined ? p.variants[selV].stock : 100) : (p.stock !== undefined ? p.stock : 100);
+    let stk = hasV ? _S(p, p.variants[selV]) : _S(p);
     let btnHtml = '';
     if(stk === 0) {
         btnHtml = `<div style="color:var(--danger); font-weight:bold; margin-bottom:10px;">نفدت الكمية حالياً 💔</div><button class="btn-add" disabled style="background:#e0e0e0; color:#999; margin-top:0;">نفدت الكمية</button>`;
@@ -232,6 +229,26 @@ function _m_chV(pi, vI) {
     _chV(pi, vI);
 }
 
+function _uQ(i, d) {
+    let e = document.getElementById(`q-${i}`);
+    let v = parseInt(e.value) + d;
+    const p = myProducts[i];
+    const hasV = p.variants && p.variants.length > 0;
+    let max = 100;
+    if(hasV) {
+        const vSel = document.getElementById(`_v_${i}`);
+        if(vSel) max = _S(p, p.variants[vSel.value]);
+    } else {
+        max = _S(p);
+    }
+    if(v < 1) v = 1;
+    if(v > max) {
+        alert(`متوفر ${max} فقط.`);
+        v = max;
+    }
+    e.value = v;
+}
+
 function _m_uQ(i, d) {
     let e = document.getElementById(`m_q-${i}`);
     let v = parseInt(e.value) + d;
@@ -240,9 +257,9 @@ function _m_uQ(i, d) {
     let max = 100;
     if(hasV) {
         const vSel = document.getElementById(`_m_v_${i}`);
-        if(vSel) max = p.variants[vSel.value].stock !== undefined ? p.variants[vSel.value].stock : 100;
+        if(vSel) max = _S(p, p.variants[vSel.value]);
     } else {
-        max = p.stock !== undefined ? p.stock : 100;
+        max = _S(p);
     }
     if(v < 1) v = 1;
     if(v > max) {
@@ -250,6 +267,26 @@ function _m_uQ(i, d) {
         v = max;
     }
     e.value = v;
+}
+
+function _aD(i, e) {
+    const p = myProducts[i];
+    let v = null;
+    const vSel = document.getElementById(`_v_${i}`);
+    if(vSel) v = p.variants[vSel.value];
+    const q = parseInt(document.getElementById(`q-${i}`).value);
+    const pName = v ? `${p.name} - ${v.name}` : p.name;
+    const pPrice = v ? v.price : p.price;
+    const pStock = v ? _S(p, v) : _S(p);
+    const ex = _arr1.find(x => x.name === pName);
+    if((ex ? ex.quantity : 0) + q > pStock) return alert("عذراً، الكمية غير كافية.");
+    if(ex) ex.quantity += q;
+    else _arr1.push({name: pName, pr: pPrice, quantity: q});
+    _val3 += (pPrice * q);
+    _uUI();
+    document.getElementById(`q-${i}`).value = 1;
+    _sT("✔️ تمت الإضافة للسلة");
+    _flyE(e || window.event, '🛒');
 }
 
 function _m_aD(i, e) {
@@ -260,7 +297,7 @@ function _m_aD(i, e) {
     const q = parseInt(document.getElementById(`m_q-${i}`).value);
     const pName = v ? `${p.name} - ${v.name}` : p.name;
     const pPrice = v ? v.price : p.price;
-    const pStock = v ? (v.stock !== undefined ? v.stock : 100) : (p.stock !== undefined ? p.stock : 100);
+    const pStock = v ? _S(p, v) : _S(p);
     const ex = _arr1.find(x => x.name === pName);
     if((ex ? ex.quantity : 0) + q > pStock) return alert("عذراً، الكمية غير كافية.");
     if(ex) ex.quantity += q;
@@ -297,53 +334,6 @@ function _tL(i, e) {
         _opW(true, true);
         window.scrollTo(0, c);
     }
-}
-
-function _uQ(i, d) {
-    let e = document.getElementById(`q-${i}`);
-    let v = parseInt(e.value) + d;
-    const p = myProducts[i];
-    const hasV = p.variants && p.variants.length > 0;
-    let max = 100;
-    if(hasV) {
-        const vSel = document.getElementById(`_m_v_${i}`);
-        if(vSel) max = p.variants[vSel.value].stock !== undefined ? p.variants[vSel.value].stock : 100;
-    } else {
-        max = p.stock !== undefined ? p.stock : 100;
-    }
-    if(v < 1) v = 1;
-    if(v > max) {
-        alert(`متوفر ${max} فقط.`);
-        v = max;
-    }
-    e.value = v;
-}
-
-function _sT(m) {
-    const t = document.getElementById('toast');
-    t.innerText = m;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function _aD(i, e) {
-    const p = myProducts[i];
-    let v = null;
-    const vSel = document.getElementById(`_v_${i}`);
-    if(vSel) v = p.variants[vSel.value];
-    const q = parseInt(document.getElementById(`q-${i}`).value);
-    const pName = v ? `${p.name} - ${v.name}` : p.name;
-    const pPrice = v ? v.price : p.price;
-    const pStock = v ? (v.stock !== undefined ? v.stock : 100) : (p.stock !== undefined ? p.stock : 100);
-    const ex = _arr1.find(x => x.name === pName);
-    if((ex ? ex.quantity : 0) + q > pStock) return alert("عذراً، الكمية غير كافية.");
-    if(ex) ex.quantity += q;
-    else _arr1.push({name: pName, pr: pPrice, quantity: q});
-    _val3 += (pPrice * q);
-    _uUI();
-    document.getElementById(`q-${i}`).value = 1;
-    _sT("✔️ تمت الإضافة للسلة");
-    _flyE(e || window.event, '🛒');
 }
 
 function _rmV(i) {
@@ -466,7 +456,7 @@ function _fSnd() {
     });
 }
 
-function _flyE(e,ic){if(!e)return;let d=document.createElement('div');d.innerHTML=ic;d.style.cssText=`position:fixed;left:${e.clientX-25}px;top:${e.clientY-25}px;font-size:45px;pointer-events:none;z-index:9999;transition:all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);text-shadow:0 8px 20px rgba(0,0,0,0.3);`;document.body.appendChild(d);setTimeout(()=>{if(ic==='🛒'){let c=document.getElementById('_c_c_');if(c){let r=c.getBoundingClientRect();d.style.left=r.left+'px';d.style.top=r.top+'px';d.style.transform='scale(0.3) rotate(-15deg)';d.style.opacity='0.2'}}else{d.style.top=(e.clientY-100)+'px';d.style.opacity='0';d.style.transform='scale(1.5)'}},10);setTimeout(()=>{d.remove();if(ic==='🛒'){let c=document.getElementById('_c_c_');if(c){c.style.transition='transform 0.2s';c.style.transform='scale(1.6)';setTimeout(()=>c.style.transform='scale(1)',200);let rC=c.getBoundingClientRect();if(typeof confetti==='function'){confetti({particleCount:40,spread:60,startVelocity:20,origin:{x:(rC.left+rC.width/2)/window.innerWidth,y:(rC.top+rC.height/2)/window.innerHeight},zIndex:9999,colors:['#C19A5B','#2c251f','#FAF8F5']})}}}},600)}
+function _flyE(e,ic){if(!e)return;let d=document.createElement('div');d.innerHTML=ic;d.style.cssText=`position:fixed;left:${e.clientX-25}px;top:${e.clientY-25}px;font-size:50px;pointer-events:none;z-index:9999;transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94);text-shadow:0 8px 20px rgba(0,0,0,0.3);`;document.body.appendChild(d);setTimeout(()=>{if(ic==='🛒'){let c=document.getElementById('_c_c_');if(c){let r=c.getBoundingClientRect();d.style.left=r.left+'px';d.style.top=r.top+'px';d.style.transform='scale(0.3) rotate(-15deg)';d.style.opacity='0.2'}}else{d.style.top=(e.clientY-100)+'px';d.style.opacity='0';d.style.transform='scale(1.5)'}},10);setTimeout(()=>{d.remove();if(ic==='🛒'){let c=document.getElementById('_c_c_');if(c){c.style.transition='transform 0.2s';c.style.transform='scale(1.6)';setTimeout(()=>c.style.transform='scale(1)',200);let rC=c.getBoundingClientRect();if(typeof confetti==='function'){confetti({particleCount:40,spread:60,startVelocity:20,origin:{x:(rC.left+rC.width/2)/window.innerWidth,y:(rC.top+rC.height/2)/window.innerHeight},zIndex:9999,colors:['#C19A5B','#2c251f','#FAF8F5']})}}}},600)}
 setInterval(()=>{let h=document.createElement('div');h.className='falling-heart';h.innerHTML=['🤎','✨','🤎'][Math.floor(Math.random()*3)];h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*5+7)+'s';h.style.fontSize=(Math.random()*8+10)+'px';h.style.opacity=(Math.random()*0.4+0.2);document.body.appendChild(h);setTimeout(()=>h.remove(),12000)},4500);
 
 window.onload = init;
