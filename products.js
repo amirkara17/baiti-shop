@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1776723552454",
+        "name": "ابريق شاي ابيض 🍃",
+        "description": "",
+        "price": 49,
+        "oldPrice": null,
+        "image": "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg",
+        "images": [
+            "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg"
+        ],
+        "category": "اباريق",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1776723250190",
         "name": "طقم 3 سكريات + صينيه",
         "description": "",
