@@ -495,7 +495,7 @@ const myProducts = [
         "price": 30,
         "image": "6851461d-69ed-4f13-b9c2-21de70672611.jpeg",
         "category": "ديزني الأصلي",
-        "stock": 1,
+        "stock": 0,
         "oldPrice": 35
     },
     {
@@ -504,7 +504,7 @@ const myProducts = [
         "price": 35,
         "image": "52fe9b36-8146-43d3-9bb6-4c627900138d.jpeg",
         "category": "ديزني الأصلي",
-        "stock": 1
+        "stock": 0
     },
     {
         "name": "كوب ميني ماوس - ديزني",
@@ -512,6 +512,6 @@ const myProducts = [
         "price": 35,
         "image": "d74466ca-a951-439e-b766-5a0f38c69da6.jpeg",
         "category": "ديزني الأصلي",
-        "stock": 1
+        "stock": 0
     }
 ];
