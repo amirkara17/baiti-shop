@@ -448,7 +448,7 @@ const myProducts = [
             "f2d8238d-6358-4d58-9378-28d98cf72b79.jpeg"
         ],
         "category": "شموع معطرة",
-        "stock": 4
+        "stock": 3
     },
     {
         "id": "prod_1774602254734",
