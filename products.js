@@ -284,7 +284,7 @@ const myProducts = [
             {
                 "name": "فنجان دبل جلاس مع ورد",
                 "price": 10,
-                "stock": 3,
+                "stock": 2,
                 "image": "IMG_8869.jpeg"
             },
             {
@@ -315,7 +315,7 @@ const myProducts = [
         "id": "prod_1774823814242",
         "name": "طقم مجات بورسلان منقط",
         "description": "طقم يشمل 6 مجات بورسلان حجم كبير منقط بلون ازرق",
-        "price": 60,
+        "price": 45,
         "image": "IMG_6236.jpeg",
         "images": [
             "IMG_6236.jpeg",
@@ -323,7 +323,8 @@ const myProducts = [
         ],
         "category": "مجات",
         "stock": 1,
-        "variants": []
+        "variants": [],
+        "oldPrice": 60
     },
     {
         "id": "prod_1774823508797",
@@ -345,8 +346,8 @@ const myProducts = [
         "id": "prod_1774823393619",
         "name": "طقم 6 مجات كبار بورسلان",
         "description": "طفم 6 مجات مع خط 💚🤎",
-        "price": 60,
-        "oldPrice": null,
+        "price": 45,
+        "oldPrice": 60,
         "image": "IMG_6329.jpeg",
         "images": [
             "IMG_6329.jpeg",
