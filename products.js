@@ -17,8 +17,8 @@ const myProducts = [
         "id": "prod_1775563113194",
         "name": "طقم 6 صحون بنقشة مميزة",
         "description": "",
-        "price": 70,
-        "oldPrice": null,
+        "price": 59,
+        "oldPrice": 70,
         "image": "5aac7f8d-5909-47f1-b281-c207773f1c81.jpeg",
         "images": [
             "5aac7f8d-5909-47f1-b281-c207773f1c81.jpeg"
@@ -157,8 +157,8 @@ const myProducts = [
         "id": "prod_1775036895030",
         "name": "طقم 6 صحون",
         "description": "",
-        "price": 60,
-        "oldPrice": null,
+        "price": 45,
+        "oldPrice": 60,
         "image": "WhatsApp Image 2026-03-31 at 20.36.36.jpeg",
         "images": [
             "WhatsApp Image 2026-03-31 at 20.36.36.jpeg",
