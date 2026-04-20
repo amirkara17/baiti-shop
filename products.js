@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1776723250190",
+        "name": "طقم 3 سكريات + صينيه",
+        "description": "",
+        "price": 75,
+        "oldPrice": null,
+        "image": "b84cd127-3a93-414b-aa60-3a5170680318.jpeg",
+        "images": [
+            "b84cd127-3a93-414b-aa60-3a5170680318.jpeg"
+        ],
+        "category": "سكريات",
+        "stock": 4,
+        "variants": []
+    },
+    {
         "id": "prod_1775596694748",
         "name": "مج ورد بتصميم مميز ",
         "description": "",
