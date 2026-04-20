@@ -242,7 +242,7 @@ const myProducts = [
             {
                 "name": "مج 1",
                 "price": 35,
-                "stock": 4,
+                "stock": 3,
                 "image": "IMG_6310.jpeg"
             },
             {
