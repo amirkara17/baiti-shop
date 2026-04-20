@@ -298,9 +298,9 @@ const myProducts = [
     {
         "id": "prod_1774824029367",
         "name": "12 كاس عصير شفاف",
-        "description": "",
-        "price": 70,
-        "oldPrice": null,
+        "description": "طقم مكون من 12 كاسات زجاج بجودة عالية",
+        "price": 40,
+        "oldPrice": 50,
         "image": "IMG_6355.jpeg",
         "images": [
             "IMG_6355.jpeg",
