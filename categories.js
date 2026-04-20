@@ -34,5 +34,9 @@ const myCategories = [
     {
         "name": "شموع معطرة",
         "icon": "🕯️"
+    },
+    {
+        "name": "سكريات",
+        "icon": "💙"
     }
 ];
