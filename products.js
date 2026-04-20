@@ -101,7 +101,7 @@ const myProducts = [
     },
     {
         "id": "prod_1775478778655",
-        "name": "لوح تقطيع مغربي",
+        "name": "كوستر بنقشة مغربية",
         "description": "",
         "price": 0,
         "oldPrice": null,
@@ -115,13 +115,13 @@ const myProducts = [
             {
                 "name": "1",
                 "price": 25,
-                "stock": 1,
+                "stock": 5,
                 "image": "5a8a77da-6343-4b66-bd1e-a64c4044a2b0.jpeg"
             },
             {
                 "name": "2",
                 "price": 25,
-                "stock": 0,
+                "stock": 5,
                 "image": "6edca46d-db95-4f56-8b8f-dafdbed89c1a.jpeg"
             }
         ]
