@@ -38,5 +38,9 @@ const myCategories = [
     {
         "name": "سكريات",
         "icon": "💙"
+    },
+    {
+        "name": "اباريق",
+        "icon": "🫖"
     }
 ];
