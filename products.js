@@ -24,7 +24,7 @@ const myProducts = [
             "571a4047-d10f-41e4-b263-d0861527377e.jpeg"
         ],
         "category": "اباريق",
-        "stock": 0,
+        "stock": 2,
         "variants": []
     },
     {
@@ -32,7 +32,7 @@ const myProducts = [
         "name": "ابريق شاي ابيض 🍃",
         "description": "",
         "price": 49,
-        "oldPrice": null,
+        "oldPrice": 2,
         "image": "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg",
         "images": [
             "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg"
