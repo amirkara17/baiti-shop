@@ -242,14 +242,14 @@ const myProducts = [
         "id": "prod_1774826277086",
         "name": "3 سكملات خشب ومعدن",
         "description": "",
-        "price": 399,
+        "price": 190,
         "oldPrice": null,
-        "image": "IMG_8946.webp",
+        "image": "IMG_9325.jpeg",
         "images": [
-            "IMG_8946.webp"
+            "IMG_9325.jpeg"
         ],
         "category": "ديكورات منزلية",
-        "stock": 0,
+        "stock": 2,
         "variants": []
     },
     {
