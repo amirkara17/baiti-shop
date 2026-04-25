@@ -20,9 +20,9 @@ const myProducts = [
         "description": "",
         "price": 110,
         "oldPrice": null,
-        "image": "IMG_9415.jpeg",
+        "image": "IMG_9417.jpeg",
         "images": [
-            "IMG_9415.jpeg"
+            "IMG_9417.jpeg"
         ],
         "category": "ديكورات منزلية",
         "stock": 1,
