@@ -60,9 +60,9 @@ const myProducts = [
         "description": "",
         "price": 75,
         "oldPrice": null,
-        "image": "b84cd127-3a93-414b-aa60-3a5170680318.jpeg",
+        "image": "b5f61c9d-4465-4766-9859-999f006a4159.jpeg",
         "images": [
-            "b84cd127-3a93-414b-aa60-3a5170680318.jpeg"
+            "b5f61c9d-4465-4766-9859-999f006a4159.jpeg"
         ],
         "category": "سكريات",
         "stock": 4,
