@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1777121758652",
+        "name": "طنجرة بايركس شفافة",
+        "description": "2500 ml",
+        "price": 45,
+        "oldPrice": null,
+        "image": "1DDAE0DC-6C07-4352-AB95-9E8DEDD9D67F.png",
+        "images": [
+            "1DDAE0DC-6C07-4352-AB95-9E8DEDD9D67F.png"
+        ],
+        "category": "طناجر",
+        "stock": 2,
+        "variants": []
+    },
+    {
         "id": "prod_1777118097302",
         "name": "مجات بتصميم مغربي",
         "description": "",
@@ -32,7 +46,7 @@ const myProducts = [
         "id": "prod_1777117075924",
         "name": "طقم 3 سكريات كرز + صينيه",
         "description": "",
-        "price": 65,
+        "price": 75,
         "oldPrice": null,
         "image": "44d5ef87-78cb-4ab4-a0ef-05c3542357e5.jpeg",
         "images": [
@@ -80,14 +94,14 @@ const myProducts = [
             "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg"
         ],
         "category": "اباريق",
-        "stock": 1,
+        "stock": 2,
         "variants": []
     },
     {
         "id": "prod_1776723250190",
         "name": "طقم 3 سكريات + صينيه",
         "description": "",
-        "price": 65,
+        "price": 75,
         "oldPrice": null,
         "image": "b5f61c9d-4465-4766-9859-999f006a4159.jpeg",
         "images": [
