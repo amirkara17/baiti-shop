@@ -11,7 +11,7 @@ const myProducts = [
             "713eb732-1bf4-4141-a93d-38415e4cd3c3.jpeg"
         ],
         "category": "مجات",
-        "stock": 0,
+        "stock": 4,
         "variants": []
     },
     {
