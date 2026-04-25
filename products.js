@@ -147,7 +147,8 @@ const myProducts = [
         "oldPrice": null,
         "image": "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
         "images": [
-            "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg"
+            "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
+            "fb003ec2-fb0e-4c0d-a2d7-bc9362de52ef.jpeg"
         ],
         "category": "مجات",
         "stock": 5,
@@ -205,7 +206,8 @@ const myProducts = [
         "oldPrice": null,
         "image": "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
         "images": [
-            "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg"
+            "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
+            "d69ad666-0c2b-4485-b83b-cf00f2af1140.jpeg"
         ],
         "category": "مجات",
         "stock": 10,
