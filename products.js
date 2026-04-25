@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1777117075924",
+        "name": "طقم 3 سكريات كرز + صينيه",
+        "description": "",
+        "price": 75,
+        "oldPrice": null,
+        "image": "44d5ef87-78cb-4ab4-a0ef-05c3542357e5.jpeg",
+        "images": [
+            "44d5ef87-78cb-4ab4-a0ef-05c3542357e5.jpeg"
+        ],
+        "category": "سكريات",
+        "stock": 2,
+        "variants": []
+    },
+    {
         "id": "prod_1776724017616",
         "name": "ابريق شاي + 4 كاسات + صينيه",
         "description": "",
