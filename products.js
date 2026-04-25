@@ -32,7 +32,7 @@ const myProducts = [
         "id": "prod_1777117075924",
         "name": "طقم 3 سكريات كرز + صينيه",
         "description": "",
-        "price": 75,
+        "price": 65,
         "oldPrice": null,
         "image": "44d5ef87-78cb-4ab4-a0ef-05c3542357e5.jpeg",
         "images": [
@@ -87,7 +87,7 @@ const myProducts = [
         "id": "prod_1776723250190",
         "name": "طقم 3 سكريات + صينيه",
         "description": "",
-        "price": 75,
+        "price": 65,
         "oldPrice": null,
         "image": "b5f61c9d-4465-4766-9859-999f006a4159.jpeg",
         "images": [
