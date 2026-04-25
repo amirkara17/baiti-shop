@@ -1,7 +1,22 @@
 const myProducts = [
     {
+        "id": "prod_1777118097302",
+        "name": "مجات بتصميم مغربي",
+        "description": "",
+        "price": 12,
+        "oldPrice": null,
+        "image": "0321f7e9-7e1a-42a5-9a65-6bdf47f16ce5.jpeg",
+        "images": [
+            "0321f7e9-7e1a-42a5-9a65-6bdf47f16ce5.jpeg",
+            "713eb732-1bf4-4141-a93d-38415e4cd3c3.jpeg"
+        ],
+        "category": "مجات",
+        "stock": 0,
+        "variants": []
+    },
+    {
         "id": "prod_1777117467250",
-        "name": "مزهرية مميزه",
+        "name": "فازا جبصين",
         "description": "",
         "price": 110,
         "oldPrice": null,
