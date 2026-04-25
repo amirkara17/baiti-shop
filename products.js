@@ -129,8 +129,8 @@ const myProducts = [
         "id": "prod_1775596694748",
         "name": "مج ورد بتصميم مميز ",
         "description": "",
-        "price": 29,
-        "oldPrice": null,
+        "price": 15,
+        "oldPrice": 29,
         "image": "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png",
         "images": [
             "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png"
@@ -157,8 +157,8 @@ const myProducts = [
         "id": "prod_1775559726861",
         "name": "مج + صحن قلوب",
         "description": "",
-        "price": 35,
-        "oldPrice": null,
+        "price": 25,
+        "oldPrice": 35,
         "image": "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
         "images": [
             "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
@@ -216,8 +216,8 @@ const myProducts = [
         "id": "prod_1775501154632",
         "name": "مج + صحن غيوم",
         "description": "",
-        "price": 35,
-        "oldPrice": null,
+        "price": 25,
+        "oldPrice": 35,
         "image": "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
         "images": [
             "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
@@ -343,8 +343,8 @@ const myProducts = [
         "id": "prod_1774825375884",
         "name": "مج هاند ميد ورد",
         "description": "",
-        "price": 25,
-        "oldPrice": null,
+        "price": 20,
+        "oldPrice": 25,
         "image": "IMG_6231.jpeg",
         "images": [
             "IMG_6231.jpeg",
