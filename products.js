@@ -1,5 +1,20 @@
 const myProducts = [
     {
+        "id": "prod_1777117467250",
+        "name": "مزهرية مميزه",
+        "description": "",
+        "price": 110,
+        "oldPrice": null,
+        "image": "IMG_9415.jpeg",
+        "images": [
+            "IMG_9415.jpeg",
+            "IMG_9417.jpeg"
+        ],
+        "category": "ديكورات منزلية",
+        "stock": 1,
+        "variants": []
+    },
+    {
         "id": "prod_1777117075924",
         "name": "طقم 3 سكريات كرز + صينيه",
         "description": "",
