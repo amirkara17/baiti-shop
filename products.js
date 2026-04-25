@@ -131,9 +131,9 @@ const myProducts = [
         "description": "",
         "price": 29,
         "oldPrice": null,
-        "image": "IMG_9108.jpeg",
+        "image": "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png",
         "images": [
-            "IMG_9108.jpeg"
+            "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png"
         ],
         "category": "مجات",
         "stock": 5,
