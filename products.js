@@ -549,7 +549,8 @@ const myProducts = [
                 "stock": 0,
                 "image": ""
             }
-        ]
+        ],
+        "isHidden": true
     },
     {
         "id": "prod_1774822928112",
