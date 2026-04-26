@@ -18,7 +18,7 @@ const myProducts = [
         "id": "prod_1777197239055",
         "name": "طنجرة 28 سم + مغرفة",
         "description": "",
-        "price": 115,
+        "price": 89,
         "oldPrice": null,
         "image": "5559f114-a8bb-4328-b466-627cc0b1c075.jpeg",
         "images": [
