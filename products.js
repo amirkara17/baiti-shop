@@ -593,7 +593,8 @@ const myProducts = [
             "IMG_8748.jpeg"
         ],
         "category": "شموع معطرة",
-        "stock": 0
+        "stock": 0,
+        "isHidden": true
     },
     {
         "id": "prod_1774615925931",
