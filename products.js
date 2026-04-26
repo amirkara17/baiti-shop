@@ -550,7 +550,7 @@ const myProducts = [
                 "image": ""
             }
         ],
-        "isHidden": true
+        "isHidden": false
     },
     {
         "id": "prod_1774822928112",
@@ -594,7 +594,7 @@ const myProducts = [
         ],
         "category": "شموع معطرة",
         "stock": 0,
-        "isHidden": true
+        "isHidden": false
     },
     {
         "id": "prod_1774615925931",
