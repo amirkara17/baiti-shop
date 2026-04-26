@@ -440,6 +440,7 @@
         div.innerHTML = `
             <input type="text" placeholder="שם (למשל כחול)" style="width:120px; flex-grow:1; margin:0;" class="nv-name">
             <input type="number" placeholder="מחיר סופי" style="width:80px; margin:0;" class="nv-price">
+            <input type="number" placeholder="מחיר קודם" style="width:80px; margin:0;" class="nv-old-price">
             <input type="number" placeholder="מלאי" style="width:70px; margin:0;" class="nv-stock">
             <input type="text" placeholder="תמונה (אופציונלי)" style="width:150px; flex-grow:1; margin:0;" class="nv-image">
             <button class="btn-danger" style="margin:0; height:38px; width:38px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="this.parentElement.remove()">✖</button>
@@ -497,12 +498,14 @@
         variantElements.forEach(el => {
             const vName = el.querySelector('.nv-name').value.trim();
             const vPrice = el.querySelector('.nv-price').value;
+            const vOldPrice = el.querySelector('.nv-old-price').value;
             const vStock = el.querySelector('.nv-stock').value;
             const vImage = el.querySelector('.nv-image').value.trim();
             if (vName) {
                 newVariants.push({
                     name: vName,
                     price: vPrice !== "" ? Number(vPrice) : price, // אם לא הוזן מחיר לוריאציה, לוקח מהכללי
+                    oldPrice: vOldPrice !== "" ? Number(vOldPrice) : oldPrice,
                     stock: vStock !== "" ? Number(vStock) : 0,
                     image: vImage
                 });
@@ -597,12 +600,13 @@
                         <div style="display:flex; gap:5px; margin-bottom:8px; flex-wrap:wrap; align-items:center; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee;">
                             <input type="text" placeholder="שם (למשל צבע אדום)" style="width:120px; flex-grow:1; margin:0;" value="${escapeAttr(v.name||'')}" onchange="prods[${originalIndex}].variants[${vIdx}].name=this.value">
                             <input type="number" placeholder="מחיר סופי" style="width:80px; margin:0;" value="${v.price||0}" onchange="prods[${originalIndex}].variants[${vIdx}].price=Number(this.value)">
+                            <input type="number" placeholder="מחיר קודם" style="width:80px; margin:0;" value="${v.oldPrice?v.oldPrice:''}" onchange="this.value ? prods[${originalIndex}].variants[${vIdx}].oldPrice=Number(this.value) : delete prods[${originalIndex}].variants[${vIdx}].oldPrice">
                             <input type="number" placeholder="מלאי" style="width:70px; margin:0;" value="${v.stock!==undefined?v.stock:''}" onchange="prods[${originalIndex}].variants[${vIdx}].stock=Number(this.value)">
                             <input type="text" placeholder="קישור לתמונה (אופציונלי)" style="width:150px; flex-grow:1; margin:0;" value="${escapeAttr(v.image||'')}" onchange="prods[${originalIndex}].variants[${vIdx}].image=this.value">
                             <button class="btn-danger" style="margin:0; height:38px; width:38px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="prods[${originalIndex}].variants.splice(${vIdx},1); renderProducts();">✖</button>
                         </div>
                     `).join('')}
-                    <button class="btn-blue" style="padding:6px 12px; font-size:12px; margin-top:5px;" onclick="if(!prods[${originalIndex}].variants) prods[${originalIndex}].variants=[]; prods[${originalIndex}].variants.push({name:'', price:prods[${originalIndex}].price, stock:prods[${originalIndex}].stock, image:''}); renderProducts();">+ הוסף צבע/מידה</button>
+                    <button class="btn-blue" style="padding:6px 12px; font-size:12px; margin-top:5px;" onclick="if(!prods[${originalIndex}].variants) prods[${originalIndex}].variants=[]; prods[${originalIndex}].variants.push({name:'', price:prods[${originalIndex}].price, oldPrice:prods[${originalIndex}].oldPrice, stock:prods[${originalIndex}].stock, image:''}); renderProducts();">+ הוסף צבע/מידה</button>
                 </div>
             `;
 
