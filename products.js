@@ -1,5 +1,34 @@
 const myProducts = [
     {
+        "id": "prod_1777197347388",
+        "name": "طقم طناجر 5 قطع",
+        "description": "",
+        "price": 275,
+        "oldPrice": null,
+        "image": "B2DFEA25-5681-48BD-B1B0-19E0F90D1E0D.png",
+        "images": [
+            "B2DFEA25-5681-48BD-B1B0-19E0F90D1E0D.png",
+            "b14a4862-9605-47ee-9d96-2b2a9b804b6f.jpeg"
+        ],
+        "category": "طناجر",
+        "stock": 3,
+        "variants": []
+    },
+    {
+        "id": "prod_1777197239055",
+        "name": "طنجرة 28 سم + مغرفة",
+        "description": "",
+        "price": 115,
+        "oldPrice": null,
+        "image": "5559f114-a8bb-4328-b466-627cc0b1c075.jpeg",
+        "images": [
+            "5559f114-a8bb-4328-b466-627cc0b1c075.jpeg"
+        ],
+        "category": "طناجر",
+        "stock": 1,
+        "variants": []
+    },
+    {
         "id": "prod_1777122188921",
         "name": "4 صحون مكسرات دبل جلاس + قاعدة خشب",
         "description": "",
