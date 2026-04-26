@@ -567,6 +567,11 @@
         renderCategories();
     }
 
+    function toggleVisibility(index) {
+        prods[index].isHidden = !prods[index].isHidden;
+        renderProducts();
+    }
+
     function renderProducts() {
         const wrap = document.getElementById("products-list");
         const visibleProducts = prods.filter(p => {
@@ -579,7 +584,12 @@
             return;
         }
 
-        wrap.innerHTML = visibleProducts.map(p => {
+        const activeProds = visibleProducts.filter(p => !p.isHidden);
+        const hiddenProds = visibleProducts.filter(p => p.isHidden);
+
+        let html = "";
+
+        const buildCard = (p) => {
             const originalIndex = prods.indexOf(p);
             
             let imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : [""]);
@@ -611,7 +621,7 @@
             `;
 
             return `
-                <div class="product-card">
+                <div class="product-card" ${p.isHidden ? 'style="opacity: 0.65; background: #f9fafb;"' : ''}>
                     <div class="row">
                         <input type="text" value="${escapeAttr(p.name || "")}" onchange="prods[${originalIndex}].name=this.value" placeholder="שם המוצר">
                         <div style="display:flex; flex-direction:column; justify-content:flex-start;">
@@ -634,11 +644,23 @@
                     ${variantsHtml}
 
                     <div class="actions" style="margin-top:8px;">
+                        <button class="${p.isHidden ? 'btn-main' : 'btn-gray'}" onclick="toggleVisibility(${originalIndex})">
+                            ${p.isHidden ? '👁️ הדלק (יוצג באתר)' : '👁️‍🗨️ כבה (יוסתר מהאתר)'}
+                        </button>
                         <button class="btn-danger" onclick="removeProduct(${originalIndex})">מחק מוצר</button>
                     </div>
                 </div>
             `;
-        }).join("");
+        };
+
+        html += activeProds.map(buildCard).join("");
+
+        if (hiddenProds.length > 0) {
+            html += `<h3 style="margin-top: 30px; margin-bottom: 15px; border-top: 2px solid #e5e7eb; padding-top: 20px; color: #dc2626; text-align: center;">🚫 מוצרים כבויים (מוסתרים מהאתר)</h3>`;
+            html += hiddenProds.map(buildCard).join("");
+        }
+
+        wrap.innerHTML = html;
     }
 
     function onProductCategoryChange(index, value) {
