@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1777475319671",
+        "name": "غلاية قهوة فضية",
+        "description": "",
+        "price": 38,
+        "oldPrice": null,
+        "image": "6d09d802-529b-4fbb-aed2-058eef391e8b.jpeg",
+        "images": [
+            "6d09d802-529b-4fbb-aed2-058eef391e8b.jpeg"
+        ],
+        "category": "غلايات",
+        "stock": 3,
+        "variants": []
+    },
+    {
         "id": "prod_1777197347388",
         "name": "طقم طناجر 5 قطع",
         "description": "",
@@ -235,8 +249,8 @@ const myProducts = [
             "58550877-525d-40d5-b745-e5371c62ef09.jpeg",
             "0aad0cc2-ba93-4927-a603-f6e963837a10.jpeg"
         ],
-        "category": "أطقم فناجين قهوة/ شاي",
-        "stock": 5,
+        "category": "غلايات",
+        "stock": 3,
         "variants": []
     },
     {
