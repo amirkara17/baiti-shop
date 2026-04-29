@@ -30,16 +30,16 @@ const myProducts = [
     },
     {
         "id": "prod_1777122188921",
-        "name": "4 صحون مكسرات دبل جلاس + قاعدة خشب",
+        "name": "صحن مكسرات دبل جلاس + قاعدة خشب",
         "description": "",
-        "price": 64,
+        "price": 16,
         "oldPrice": null,
         "image": "99ea2209-c198-46b9-a029-f0448306201f.jpeg",
         "images": [
             "99ea2209-c198-46b9-a029-f0448306201f.jpeg"
         ],
         "category": "صحون",
-        "stock": 1,
+        "stock": 4,
         "variants": []
     },
     {
@@ -491,7 +491,7 @@ const myProducts = [
             "IMG_6229.jpeg"
         ],
         "category": "صحون",
-        "stock": 6,
+        "stock": 5,
         "variants": []
     },
     {
