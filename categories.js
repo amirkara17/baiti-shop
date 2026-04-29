@@ -46,5 +46,9 @@ const myCategories = [
     {
         "name": "طناجر",
         "icon": "🍲🥘"
+    },
+    {
+        "name": "غلايات",
+        "icon": "🫖"
     }
 ];
