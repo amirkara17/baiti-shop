@@ -137,7 +137,7 @@ const myProducts = [
             "c96b631b-8bc7-4c93-b7ba-7509dee7c7df.jpeg"
         ],
         "category": "اباريق",
-        "stock": 2,
+        "stock": 0,
         "variants": []
     },
     {
