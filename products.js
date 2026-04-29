@@ -158,8 +158,7 @@ const myProducts = [
         "id": "prod_1775596694748",
         "name": "مج ورد بتصميم مميز ",
         "description": "",
-        "price": 15,
-        "oldPrice": 29,
+        "price": 29,
         "image": "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png",
         "images": [
             "98B9DA9E-3481-4A10-90FC-DAA5B307D231.png"
@@ -186,8 +185,7 @@ const myProducts = [
         "id": "prod_1775559726861",
         "name": "مج + صحن قلوب",
         "description": "",
-        "price": 25,
-        "oldPrice": 35,
+        "price": 35,
         "image": "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
         "images": [
             "ebd2b405-9950-42c2-aa62-cb7d9aa72b11.jpeg",
@@ -245,8 +243,7 @@ const myProducts = [
         "id": "prod_1775501154632",
         "name": "مج + صحن غيوم",
         "description": "",
-        "price": 25,
-        "oldPrice": 35,
+        "price": 35,
         "image": "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
         "images": [
             "fff84d23-22fa-4293-a876-68e4839fe4c5.jpeg",
@@ -372,8 +369,7 @@ const myProducts = [
         "id": "prod_1774825375884",
         "name": "مج هاند ميد ورد",
         "description": "",
-        "price": 20,
-        "oldPrice": 25,
+        "price": 25,
         "image": "IMG_6231.jpeg",
         "images": [
             "IMG_6231.jpeg",
@@ -398,17 +394,15 @@ const myProducts = [
         "variants": [
             {
                 "name": "مج 1",
-                "price": 20,
+                "price": 35,
                 "stock": 3,
-                "image": "IMG_6310.jpeg",
-                "oldPrice": 35
+                "image": "IMG_6310.jpeg"
             },
             {
                 "name": "مج 2",
-                "price": 20,
+                "price": 35,
                 "stock": 1,
-                "image": "IMG_6309.jpeg",
-                "oldPrice": 35
+                "image": "IMG_6309.jpeg"
             }
         ]
     },
@@ -474,7 +468,7 @@ const myProducts = [
         "id": "prod_1774823814242",
         "name": "طقم مجات بورسلان منقط",
         "description": "طقم يشمل 6 مجات بورسلان حجم كبير منقط بلون ازرق",
-        "price": 45,
+        "price": 60,
         "image": "IMG_6236.jpeg",
         "images": [
             "IMG_6236.jpeg",
@@ -482,8 +476,7 @@ const myProducts = [
         ],
         "category": "مجات",
         "stock": 1,
-        "variants": [],
-        "oldPrice": 60
+        "variants": []
     },
     {
         "id": "prod_1774823508797",
@@ -505,8 +498,7 @@ const myProducts = [
         "id": "prod_1774823393619",
         "name": "طقم 6 مجات كبار بورسلان",
         "description": "طفم 6 مجات مع خط 💚🤎",
-        "price": 45,
-        "oldPrice": 60,
+        "price": 60,
         "image": "IMG_6329.jpeg",
         "images": [
             "IMG_6329.jpeg",
