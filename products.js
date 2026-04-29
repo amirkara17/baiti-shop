@@ -236,7 +236,7 @@ const myProducts = [
             "0aad0cc2-ba93-4927-a603-f6e963837a10.jpeg"
         ],
         "category": "أطقم فناجين قهوة/ شاي",
-        "stock": 0,
+        "stock": 5,
         "variants": []
     },
     {
