@@ -1,5 +1,19 @@
 const myProducts = [
     {
+        "id": "prod_1777556817880",
+        "name": "ابريق بايركس 1 لتر",
+        "description": "",
+        "price": 35,
+        "oldPrice": null,
+        "image": "77419395-83ab-4505-8c07-57558014eed1.jpeg",
+        "images": [
+            "77419395-83ab-4505-8c07-57558014eed1.jpeg"
+        ],
+        "category": "اباريق",
+        "stock": 2,
+        "variants": []
+    },
+    {
         "id": "prod_1777475319671",
         "name": "غلاية قهوة فضية",
         "description": "",
